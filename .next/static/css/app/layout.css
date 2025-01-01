@@ -521,9 +521,6 @@ video {
 [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }
-.fixed {
-  position: fixed;
-}
 .relative {
   position: relative;
 }
@@ -535,9 +532,6 @@ video {
 }
 .flex {
   display: flex;
-}
-.hidden {
-  display: none;
 }
 .h-screen {
   height: 100vh;
@@ -560,16 +554,9 @@ video {
 .rounded-lg {
   border-radius: 0.5rem;
 }
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
 .bg-primary {
   --tw-bg-opacity: 1;
   background-color: rgb(161 254 52 / var(--tw-bg-opacity, 1));
-}
-.bg-\[url\(\'\/background\.jpg\'\)\] {
-  background-image: url('/background.jpg');
 }
 .bg-\[url\(\'\/Images\/background\.jpg\'\)\] {
   background-image: url('/Images/background.jpg');
@@ -604,17 +591,13 @@ video {
 .font-bold {
   font-weight: 700;
 }
-.text-black {
+.text-secondary {
   --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
+  color: rgb(11 35 73 / var(--tw-text-opacity, 1));
 }
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
-}
-.text-secondary {
-  --tw-text-opacity: 1;
-  color: rgb(11 35 73 / var(--tw-text-opacity, 1));
 }
 .no-underline {
   text-decoration-line: none;
@@ -664,11 +647,6 @@ body {
 
 .join-button:hover {
   background-color: #A1FE34;
-}
-
-.hover\:bg-primary:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(161 254 52 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:bg-secondary:hover {
