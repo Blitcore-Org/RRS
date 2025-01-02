@@ -1,27 +1,55 @@
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[3].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[3].use[2]!./node_modules/next/font/local/target.css?{"path":"src/app/layout.js","import":"","arguments":[{"src":"./fonts/GeistVF.woff","variable":"--font-geist-sans","weight":"100 900"}],"variableName":"geistSans"} ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[3].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[3].use[2]!./node_modules/next/font/local/target.css?{"path":"src/app/layout.js","import":"","arguments":[{"src":[{"path":"./fonts/chillax-extralight.otf","weight":"200","style":"normal"},{"path":"./fonts/chillax-light.otf","weight":"300","style":"normal"},{"path":"./fonts/chillax-regular.otf","weight":"400","style":"normal"},{"path":"./fonts/chillax-medium.otf","weight":"500","style":"normal"},{"path":"./fonts/chillax-semibold.otf","weight":"600","style":"normal"},{"path":"./fonts/chillax-bold.otf","weight":"700","style":"normal"}],"variable":"--font-chillax"}],"variableName":"chillax"} ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 @font-face {
-font-family: 'geistSans';
-src: url(/_next/static/media/4473ecc91f70f139-s.p.woff) format('woff');
+font-family: 'chillax';
+src: url(/_next/static/media/04aed9cd401e26d1-s.p.otf) format('opentype');
 font-display: swap;
-font-weight: 100 900;
-}@font-face {font-family: 'geistSans Fallback';src: local("Arial");ascent-override: 85.83%;descent-override: 20.52%;line-gap-override: 9.33%;size-adjust: 107.19%
-}.__className_1e4310 {font-family: 'geistSans', 'geistSans Fallback'
-}.__variable_1e4310 {--font-geist-sans: 'geistSans', 'geistSans Fallback'
+font-weight: 200;
+font-style: normal;
 }
 
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[3].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[3].use[2]!./node_modules/next/font/local/target.css?{"path":"src/app/layout.js","import":"","arguments":[{"src":"./fonts/GeistMonoVF.woff","variable":"--font-geist-mono","weight":"100 900"}],"variableName":"geistMono"} ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 @font-face {
-font-family: 'geistMono';
-src: url(/_next/static/media/463dafcda517f24f-s.p.woff) format('woff');
+font-family: 'chillax';
+src: url(/_next/static/media/352a36156c8ad65c-s.p.otf) format('opentype');
 font-display: swap;
-font-weight: 100 900;
-}@font-face {font-family: 'geistMono Fallback';src: local("Arial");ascent-override: 69.97%;descent-override: 16.73%;line-gap-override: 7.61%;size-adjust: 131.49%
-}.__className_c3aa02 {font-family: 'geistMono', 'geistMono Fallback'
-}.__variable_c3aa02 {--font-geist-mono: 'geistMono', 'geistMono Fallback'
+font-weight: 300;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'chillax';
+src: url(/_next/static/media/1bcc65a9c0472f1d-s.p.otf) format('opentype');
+font-display: swap;
+font-weight: 400;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'chillax';
+src: url(/_next/static/media/16ac78ab3fef2080-s.p.otf) format('opentype');
+font-display: swap;
+font-weight: 500;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'chillax';
+src: url(/_next/static/media/c2e4f4325aebf569-s.p.otf) format('opentype');
+font-display: swap;
+font-weight: 600;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'chillax';
+src: url(/_next/static/media/dd2e21a947107f3b-s.p.otf) format('opentype');
+font-display: swap;
+font-weight: 700;
+font-style: normal;
+}@font-face {font-family: 'chillax Fallback';src: local("Arial");ascent-override: 88.04%;descent-override: 29.64%;line-gap-override: 8.08%;size-adjust: 111.32%
+}.__className_61c0ce {font-family: 'chillax', 'chillax Fallback'
+}.__variable_61c0ce {--font-chillax: 'chillax', 'chillax Fallback'
 }
 
 /*!*****************************************************************************************************************************************************************************************************************************************************************!*\
@@ -521,26 +549,90 @@ video {
 [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }
-.relative {
-  position: relative;
+.container {
+  width: 100%;
 }
-.mb-8 {
-  margin-bottom: 2rem;
+@media (min-width: 640px) {
+
+  .container {
+    max-width: 640px;
+  }
 }
-.inline-block {
-  display: inline-block;
+@media (min-width: 768px) {
+
+  .container {
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+
+  .container {
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1280px) {
+
+  .container {
+    max-width: 1280px;
+  }
+}
+@media (min-width: 1536px) {
+
+  .container {
+    max-width: 1536px;
+  }
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
 }
 .flex {
   display: flex;
 }
-.h-screen {
-  height: 100vh;
+.h-\[28px\] {
+  height: 28px;
 }
-.w-screen {
-  width: 100vw;
+.h-\[36px\] {
+  height: 36px;
 }
-.max-w-\[200px\] {
-  max-width: 200px;
+.h-\[54px\] {
+  height: 54px;
+}
+.h-\[73px\] {
+  height: 73px;
+}
+.h-9 {
+  height: 2.25rem;
+}
+.min-h-\[600px\] {
+  min-height: 600px;
+}
+.min-h-screen {
+  min-height: 100vh;
+}
+.w-\[200px\] {
+  width: 200px;
+}
+.w-\[60px\] {
+  width: 60px;
+}
+.w-\[81px\] {
+  width: 81px;
+}
+.w-full {
+  width: 100%;
+}
+.max-w-\[402px\] {
+  max-width: 402px;
+}
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-start {
+  align-items: flex-start;
 }
 .items-center {
   align-items: center;
@@ -548,24 +640,48 @@ video {
 .justify-center {
   justify-content: center;
 }
-.overflow-hidden {
-  overflow: hidden;
+.gap-\[20px\] {
+  gap: 20px;
 }
-.rounded-lg {
-  border-radius: 0.5rem;
+.gap-5 {
+  gap: 1.25rem;
+}
+.rounded-\[32px\] {
+  border-radius: 32px;
+}
+.rounded-\[44px\] {
+  border-radius: 44px;
+}
+.rounded-tl-\[44px\] {
+  border-top-left-radius: 44px;
+}
+.rounded-tr-\[44px\] {
+  border-top-right-radius: 44px;
+}
+.bg-\[\#0B2349\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(11 35 73 / var(--tw-bg-opacity, 1));
+}
+.bg-\[\#A1FE34\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(161 254 52 / var(--tw-bg-opacity, 1));
 }
 .bg-primary {
   --tw-bg-opacity: 1;
   background-color: rgb(161 254 52 / var(--tw-bg-opacity, 1));
 }
-.bg-\[url\(\'\/Images\/background\.jpg\'\)\] {
-  background-image: url('/Images/background.jpg');
+.bg-secondary {
+  --tw-bg-opacity: 1;
+  background-color: rgb(11 35 73 / var(--tw-bg-opacity, 1));
+}
+.bg-\[url\(\'\/Images\/background\.png\'\)\] {
+  background-image: url('/Images/background.png');
+}
+.bg-\[url\(\'\/Images\/uba_logo\.png\'\)\] {
+  background-image: url('/Images/uba_logo.png');
 }
 .bg-cover {
   background-size: cover;
-}
-.bg-fixed {
-  background-attachment: fixed;
 }
 .bg-center {
   background-position: center;
@@ -573,46 +689,64 @@ video {
 .bg-no-repeat {
   background-repeat: no-repeat;
 }
-.px-8 {
-  padding-left: 2rem;
-  padding-right: 2rem;
+.px-\[20px\] {
+  padding-left: 20px;
+  padding-right: 20px;
 }
-.py-4 {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+.py-\[20px\] {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
-.text-center {
-  text-align: center;
+.pb-\[60px\] {
+  padding-bottom: 60px;
 }
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
+.pt-\[21px\] {
+  padding-top: 21px;
+}
+.text-\[10px\] {
+  font-size: 10px;
+}
+.font-normal {
+  font-weight: 400;
 }
 .font-bold {
   font-weight: 700;
 }
-.text-secondary {
+.leading-\[120\%\] {
+  line-height: 120%;
+}
+.text-black {
   --tw-text-opacity: 1;
-  color: rgb(11 35 73 / var(--tw-text-opacity, 1));
+  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
 }
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
-.no-underline {
-  text-decoration-line: none;
+.text-white\/60 {
+  color: rgb(255 255 255 / 0.6);
+}
+.text-primary {
+  --tw-text-opacity: 1;
+  color: rgb(161 254 52 / var(--tw-text-opacity, 1));
+}
+.text-secondary {
+  --tw-text-opacity: 1;
+  color: rgb(11 35 73 / var(--tw-text-opacity, 1));
 }
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.transition-colors {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+.shadow-\[0px_1px_20px_-5px_rgba\(0\2c 0\2c 0\2c 0\.10\)\] {
+  --tw-shadow: 0px 1px 20px -5px rgba(0,0,0,0.10);
+  --tw-shadow-colored: 0px 1px 20px -5px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
-.duration-300 {
-  transition-duration: 300ms;
+.backdrop-blur-\[5px\] {
+  --tw-backdrop-blur: blur(5px);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
 
 :root {
@@ -630,7 +764,7 @@ video {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-chillax), sans-serif;
 }
 
 .join-button {
@@ -649,12 +783,21 @@ body {
   background-color: #A1FE34;
 }
 
-.hover\:bg-secondary:hover {
+.button-glass {
+  display: flex;
+  height: 2.25rem;
+  width: 200px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 32px;
   --tw-bg-opacity: 1;
   background-color: rgb(11 35 73 / var(--tw-bg-opacity, 1));
-}
-
-.hover\:text-primary:hover {
   --tw-text-opacity: 1;
-  color: rgb(161 254 52 / var(--tw-text-opacity, 1));
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  --tw-shadow: 0px 1px 20px -5px rgba(0,0,0,0.10);
+  --tw-shadow-colored: 0px 1px 20px -5px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  --tw-backdrop-blur: blur(5px);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }

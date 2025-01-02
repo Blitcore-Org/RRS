@@ -8,12 +8,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        primary: '#A1FE34',
-        secondary: '#0B2349',
+        primary: "#A1FE34",
+        secondary: "#0B2349",
         black: '#000000',
         white: '#FFFFFF',
+      },
+      spacing: {
+        36: "9rem",
+        20: "5rem",
+      },
+      fontFamily: {
+        chillax: ["var(--font-chillax)", "sans-serif"],
       },
     },
   },

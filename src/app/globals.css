@@ -17,7 +17,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-chillax), sans-serif;
 }
 
 .join-button {
@@ -34,4 +34,18 @@ body {
 
 .join-button:hover {
   background-color: #A1FE34;
+}
+
+.button-glass {
+  @apply
+    flex
+    items-center
+    justify-center
+    w-[200px]
+    h-9
+    rounded-[32px]
+    bg-[#0B2349]
+    text-white
+    shadow-[0px_1px_20px_-5px_rgba(0,0,0,0.10)]
+    backdrop-blur-[5px];
 }
