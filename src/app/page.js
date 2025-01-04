@@ -1,5 +1,6 @@
 import SponsorTag from "@/Components/SponsorTag";
 import Button from "@/Components/button";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
         className="
           flex
           w-full
+          h-full
           max-w-[402px]
           min-h-[600px]
           flex-col
@@ -33,14 +35,15 @@ export default function Home() {
           className="
             flex
             flex-col
-            items-start
+            items-center
             w-full
             rounded-tl-[44px]
             rounded-tr-[44px]
           "
         >
-          {/* StatusBar */}
-          <div
+
+        {/* StatusBar */}
+        <div
             className="
               flex
               h-[54px]
@@ -81,43 +84,44 @@ export default function Home() {
                 className="w-[81px] h-[73px] flex-shrink-0"
               />
             </div>
+          </div>
+        </div>
 
             {/* Container with two buttons and sponsor info */}
             <div
               className="
                 flex
                 flex-col
-                justify-center
+                flex-1
+                w-full
+                justify-between
                 items-center
                 gap-[20px]
               "
             >
-              {/* Button 1 (Join Us) */}
-              <Button variant="secondary">Join us</Button>
+              {/* Buttons container */}
+              <div className="
+                flex
+                flex-col
+                h-full
+                justify-center
+                items-center
+                gap-[20px]
+              ">
+                {/* Button 1 (Join Us) */}
+                <Button variant="secondary">Join us</Button>
 
-              {/* Button 2 (Log in) */}
-              <Button variant="primary">Log in</Button>
-
+                {/* Button 2 (Log in) */}
+                <div className="w-full">
+                  <Link href="/login" passHref legacyBehavior>
+                    <Button variant="primary">Log in</Button>
+                  </Link>
+                </div>
+              </div>
               {/* Sponsor container */}
               <SponsorTag />
             </div>
-          </div>
         </div>
-
-        {/* Content */}
-        <div
-          className="
-            flex
-            pb-[60px]
-            flex-col
-            items-center
-            gap-[20px]
-            w-full
-          "
-        >
-          {/* Additional content goes here */}
-        </div>
-      </div>
     </main>
   );
 }

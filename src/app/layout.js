@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import { UserProvider } from '@/context/UserContext';
 
 const chillax = localFont({
   src: [
@@ -46,7 +47,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${chillax.variable} antialiased`}>
-        {children}
+        <UserProvider>
+          {children}
+        </UserProvider>
       </body>
     </html>
   );

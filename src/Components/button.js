@@ -2,7 +2,7 @@
 export default function Button({ variant = "primary", children, ...props }) {
     const baseClasses = `
         flex
-        h-9
+        h-12
         w-[200px]
         items-center
         justify-center
