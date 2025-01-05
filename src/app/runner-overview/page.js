@@ -13,10 +13,14 @@ export default function RunnerOverview() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [loading, user, router]);
+    const redirectTimeout = setTimeout(() => {
+      if (!user) {
+        router.push('/login');
+      }
+    }, 1000);
+
+    return () => clearTimeout(redirectTimeout);
+  }, [user, router]);
 
   const handleLogout = async () => {
     try {
@@ -28,8 +32,17 @@ export default function RunnerOverview() {
     }
   };
 
-  if (loading || !user) {
-    return null; // or a loading spinner
+  if (loading) {
+    return (
+      <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </main>
+    );
+  }
+
+  if (!user) {
+    router.push('/login');
+    return null;
   }
 
   return (

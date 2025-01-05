@@ -9,22 +9,39 @@ export function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check for stored user data on initial load
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setLoading(false);
+    const initializeUser = () => {
+      try {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+      } catch (error) {
+        console.error('Error loading user data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Run initialization immediately
+    initializeUser();
   }, []);
 
   const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    try {
+      localStorage.setItem('user', JSON.stringify(userData));
+      setUser(userData);
+    } catch (error) {
+      console.error('Error saving user data:', error);
+    }
   };
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+    try {
+      localStorage.removeItem('user');
+      setUser(null);
+    } catch (error) {
+      console.error('Error removing user data:', error);
+    }
   };
 
   return (
@@ -34,4 +51,10 @@ export function UserProvider({ children }) {
   );
 }
 
-export const useUser = () => useContext(UserContext); 
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (context === undefined) {
+    throw new Error('useUser must be used within a UserProvider');
+  }
+  return context;
+}; 

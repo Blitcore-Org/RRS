@@ -1,107 +1,45 @@
+'use client'
+
+import FastestLeaderboard from '@/Components/FastestLeaderboard';
 import SponsorTag from "@/Components/SponsorTag";
 import Link from "next/link";
+import { useUser } from "@/context/UserContext";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { leaderboardData } from '@/data/leaderboardData';
 
 export default function Fastest5KM() {
-  // Sample data for 5KM leaderboard
-  const leaderboardData = [
-    {
-      rank: 1,
-      image: "/Images/profile-placeholder.png",
-      name: "Sarah Chen",
-      avgPace: "4:45",
-      time: "23:15"
-    },
-    {
-      rank: 2,
-      image: "/Images/profile-placeholder.png",
-      name: "Mike Ross",
-      avgPace: "4:52",
-      time: "24:05"
-    },
-    {
-      rank: 3,
-      image: "/Images/profile-placeholder.png",
-      name: "Emma Wilson",
-      avgPace: "5:05",
-      time: "24:30"
-    },
-    {
-      rank: 4,
-      image: "/Images/profile-placeholder.png",
-      name: "David Kim",
-      avgPace: "5:15",
-      time: "25:10"
-    },
-    {
-      rank: 5,
-      image: "/Images/profile-placeholder.png",
-      name: "Lisa Patel",
-      avgPace: "5:20",
-      time: "25:45"
-    },
-    {
-      rank: 6,
-      image: "/Images/profile-placeholder.png",
-      name: "James Lee",
-      avgPace: "5:25",
-      time: "26:00"
+  const { user, loading } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
     }
-  ];
+  }, [loading, user, router]);
+
+  if (loading || !user) {
+    return null;
+  }
+
+  const data = leaderboardData.fastest5km;
 
   return (
-    <main
-      className="
-        w-full
-        min-h-screen
-        bg-[url('/Images/background.png')]
-        bg-no-repeat
-        bg-center
-        bg-cover
-        flex
-        items-center
-        justify-center
-      "
-    >
-      {/* Contents container */}
-      <div
-        className="
-          flex
-          w-full
-          h-full
-          max-w-[402px]
-          min-h-[600px]
-          flex-col
-          items-center
-          rounded-[44px]
-        "
-      >
+    <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center">
+      <div className="flex w-full h-full max-w-[402px] min-h-[600px] flex-col items-center rounded-[44px]">
         {/* NavBar with back button */}
-        <div
-          className="
-            flex
-            flex-col
-            items-center
-            w-full
-            rounded-tl-[44px]
-            rounded-tr-[44px]
-            relative
-          "
-        >
+        <div className="flex flex-col items-center w-full rounded-tl-[44px] rounded-tr-[44px] relative">
           {/* Back Button */}
           <Link href="/runner-overview" className="absolute left-6 top-6">
-            <span className="text-primary text-2xl">←</span>
+            <img
+              src="/Images/back_button.png"
+              alt="Back"
+              className="w-[32px] h-[32px]"
+            />
           </Link>
 
           {/* NavContents with smaller logo */}
-          <div
-            className="
-              flex
-              py-[12px]
-              flex-col
-              items-center
-              w-full
-            "
-          >
+          <div className="flex py-[12px] flex-col items-center w-full">
             <img
               src="/Images/logo.png"
               alt="RRS Logo"
@@ -111,52 +49,32 @@ export default function Fastest5KM() {
         </div>
 
         {/* Main content container */}
-        <div
-          className="
-            flex
-            flex-col
-            flex-1
-            w-full
-            justify-between
-            items-center
-            gap-[20px]
-            px-[20px]
-          "
-        >
-          {/* Title */}
-          <h2 className="text-primary text-2xl font-bold">Fastest 5KM</h2>
-
-          {/* Leaderboard Header */}
-          <div className="w-full grid grid-cols-4 gap-4 text-primary text-sm mb-4">
-            <div>Rank</div>
-            <div>Name</div>
-            <div>Avg Pace</div>
-            <div>Time</div>
+        <div className="flex flex-col flex-1 w-full justify-between items-center gap-[20px] px-[20px]">
+          {/* Profile Section */}
+          <div className="flex items-center gap-4 mt-[20px]">
+            <div className="w-[60px] h-[60px] rounded-full bg-white/20 overflow-hidden">
+              {user.profileImage ? (
+                <img
+                  src={user.profileImage}
+                  alt={`${user.name}'s profile`}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-300"></div>
+              )}
+            </div>
+            <div className="flex flex-col">
+              <span className="text-primary text-sm">{user.id}</span>
+              <h2 className="text-primary font-bold text-2xl">{user.name}</h2>
+              <span className="text-white text-sm">{user.progress}</span>
+            </div>
           </div>
 
-          {/* Leaderboard Entries */}
-          <div className="w-full flex flex-col gap-4">
-            {leaderboardData.map((entry) => (
-              <div
-                key={entry.rank}
-                className="w-full p-4 bg-[rgba(73,81,89,0.35)] backdrop-blur-sm rounded-[16px] flex items-center"
-              >
-                <div className="w-[40px] h-[40px] rounded-full overflow-hidden mr-4">
-                  <img
-                    src={entry.image}
-                    alt={`${entry.name}'s profile`}
-                    className="w-full h-full object-cover bg-gray-300"
-                  />
-                </div>
-                <div className="grid grid-cols-4 gap-4 flex-1 text-white">
-                  <div className="text-primary">^{entry.rank}</div>
-                  <div>{entry.name}</div>
-                  <div>{entry.avgPace}</div>
-                  <div>{entry.time}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+          {/* Leaderboard Widget */}
+          <FastestLeaderboard 
+            title="Fastest 5KM"
+            data={data}
+          />
 
           {/* Sponsor Tag */}
           <SponsorTag />

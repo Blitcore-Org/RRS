@@ -62,7 +62,11 @@ export default function RunnerProfile() {
         >
           {/* Back Button */}
           <Link href="/runner-overview" className="absolute left-6 top-6">
-            <span className="text-primary text-2xl">←</span>
+            <img
+              src="/Images/back_button.png"
+              alt="Back"
+              className="w-[32px] h-[32px]"
+            />
           </Link>
 
           {/* NavContents with smaller logo */}
