@@ -5,7 +5,16 @@ const dotenv = require('dotenv');
 // Load environment variables from .env.local
 dotenv.config({ path: '.env.local' });
 
+const adminUser = {
+  id: 'ADMIN-1',
+  email: 'admin@example.com',
+  password: 'admin123',
+  name: 'Admin User',
+  isAdmin: true
+};
+
 const users = [
+  adminUser,
   {
     id: 'RRS25-1',
     email: 'test@example.com',

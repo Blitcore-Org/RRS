@@ -37,5 +37,41 @@ export const authService = {
     const response = await fetch(`${BASE_URL}/check`);
     const data = await response.json();
     return data.authenticated;
+  },
+
+  async changePassword(email, currentPassword, newPassword) {
+    const response = await fetch(`${BASE_URL}/change-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, currentPassword, newPassword }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Password change failed');
+    }
+
+    return data;
+  },
+
+  async adminResetPassword(userEmail) {
+    const response = await fetch('/api/admin/reset-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userEmail }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Password reset failed');
+    }
+
+    return data;
   }
 }; 

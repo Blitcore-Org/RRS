@@ -26,13 +26,11 @@ export function UserProvider({ children }) {
     initializeUser();
   }, []);
 
-  const login = (userData) => {
-    try {
-      localStorage.setItem('user', JSON.stringify(userData));
+  const login = async (userData) => {
+    return new Promise((resolve) => {
       setUser(userData);
-    } catch (error) {
-      console.error('Error saving user data:', error);
-    }
+      resolve();
+    });
   };
 
   const logout = () => {

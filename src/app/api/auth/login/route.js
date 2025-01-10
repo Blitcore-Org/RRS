@@ -17,6 +17,7 @@ export async function POST(request) {
 
     // Create user session
     const { password: _, ...userWithoutPassword } = user.toObject();
+    userWithoutPassword.isAdmin = user.isAdmin;
     
     // Get cookies instance and await the set operation
     const cookieStore = cookies();

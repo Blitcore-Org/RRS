@@ -6,11 +6,15 @@ import { useUser } from "@/context/UserContext";
 import { authService } from "@/services/auth";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [forcePasswordChange, setForcePasswordChange] = useState(false);
   const router = useRouter();
   const { login } = useUser();
 
@@ -20,13 +24,72 @@ export default function Login() {
 
     try {
       const userData = await authService.login(email, password);
-      login(userData);
-      router.push('/runner-overview');
+      
+      if (userData.forcePasswordChange) {
+        setForcePasswordChange(true);
+        return;
+      }
+
+      await login(userData);
+      router.replace('/runner-overview');
     } catch (err) {
       setError('Invalid email or password');
       console.error(err);
     }
   };
+
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (newPassword !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    try {
+      const userData = await authService.changePassword(email, password, newPassword);
+      await login(userData);
+      router.replace('/runner-overview');
+    } catch (err) {
+      setError('Failed to update password');
+      console.error(err);
+    }
+  };
+
+  if (forcePasswordChange) {
+    return (
+      <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center">
+        <div className="flex w-full h-full max-w-[402px] min-h-[600px] flex-col items-center rounded-[44px]">
+          <form onSubmit={handlePasswordChange} className="flex flex-col gap-4 w-full max-w-md p-8">
+            <h2 className="text-white text-xl font-bold mb-4">Change Password</h2>
+            <div className="relative w-full h-[64px] rounded-[32px] bg-[rgba(73,81,89,0.35)] backdrop-blur-sm">
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="New Password"
+                className="w-full h-full px-6 bg-transparent text-white outline-none"
+                required
+              />
+            </div>
+            <div className="relative w-full h-[64px] rounded-[32px] bg-[rgba(73,81,89,0.35)] backdrop-blur-sm">
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm Password"
+                className="w-full h-full px-6 bg-transparent text-white outline-none"
+                required
+              />
+            </div>
+            {error && <div className="text-red-500 text-sm">{error}</div>}
+            <Button type="submit">Update Password</Button>
+          </form>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main
@@ -164,7 +227,9 @@ export default function Login() {
             </a>
 
             <Button type="submit" variant="primary">Log in</Button>
-            <Button variant="secondary">Join us</Button>
+            <Link href="https://exultant-elephant-4d8.notion.site/14daf21a78918042b5d7f82f2658c660?pvs=105" passHref legacyBehavior>
+              <Button variant="secondary">Join us</Button>
+            </Link>
           </form>
 
           {/* Sponsor container */}

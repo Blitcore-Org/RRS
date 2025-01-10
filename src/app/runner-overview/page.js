@@ -96,6 +96,15 @@ export default function RunnerOverview() {
           </div>
         </div>
 
+        {user.isAdmin && (
+          <Link 
+            href="/admin"
+            className="absolute top-6 right-6 text-white hover:text-primary"
+          >
+            Admin Panel
+          </Link>
+        )}
+
         {/* Main content container */}
         <div
           className="

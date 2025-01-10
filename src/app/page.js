@@ -109,7 +109,9 @@ export default function Home() {
                 gap-[20px]
               ">
                 {/* Button 1 (Join Us) */}
-                <Button variant="secondary">Join us</Button>
+                <Link href="https://exultant-elephant-4d8.notion.site/14daf21a78918042b5d7f82f2658c660?pvs=105" passHref legacyBehavior>
+                  <Button variant="secondary">Join us</Button>
+                </Link>
 
                 {/* Button 2 (Log in) */}
                 <div className="w-full">

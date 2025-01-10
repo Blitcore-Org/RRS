@@ -42,6 +42,14 @@ const userSchema = new mongoose.Schema({
   best10km: {
     type: String,
     default: '00:00'
+  },
+  forcePasswordChange: {
+    type: Boolean,
+    default: false
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true
