@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export async function middleware(request) {
-  // Get the pathname of the request
   const path = request.nextUrl.pathname;
-
-  // Define protected routes
   const protectedRoutes = [
     '/runner-overview',
     '/runner-profile',
@@ -13,20 +10,12 @@ export async function middleware(request) {
     '/fastest-10km'
   ];
 
-  // Check if the path is protected
   const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));
-
-  // Get the token from cookies or localStorage
   const user = request.cookies.get('user');
 
-  // If the route is protected and there's no user, redirect to login
+  // Only redirect if trying to access protected routes without auth
   if (isProtectedRoute && !user) {
     return NextResponse.redirect(new URL('/login', request.url));
-  }
-
-  // If we're on login/register page and we're already logged in, redirect to overview
-  if ((path === '/login' || path === '/register') && user) {
-    return NextResponse.redirect(new URL('/runner-overview', request.url));
   }
 
   return NextResponse.next();
