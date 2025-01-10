@@ -13,14 +13,10 @@ export default function RunnerOverview() {
   const router = useRouter();
 
   useEffect(() => {
-    const redirectTimeout = setTimeout(() => {
-      if (!user) {
-        router.push('/login');
-      }
-    }, 1000);
-
-    return () => clearTimeout(redirectTimeout);
-  }, [user, router]);
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [loading, user, router]);
 
   const handleLogout = async () => {
     try {
@@ -41,7 +37,6 @@ export default function RunnerOverview() {
   }
 
   if (!user) {
-    router.push('/login');
     return null;
   }
 

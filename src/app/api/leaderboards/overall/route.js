@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const leaderboard = db.getOverallLeaderboard();
+    const leaderboard = await db.getOverallLeaderboard();
     return NextResponse.json(leaderboard);
   } catch (error) {
     console.error('Overall leaderboard error:', error);

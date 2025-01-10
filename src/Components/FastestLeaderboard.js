@@ -1,6 +1,8 @@
 'use client'
 
-export default function FastestLeaderboard({ title, data }) {
+import LoadingSpinner from './LoadingSpinner';
+
+export default function FastestLeaderboard({ title, data, isLoading }) {
   const getColumnWidth = (column) => {
     switch (column.toLowerCase()) {
       case '#':
@@ -30,6 +32,15 @@ export default function FastestLeaderboard({ title, data }) {
   };
 
   const columns = ['#', 'Name', 'Avg Pace', 'Time'];
+
+  if (isLoading) {
+    return (
+      <div className="w-full bg-[rgba(73,81,89,0.35)] backdrop-blur-sm rounded-2xl p-4 h-[360px]">
+        <h2 className="text-white text-lg font-semibold mb-4 text-center">{title}</h2>
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full bg-[rgba(73,81,89,0.35)] backdrop-blur-sm rounded-2xl p-4">

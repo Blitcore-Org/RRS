@@ -4,13 +4,15 @@ import OverallLeaderboard from '@/Components/OverallLeaderboard'
 import SponsorTag from "@/Components/SponsorTag";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { leaderboardData } from '@/data/leaderboardData';
+import { leaderboardService } from '@/services/leaderboard';
 
 export default function LeaderboardPage() {
   const { user, loading } = useUser();
   const router = useRouter();
+  const [leaderboardData, setLeaderboardData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -18,11 +20,26 @@ export default function LeaderboardPage() {
     }
   }, [loading, user, router]);
 
-  if (loading || !user) {
-    return null;
-  }
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await leaderboardService.getOverallLeaderboard();
+        setLeaderboardData(data);
+      } catch (error) {
+        console.error('Failed to fetch leaderboard:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
 
-  const data = leaderboardData.overall;
+    if (user) {
+      fetchData();
+    }
+  }, [user]);
+
+  if (loading || !user || isLoading) {
+    return null; // Or a loading spinner
+  }
 
   return (
     <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center">
@@ -74,7 +91,7 @@ export default function LeaderboardPage() {
           <OverallLeaderboard 
             title="Overall Leaderboard"
             columns={['#', 'Name', 'Distance', 'Pace', '5KM', '10KM']}
-            data={data}
+            data={leaderboardData}
           />
 
           {/* Sponsor Tag */}

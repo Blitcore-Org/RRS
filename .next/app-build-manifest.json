@@ -36,15 +36,30 @@
       "static/chunks/main-app.js",
       "static/chunks/app/leaderboard/page.js"
     ],
+    "/api/leaderboards/overall/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/leaderboards/overall/route.js"
+    ],
     "/fastest-5km/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/fastest-5km/page.js"
     ],
+    "/api/leaderboards/5km/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/leaderboards/5km/route.js"
+    ],
     "/fastest-10km/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/fastest-10km/page.js"
+    ],
+    "/api/leaderboards/10km/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/leaderboards/10km/route.js"
     ],
     "/api/auth/logout/route": [
       "static/chunks/webpack.js",

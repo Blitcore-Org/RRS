@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const leaderboard = db.get5KMLeaderboard();
+    const leaderboard = await db.get5KMLeaderboard();
     return NextResponse.json(leaderboard);
   } catch (error) {
     console.error('5KM leaderboard error:', error);

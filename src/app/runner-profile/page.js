@@ -18,7 +18,7 @@ export default function RunnerProfile() {
   }, [loading, user, router]);
 
   if (loading || !user) {
-    return null; // or a loading spinner
+    return null;
   }
 
   return (

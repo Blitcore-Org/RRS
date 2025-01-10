@@ -7,7 +7,7 @@ export async function POST(request) {
     const { email, password } = await request.json();
     
     // Find user
-    const user = db.findUser(email);
+    const user = await db.findUser(email);
     if (!user || !db.validatePassword(user, password)) {
       return NextResponse.json(
         { error: 'Invalid credentials' },
@@ -16,10 +16,11 @@ export async function POST(request) {
     }
 
     // Create user session
-    const { password: _, ...userWithoutPassword } = user;
+    const { password: _, ...userWithoutPassword } = user.toObject();
     
-    // Set cookie
-    cookies().set('user', JSON.stringify(userWithoutPassword), {
+    // Get cookies instance and await the set operation
+    const cookieStore = cookies();
+    await cookieStore.set('user', JSON.stringify(userWithoutPassword), {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',

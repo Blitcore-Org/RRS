@@ -1,11 +1,12 @@
 {
   "/api/auth/login/route": "app/api/auth/login/route.js",
-  "/api/auth/logout/route": "app/api/auth/logout/route.js",
-  "/page": "app/page.js",
+  "/api/leaderboards/overall/route": "app/api/leaderboards/overall/route.js",
+  "/api/leaderboards/5km/route": "app/api/leaderboards/5km/route.js",
+  "/api/leaderboards/10km/route": "app/api/leaderboards/10km/route.js",
   "/login/page": "app/login/page.js",
-  "/runner-profile/page": "app/runner-profile/page.js",
-  "/leaderboard/page": "app/leaderboard/page.js",
   "/runner-overview/page": "app/runner-overview/page.js",
+  "/leaderboard/page": "app/leaderboard/page.js",
   "/fastest-5km/page": "app/fastest-5km/page.js",
-  "/fastest-10km/page": "app/fastest-10km/page.js"
+  "/fastest-10km/page": "app/fastest-10km/page.js",
+  "/runner-profile/page": "app/runner-profile/page.js"
 }

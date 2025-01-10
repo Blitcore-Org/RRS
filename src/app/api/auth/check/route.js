@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const userCookie = cookies().get('user');
+    const userCookie = await cookies().get('user');
     
     if (!userCookie) {
       return NextResponse.json(
