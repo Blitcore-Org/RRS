@@ -5,32 +5,32 @@ import { UserProvider } from '@/context/UserContext';
 const chillax = localFont({
   src: [
     {
-      path: "./fonts/chillax-extralight.otf",
+      path: "./fonts/chillax_extralight.otf",
       weight: "200",
       style: "normal",
     },
     {
-      path: "./fonts/chillax-light.otf",
+      path: "./fonts/chillax_light.otf",
       weight: "300",
       style: "normal",
     },
     {
-      path: "./fonts/chillax-regular.otf",
+      path: "./fonts/chillax_regular.otf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "./fonts/chillax-medium.otf",
+      path: "./fonts/chillax_medium.otf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "./fonts/chillax-semibold.otf",
+      path: "./fonts/chillax_semibold.otf",
       weight: "600",
       style: "normal",
     },
     {
-      path: "./fonts/chillax-bold.otf",
+      path: "./fonts/chillax_bold.otf",
       weight: "700",
       style: "normal",
     },
