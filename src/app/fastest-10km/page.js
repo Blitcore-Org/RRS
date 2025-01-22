@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
 import FastestLeaderboard from '@/Components/FastestLeaderboard';
 import SponsorTag from "@/Components/SponsorTag";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { leaderboardService } from '@/services/leaderboard';
+import LoadingSpinner from '@/Components/LoadingSpinner';
 
 export default function Fastest10KM() {
   const { user, loading } = useUser();
   const router = useRouter();
-  const [leaderboardData, setLeaderboardData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: leaderboardData, error, isLoading } = leaderboardService.use10KMLeaderboard();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -20,25 +20,13 @@ export default function Fastest10KM() {
     }
   }, [loading, user, router]);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await leaderboardService.get10KMLeaderboard();
-        setLeaderboardData(data);
-      } catch (error) {
-        console.error('Failed to fetch 10KM leaderboard:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    if (user) {
-      fetchData();
-    }
-  }, [user]);
-
   if (loading || !user || isLoading) {
-    return null; // Or a loading spinner
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    console.error('Failed to fetch 10KM leaderboard:', error);
+    return <div>Failed to load leaderboard</div>;
   }
 
   return (
@@ -99,4 +87,4 @@ export default function Fastest10KM() {
       </div>
     </main>
   );
-} 
+}

@@ -8,16 +8,23 @@ export async function middleware(request) {
     '/leaderboard',
     '/fastest-5km',
     '/fastest-10km',
-    '/admin'
+    '/admin',
   ];
 
-  const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));
   const userCookie = request.cookies.get('user');
 
+  // Redirect logged-in users away from /login
+  if (path === '/login' && userCookie) {
+    return NextResponse.redirect(new URL('/runner-overview', request.url));
+  }
+
+  // Protect other routes
+  const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));
   if (isProtectedRoute && !userCookie) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
+  // Check admin access
   if (path.startsWith('/admin')) {
     try {
       const user = JSON.parse(userCookie.value);
@@ -41,6 +48,6 @@ export const config = {
     '/fastest-10km/:path*',
     '/admin/:path*',
     '/login',
-    '/register'
+    '/register',
   ],
-}; 
+};

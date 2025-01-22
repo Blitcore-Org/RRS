@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useUser } from "@/context/UserContext";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/Components/LoadingSpinner";
 
 export default function RunnerProfile() {
   const { user, loading } = useUser();
@@ -18,7 +19,7 @@ export default function RunnerProfile() {
   }, [loading, user, router]);
 
   if (loading || !user) {
-    return null;
+    return <LoadingSpinner />;
   }
 
   return (

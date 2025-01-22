@@ -4,15 +4,16 @@ import OverallLeaderboard from '@/Components/OverallLeaderboard'
 import SponsorTag from "@/Components/SponsorTag";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { leaderboardService } from '@/services/leaderboard';
+import LoadingSpinner from '@/Components/LoadingSpinner';
 
 export default function LeaderboardPage() {
   const { user, loading } = useUser();
   const router = useRouter();
-  const [leaderboardData, setLeaderboardData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: leaderboardData, error, isLoading } = leaderboardService.useOverallLeaderboard();
+
 
   useEffect(() => {
     if (!loading && !user) {
@@ -20,25 +21,14 @@ export default function LeaderboardPage() {
     }
   }, [loading, user, router]);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await leaderboardService.getOverallLeaderboard();
-        setLeaderboardData(data);
-      } catch (error) {
-        console.error('Failed to fetch leaderboard:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    if (user) {
-      fetchData();
-    }
-  }, [user]);
 
   if (loading || !user || isLoading) {
-    return null; // Or a loading spinner
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    console.error('Failed to fetch leaderboard:', error);
+    return <div>Failed to load leaderboard</div>;
   }
 
   return (

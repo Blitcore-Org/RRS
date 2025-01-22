@@ -7,10 +7,13 @@ import { useUser } from "@/context/UserContext";
 import { authService } from "@/services/auth";
 import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
+import LoadingSpinner from "@/Components/LoadingSpinner";
 
 export default function RunnerOverview() {
-  const { user, logout, loading } = useUser();
+  const { user, loading } = useUser();
   const router = useRouter();
+
+  console.log('user', user);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -21,7 +24,6 @@ export default function RunnerOverview() {
   const handleLogout = async () => {
     try {
       await authService.logout();
-      logout();
       router.push('/');
     } catch (error) {
       console.error('Logout failed:', error);
@@ -29,15 +31,11 @@ export default function RunnerOverview() {
   };
 
   if (loading) {
-    return (
-      <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </main>
-    );
+    return <LoadingSpinner />
   }
 
   if (!user) {
-    return null;
+    return <LoadingSpinner />;
   }
 
   return (

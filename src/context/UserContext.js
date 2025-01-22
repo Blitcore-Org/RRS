@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
 
@@ -9,23 +9,24 @@ export function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const initializeUser = () => {
+    const fetchUser = async () => {
       try {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-          setUser(JSON.parse(storedUser));
+        const response = await fetch('/api/auth/me'); // API to fetch the user
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);
         }
       } catch (error) {
-        console.error('Error loading user data:', error);
+        console.error('Error fetching user:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    // Run initialization immediately
-    initializeUser();
+    fetchUser();
   }, []);
 
+  // this is not probably needed anymore as u have it in the auth/login
   const login = async (userData) => {
     return new Promise((resolve) => {
       setUser(userData);
@@ -33,6 +34,7 @@ export function UserProvider({ children }) {
     });
   };
 
+  // this is not probably needed anymore as u have it in the auth/logout
   const logout = () => {
     try {
       localStorage.removeItem('user');
