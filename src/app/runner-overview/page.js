@@ -8,6 +8,8 @@ import { authService } from "@/services/auth";
 import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
 import LoadingSpinner from "@/Components/LoadingSpinner";
+import ProfileSection from '@/Components/ProfileSection';
+
 
 export default function RunnerOverview() {
   const { user, loading } = useUser();
@@ -127,25 +129,8 @@ export default function RunnerOverview() {
               mt-[20px]
             "
           >
-            {/* Profile Section */}
-            <div className="flex items-center gap-4">
-              <div className="w-[60px] h-[60px] rounded-full bg-white/20 overflow-hidden">
-                {user.profileImage ? (
-                  <img
-                    src={user.profileImage}
-                    alt={`${user.name}'s profile`}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gray-300"></div>
-                )}
-              </div>
-              <div className="flex flex-col">
-                <span className="text-primary text-sm">{user.id}</span>
-                <h2 className="text-primary font-bold text-2xl">{user.name}</h2>
-                <span className="text-white text-sm">{user.progress}</span>
-              </div>
-            </div>
+          
+          <ProfileSection user={user} />
 
             {/* Navigation Buttons */}
             <Link href="/runner-profile">

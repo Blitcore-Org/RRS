@@ -7,6 +7,7 @@ import { useUser } from "@/context/UserContext";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/Components/LoadingSpinner";
+import ProfileSection from "@/Components/ProfileSection";
 
 export default function RunnerProfile() {
   const { user, loading } = useUser();
@@ -112,18 +113,7 @@ export default function RunnerProfile() {
               mt-[20px]
             "
           >
-            {/* Profile Section */}
-            <div className="flex items-center gap-4">
-              <div className="w-[60px] h-[60px] rounded-full bg-white/20 overflow-hidden">
-                <div className="w-full h-full bg-gray-300"></div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-primary text-sm">{user.id}</span>
-                <h2 className="text-primary font-bold text-2xl">{user.name}</h2>
-                <span className="text-white text-sm">{user.progress}</span>
-              </div>
-            </div>
-
+          <ProfileSection user={user} />
             {/* Total Stats Widget */}
             <div className="w-full p-6 bg-[rgba(73,81,89,0.35)] backdrop-blur-sm rounded-[24px] text-white">
               <div className="flex justify-between items-center mb-4">
