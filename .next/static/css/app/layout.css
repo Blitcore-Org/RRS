@@ -718,6 +718,9 @@ video {
 .max-w-md {
   max-width: 28rem;
 }
+.max-w-\[120px\] {
+  max-width: 120px;
+}
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -934,6 +937,17 @@ video {
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+.text-\[7px\] {
+  font-size: 7px;
+}
 .font-bold {
   font-weight: 700;
 }
@@ -1123,4 +1137,19 @@ body {
 .peer:not(:placeholder-shown) ~ .peer-\[\:not\(\:placeholder-shown\)\]\:text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+@media (min-width: 640px) {
+
+  .sm\:flex-row {
+    flex-direction: row;
+  }
+
+  .sm\:items-start {
+    align-items: flex-start;
+  }
+
+  .sm\:text-left {
+    text-align: left;
+  }
 }

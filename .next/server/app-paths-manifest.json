@@ -1,13 +1,11 @@
 {
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/api/auth/logout/route": "app/api/auth/logout/route.js",
-  "/api/auth/login/route": "app/api/auth/login/route.js",
-  "/api/auth/me/route": "app/api/auth/me/route.js",
   "/api/leaderboards/overall/route": "app/api/leaderboards/overall/route.js",
-  "/api/auth/change-password/route": "app/api/auth/change-password/route.js",
+  "/api/leaderboards/5km/route": "app/api/leaderboards/5km/route.js",
+  "/api/leaderboards/10km/route": "app/api/leaderboards/10km/route.js",
   "/page": "app/page.js",
   "/runner-overview/page": "app/runner-overview/page.js",
+  "/runner-profile/page": "app/runner-profile/page.js",
   "/leaderboard/page": "app/leaderboard/page.js",
-  "/login/page": "app/login/page.js",
-  "/runner-profile/page": "app/runner-profile/page.js"
+  "/fastest-5km/page": "app/fastest-5km/page.js",
+  "/fastest-10km/page": "app/fastest-10km/page.js"
 }
