@@ -16,15 +16,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/api/auth/me/route.js"
     ],
+    "/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/login/page.js"
+    ],
+    "/api/auth/login/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/auth/login/route.js"
+    ],
     "/runner-overview/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/runner-overview/page.js"
-    ],
-    "/runner-profile/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/runner-profile/page.js"
     ],
     "/leaderboard/page": [
       "static/chunks/webpack.js",
@@ -46,15 +51,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/api/leaderboards/5km/route.js"
     ],
-    "/fastest-10km/page": [
+    "/runner-profile/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/fastest-10km/page.js"
-    ],
-    "/api/leaderboards/10km/route": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/api/leaderboards/10km/route.js"
+      "static/chunks/app/runner-profile/page.js"
     ]
   }
 }
