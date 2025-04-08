@@ -269,7 +269,12 @@ async function processUsers() {
 // ------------------
 // Next.js API Route Handler
 // ------------------
-export async function GET() {
+export async function GET(request) {
+
+  if (request.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new NextResponse('Unauthorized', { status: 401 });
+  }
+
   try {
     const result = await processUsers();
     return NextResponse.json(result);
