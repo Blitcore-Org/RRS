@@ -7,6 +7,7 @@ export async function POST() {
 
     await cookieStore.delete('token', { path: '/' });
     await cookieStore.delete('refreshToken', { path: '/' });
+
     
     return NextResponse.json({ message: 'Logged out successfully' });
   } catch (error) {

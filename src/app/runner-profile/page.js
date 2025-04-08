@@ -127,7 +127,7 @@ export default function RunnerProfile() {
             "
           >
             <img
-              src="/Images/logo.png"
+              src="/Images/Logo.png"
               alt="RRS Logo"
               className="w-[50px] h-[45px]"
             />
