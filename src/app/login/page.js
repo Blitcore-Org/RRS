@@ -166,7 +166,7 @@ export default function Login() {
               "
             >
               <img
-                src="/Images/logo.png"
+                src="/Images/Logo.png"
                 alt="Event Logo"
                 className="w-[81px] h-[73px] flex-shrink-0"
               />

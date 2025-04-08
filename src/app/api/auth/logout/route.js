@@ -3,15 +3,15 @@ import { NextResponse } from 'next/server';
 
 export async function POST() {
   try {
-    // Clear the user cookie asynchronously
-    await cookies().delete('user');
+    const cookieStore = await cookies();
+
+    await cookieStore.delete('token', { path: '/' });
+    await cookieStore.delete('refreshToken', { path: '/' });
+
     
     return NextResponse.json({ message: 'Logged out successfully' });
   } catch (error) {
     console.error('Logout error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-} 
+}

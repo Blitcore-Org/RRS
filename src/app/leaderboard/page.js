@@ -49,7 +49,7 @@ export default function LeaderboardPage() {
           {/* NavContents with smaller logo */}
           <div className="flex py-[12px] flex-col items-center w-full">
             <img
-              src="/Images/logo.png"
+              src="/Images/Logo.png"
               alt="RRS Logo"
               className="w-[50px] h-[45px]"
             />

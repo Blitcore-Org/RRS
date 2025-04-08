@@ -15,8 +15,6 @@ export default function RunnerOverview() {
   const { user, loading } = useUser();
   const router = useRouter();
 
-  console.log('user', user);
-
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
@@ -32,13 +30,12 @@ export default function RunnerOverview() {
     }
   };
 
-  if (loading) {
+  console.log("user", user);
+
+  if (loading && !user) {
     return <LoadingSpinner />
   }
 
-  if (!user) {
-    return <LoadingSpinner />;
-  }
 
   return (
     <main
@@ -89,7 +86,7 @@ export default function RunnerOverview() {
             "
           >
             <img
-              src="/Images/logo.png"
+              src="/Images/Logo.png"
               alt="RRS Logo"
               className="w-[50px] h-[45px]"
             />

@@ -7,6 +7,11 @@ export const db = {
     return await User.findOne({ email });
   },
 
+  findUserById: async (id) => {
+    await dbConnect();
+    return await User.findById(id);
+  },
+
   validatePassword: (user, password) => user.password === password,
 
   getOverallLeaderboard: async () => {
