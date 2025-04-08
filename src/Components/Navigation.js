@@ -21,7 +21,7 @@ export default function Navigation() {
       <nav className={`fixed w-full z-50 transition-colors duration-200 ${hasScrolled ? 'nav-scrolled' : ''}`}>
         {/* Blurred background */}
         <div className={`absolute inset-0 transition-all duration-200 ${
-          hasScrolled ? 'bg-[#0A0A0A]/80 backdrop-blur-md' : ''
+          hasScrolled ? 'bg-[#0B2349]/80 backdrop-blur-md' : ''
         }`}></div>
         
         <div className="relative mt-12 w-full px-8 md:px-16 py-4">
@@ -36,7 +36,7 @@ export default function Navigation() {
               </Link>
               <Link 
                 href="/login"
-                className="bg-primary text-black px-6 py-2 rounded-full hover:bg-primary/90 transition"
+                className="bg-primary text-secondary px-6 py-2 rounded-full hover:bg-primary/90 transition"
               >
                 Login
               </Link>
@@ -91,7 +91,7 @@ export default function Navigation() {
       >
         {/* Backdrop */}
         <div 
-          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-secondary/60 backdrop-blur-sm"
           onClick={() => setIsMenuOpen(false)}
         />
         
@@ -108,24 +108,36 @@ export default function Navigation() {
           <div className="flex flex-col items-center space-y-6">
             <Link 
               href="/"
-              className="w-64 bg-primary text-black py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
+              className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
               onClick={() => setIsMenuOpen(false)}
             >
               Home
             </Link>
             <Link 
               href="/challenges"
-              className="w-64 bg-primary text-black py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
+              className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
               onClick={() => setIsMenuOpen(false)}
             >
               Challenges
             </Link>
             <Link 
               href="/dashboard"
-              className="w-64 bg-primary text-black py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
+              className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
               onClick={() => setIsMenuOpen(false)}
             >
               App
+            </Link>
+            <Link
+              href="#"
+              className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
+            >
+              About
+            </Link>
+            <Link
+              href="#"
+              className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
+            >
+              Contact
             </Link>
           </div>
         </div>

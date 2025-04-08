@@ -1,41 +1,16 @@
 import localFont from "next/font/local";
+import { DM_Sans } from 'next/font/google';
 import "./globals.css";
 import { UserProvider } from '@/context/UserContext';
 
-const chillax = localFont({
-  src: [
-    {
-      path: "./fonts/chillax_extralight.otf",
-      weight: "200",
-      style: "normal",
-    },
-    {
-      path: "./fonts/chillax_light.otf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "./fonts/chillax_regular.otf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "./fonts/chillax_medium.otf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "./fonts/chillax_semibold.otf",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "./fonts/chillax_bold.otf",
-      weight: "700",
-      style: "normal",
-    },
-  ],
-  variable: "--font-chillax",
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
+});
+
+const thuast = localFont({
+  src: "./fonts/Thuast.otf",
+  variable: "--font-thuast",
 });
 
 export const metadata = {
@@ -46,7 +21,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${chillax.variable} antialiased`}>
+      <body className={`${dmSans.variable} ${thuast.variable} font-dm-sans antialiased`}>
         <UserProvider>
           {children}
         </UserProvider>
