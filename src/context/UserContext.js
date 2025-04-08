@@ -1,5 +1,5 @@
 'use client';
-
+import axiosInstance from '@/utils/axiosInstance';
 import { createContext, useContext, useState, useEffect } from 'react';
 
 const UserContext = createContext();
@@ -8,21 +8,18 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch('/api/auth/me'); // API to fetch the user
-        if (response.ok) {
-          const data = await response.json();
-          setUser(data);
-        }
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  async function fetchUser() {
+    try {
+      const { data } = await axiosInstance.get('/api/auth/me');
+      setUser(data);
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
+  useEffect(() => {
     fetchUser();
   }, []);
 
@@ -44,8 +41,30 @@ export function UserProvider({ children }) {
     }
   };
 
+  useEffect(() => {
+    if (user && user.tokenExpiresAt) {
+      const expiresAt = new Date(user.tokenExpiresAt).getTime();
+      const now = Date.now();
+      const delay = expiresAt - now - 5000; 
+
+      if (delay > 0) {
+        const timeoutId = setTimeout(async () => {
+          try {
+            // Call refresh endpoint
+            const { data } = await axiosInstance.post('/api/auth/refresh');
+            console.log('Token silently refreshed:', data.accessToken);
+            await fetchUser();
+          } catch (err) {
+            console.error('Silent refresh error:', err);
+          }
+        }, delay);
+        return () => clearTimeout(timeoutId);
+      }
+    }
+  }, [user, fetchUser]);
+
   return (
-    <UserContext.Provider value={{ user, login, logout, loading }}>
+    <UserContext.Provider value={{ user, setUser, login, logout, loading, fetchUser }}>
       {children}
     </UserContext.Provider>
   );

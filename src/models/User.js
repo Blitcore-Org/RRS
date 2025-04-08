@@ -50,7 +50,16 @@ const userSchema = new mongoose.Schema({
   isAdmin: {
     type: Boolean,
     default: false
-  }
+  },
+  stravaAccessToken: {
+    type: String
+  },
+  stravaExpiresAt: {
+    type: Date
+  },
+  stravaRefreshToken: {
+    type: String
+  },
 }, {
   timestamps: true
 });

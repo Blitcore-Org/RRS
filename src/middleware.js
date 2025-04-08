@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { jwtVerify } from 'jose';
 
 export async function middleware(request) {
   const path = request.nextUrl.pathname;
@@ -11,27 +12,34 @@ export async function middleware(request) {
     '/admin',
   ];
 
-  const userCookie = request.cookies.get('user');
 
-  // Redirect logged-in users away from /login
-  if (path === '/login' && userCookie) {
+  const tokenCookie = request.cookies.get('token');
+
+  if (path === '/login' && tokenCookie) {
     return NextResponse.redirect(new URL('/runner-overview', request.url));
   }
 
-  // Protect other routes
   const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));
-  if (isProtectedRoute && !userCookie) {
+  if (isProtectedRoute && !tokenCookie) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // Check admin access
   if (path.startsWith('/admin')) {
+    if (!tokenCookie) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
     try {
-      const user = JSON.parse(userCookie.value);
-      if (!user.isAdmin) {
+      const token = tokenCookie.value;
+      // Verify the token using your JWT secret
+      const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+      const { payload } = await jwtVerify(token, secret);
+      
+      // Check if the payload has an isAdmin flag set to true
+      if (!payload.isAdmin) {
         return NextResponse.redirect(new URL('/login', request.url));
       }
     } catch (error) {
+      console.error('JWT verification failed:', error);
       return NextResponse.redirect(new URL('/login', request.url));
     }
   }
