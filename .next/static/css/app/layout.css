@@ -1,55 +1,38 @@
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[3].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[3].use[2]!./node_modules/next/font/local/target.css?{"path":"src\\app\\layout.js","import":"","arguments":[{"src":[{"path":"./fonts/chillax_extralight.otf","weight":"200","style":"normal"},{"path":"./fonts/chillax_light.otf","weight":"300","style":"normal"},{"path":"./fonts/chillax_regular.otf","weight":"400","style":"normal"},{"path":"./fonts/chillax_medium.otf","weight":"500","style":"normal"},{"path":"./fonts/chillax_semibold.otf","weight":"600","style":"normal"},{"path":"./fonts/chillax_bold.otf","weight":"700","style":"normal"}],"variable":"--font-chillax"}],"variableName":"chillax"} ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[2].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[2].use[2]!./node_modules/next/font/google/target.css?{"path":"src\\app\\layout.js","import":"DM_Sans","arguments":[{"subsets":["latin"],"variable":"--font-dm-sans"}],"variableName":"dmSans"} ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/* latin-ext */
 @font-face {
-font-family: 'chillax';
-src: url(/_next/static/media/04aed9cd401e26d1-s.p.otf) format('opentype');
-font-display: swap;
-font-weight: 200;
-font-style: normal;
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 100 1000;
+  font-display: swap;
+  src: url(/_next/static/media/56d4c7a1c09c3371-s.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 100 1000;
+  font-display: swap;
+  src: url(/_next/static/media/7e6a2e30184bb114-s.p.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}@font-face {font-family: 'DM Sans Fallback';src: local("Arial");ascent-override: 94.90%;descent-override: 29.66%;line-gap-override: 0.00%;size-adjust: 104.53%
+}.__className_05e5f9 {font-family: 'DM Sans', 'DM Sans Fallback';font-style: normal
+}.__variable_05e5f9 {--font-dm-sans: 'DM Sans', 'DM Sans Fallback'
 }
 
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[3].use[1]!./node_modules/next/dist/build/webpack/loaders/next-font-loader/index.js??ruleSet[1].rules[13].oneOf[3].use[2]!./node_modules/next/font/local/target.css?{"path":"src\\app\\layout.js","import":"","arguments":[{"src":"./fonts/Thuast.otf","variable":"--font-thuast"}],"variableName":"thuast"} ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 @font-face {
-font-family: 'chillax';
-src: url(/_next/static/media/352a36156c8ad65c-s.p.otf) format('opentype');
+font-family: 'thuast';
+src: url(/_next/static/media/e3361c134d9b135b-s.p.otf) format('opentype');
 font-display: swap;
-font-weight: 300;
-font-style: normal;
-}
-
-@font-face {
-font-family: 'chillax';
-src: url(/_next/static/media/1bcc65a9c0472f1d-s.p.otf) format('opentype');
-font-display: swap;
-font-weight: 400;
-font-style: normal;
-}
-
-@font-face {
-font-family: 'chillax';
-src: url(/_next/static/media/16ac78ab3fef2080-s.p.otf) format('opentype');
-font-display: swap;
-font-weight: 500;
-font-style: normal;
-}
-
-@font-face {
-font-family: 'chillax';
-src: url(/_next/static/media/c2e4f4325aebf569-s.p.otf) format('opentype');
-font-display: swap;
-font-weight: 600;
-font-style: normal;
-}
-
-@font-face {
-font-family: 'chillax';
-src: url(/_next/static/media/dd2e21a947107f3b-s.p.otf) format('opentype');
-font-display: swap;
-font-weight: 700;
-font-style: normal;
-}@font-face {font-family: 'chillax Fallback';src: local("Arial");ascent-override: 88.04%;descent-override: 29.64%;line-gap-override: 8.08%;size-adjust: 111.32%
-}.__className_61c0ce {font-family: 'chillax', 'chillax Fallback'
-}.__variable_61c0ce {--font-chillax: 'chillax', 'chillax Fallback'
+}@font-face {font-family: 'thuast Fallback';src: local("Arial");ascent-override: 58.26%;descent-override: 16.19%;line-gap-override: 0.00%;size-adjust: 171.90%
+}.__className_892838 {font-family: 'thuast', 'thuast Fallback'
+}.__variable_892838 {--font-thuast: 'thuast', 'thuast Fallback'
 }
 
 /*!*****************************************************************************************************************************************************************************************************************************************************************!*\
@@ -552,10 +535,16 @@ video {
 .container {
   width: 100%;
 }
-@media (min-width: 640px) {
+@media (min-width: 320px) {
 
   .container {
-    max-width: 640px;
+    max-width: 320px;
+  }
+}
+@media (min-width: 425px) {
+
+  .container {
+    max-width: 425px;
   }
 }
 @media (min-width: 768px) {
@@ -574,12 +563,6 @@ video {
 
   .container {
     max-width: 1280px;
-  }
-}
-@media (min-width: 1536px) {
-
-  .container {
-    max-width: 1536px;
   }
 }
 .pointer-events-none {
@@ -646,12 +629,6 @@ video {
   margin-left: auto;
   margin-right: auto;
 }
-.-ml-\[25\%\] {
-  margin-left: -25%;
-}
-.-mt-20 {
-  margin-top: -5rem;
-}
 .-mt-24 {
   margin-top: -6rem;
 }
@@ -679,8 +656,8 @@ video {
 .mt-12 {
   margin-top: 3rem;
 }
-.mt-72 {
-  margin-top: 18rem;
+.mt-48 {
+  margin-top: 12rem;
 }
 .mt-\[20px\] {
   margin-top: 20px;
@@ -748,14 +725,32 @@ video {
 .h-full {
   height: 100%;
 }
+.h-6 {
+  height: 1.5rem;
+}
 .max-h-full {
   max-height: 100%;
 }
 .min-h-\[600px\] {
   min-height: 600px;
 }
+.min-h-\[70vh\] {
+  min-height: 70vh;
+}
 .min-h-screen {
   min-height: 100vh;
+}
+.min-h-\[60vh\] {
+  min-height: 60vh;
+}
+.min-h-\[20vh\] {
+  min-height: 20vh;
+}
+.min-h-\[40vh\] {
+  min-height: 40vh;
+}
+.min-h-\[10vh\] {
+  min-height: 10vh;
 }
 .w-12 {
   width: 3rem;
@@ -777,9 +772,6 @@ video {
 }
 .w-\[15\%\] {
   width: 15%;
-}
-.w-\[150\%\] {
-  width: 150%;
 }
 .w-\[17\%\] {
   width: 17%;
@@ -820,11 +812,23 @@ video {
 .w-full {
   width: 100%;
 }
+.w-6 {
+  width: 1.5rem;
+}
+.w-24 {
+  width: 6rem;
+}
+.min-w-\[300px\] {
+  min-width: 300px;
+}
 .max-w-2xl {
   max-width: 42rem;
 }
 .max-w-4xl {
   max-width: 56rem;
+}
+.max-w-5xl {
+  max-width: 64rem;
 }
 .max-w-7xl {
   max-width: 80rem;
@@ -948,6 +952,16 @@ video {
   margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
+.space-x-8 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(2rem * var(--tw-space-x-reverse));
+  margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
+}
+.space-y-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+}
 .self-center {
   align-self: center;
 }
@@ -1008,25 +1022,11 @@ video {
 .border-white\/10 {
   border-color: rgb(255 255 255 / 0.1);
 }
-.bg-\[\#0A0A0A\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(10 10 10 / var(--tw-bg-opacity, 1));
-}
-.bg-\[\#0A0A0A\]\/80 {
-  background-color: rgb(10 10 10 / 0.8);
+.bg-\[\#0B2349\]\/80 {
+  background-color: rgb(11 35 73 / 0.8);
 }
 .bg-\[rgba\(73\2c 81\2c 89\2c 0\.35\)\] {
   background-color: rgba(73,81,89,0.35);
-}
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
-}
-.bg-black\/10 {
-  background-color: rgb(0 0 0 / 0.1);
-}
-.bg-black\/60 {
-  background-color: rgb(0 0 0 / 0.6);
 }
 .bg-gray-300 {
   --tw-bg-opacity: 1;
@@ -1040,6 +1040,12 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(11 35 73 / var(--tw-bg-opacity, 1));
 }
+.bg-secondary\/10 {
+  background-color: rgb(11 35 73 / 0.1);
+}
+.bg-secondary\/60 {
+  background-color: rgb(11 35 73 / 0.6);
+}
 .bg-transparent {
   background-color: transparent;
 }
@@ -1048,6 +1054,10 @@ video {
 }
 .bg-white\/5 {
   background-color: rgb(255 255 255 / 0.05);
+}
+.bg-red-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(185 28 28 / var(--tw-bg-opacity, 1));
 }
 .bg-\[url\(\'\/Images\/background\.png\'\)\] {
   background-image: url('/Images/background.png');
@@ -1137,6 +1147,14 @@ video {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+.py-24 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
 .pb-32 {
   padding-bottom: 8rem;
 }
@@ -1154,6 +1172,12 @@ video {
 }
 .text-center {
   text-align: center;
+}
+.font-dm-sans {
+  font-family: var(--font-dm-sans), sans-serif;
+}
+.font-thuast {
+  font-family: var(--font-thuast), sans-serif;
 }
 .text-3xl {
   font-size: 1.875rem;
@@ -1232,13 +1256,6 @@ video {
 .text-\[\#FFD700\] {
   --tw-text-opacity: 1;
   color: rgb(255 215 0 / var(--tw-text-opacity, 1));
-}
-.text-black {
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
-}
-.text-black\/80 {
-  color: rgb(0 0 0 / 0.8);
 }
 .text-green-500 {
   --tw-text-opacity: 1;
@@ -1385,12 +1402,12 @@ body {
   backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
 
-.hover\:bg-black\/20:hover {
-  background-color: rgb(0 0 0 / 0.2);
-}
-
 .hover\:bg-primary\/90:hover {
   background-color: rgb(161 254 52 / 0.9);
+}
+
+.hover\:bg-secondary\/20:hover {
+  background-color: rgb(11 35 73 / 0.2);
 }
 
 .hover\:bg-white\/10:hover {
@@ -1409,6 +1426,14 @@ body {
 
 .hover\:text-primary\/80:hover {
   color: rgb(161 254 52 / 0.8);
+}
+
+.hover\:text-secondary\/80:hover {
+  color: rgb(11 35 73 / 0.8);
+}
+
+.hover\:opacity-80:hover {
+  opacity: 0.8;
 }
 
 .focus\:outline-none:focus {
@@ -1444,7 +1469,11 @@ body {
   line-height: 1rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 425px) {
+
+  .sm\:max-w-\[400px\] {
+    max-width: 400px;
+  }
 
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1465,10 +1494,6 @@ body {
 
 @media (min-width: 768px) {
 
-  .md\:-ml-\[0\%\] {
-    margin-left: -0%;
-  }
-
   .md\:-mt-32 {
     margin-top: -8rem;
   }
@@ -1477,20 +1502,12 @@ body {
     margin-bottom: 3rem;
   }
 
-  .md\:mb-4 {
-    margin-bottom: 1rem;
-  }
-
-  .md\:mt-24 {
-    margin-top: 6rem;
-  }
-
-  .md\:mt-80 {
-    margin-top: 20rem;
-  }
-
   .md\:block {
     display: block;
+  }
+
+  .md\:inline {
+    display: inline;
   }
 
   .md\:flex {
@@ -1505,16 +1522,24 @@ body {
     height: 4rem;
   }
 
+  .md\:min-h-\[80vh\] {
+    min-height: 80vh;
+  }
+
   .md\:w-16 {
     width: 4rem;
   }
 
-  .md\:w-\[100\%\] {
-    width: 100%;
+  .md\:max-w-\[500px\] {
+    max-width: 500px;
   }
 
   .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .md\:flex-row {
@@ -1525,14 +1550,14 @@ body {
     gap: 2rem;
   }
 
+  .md\:gap-16 {
+    gap: 4rem;
+  }
+
   .md\:space-y-16 > :not([hidden]) ~ :not([hidden]) {
     --tw-space-y-reverse: 0;
     margin-top: calc(4rem * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(4rem * var(--tw-space-y-reverse));
-  }
-
-  .md\:p-6 {
-    padding: 1.5rem;
   }
 
   .md\:px-16 {
@@ -1548,6 +1573,26 @@ body {
   .md\:py-20 {
     padding-top: 5rem;
     padding-bottom: 5rem;
+  }
+
+  .md\:py-10 {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .md\:py-24 {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+
+  .md\:py-28 {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+
+  .md\:py-32 {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
   }
 
   .md\:pb-36 {
@@ -1573,11 +1618,6 @@ body {
     line-height: 1;
   }
 
-  .md\:text-7xl {
-    font-size: 4.5rem;
-    line-height: 1;
-  }
-
   .md\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
@@ -1595,19 +1635,27 @@ body {
 
 @media (min-width: 1024px) {
 
-  .lg\:-ml-\[0\%\] {
-    margin-left: -0%;
+  .lg\:min-h-\[70vh\] {
+    min-height: 70vh;
   }
 
-  .lg\:mt-24 {
-    margin-top: 6rem;
+  .lg\:min-h-\[40vh\] {
+    min-height: 40vh;
   }
 
-  .lg\:mt-96 {
-    margin-top: 24rem;
+  .lg\:min-h-\[20vh\] {
+    min-height: 20vh;
   }
 
-  .lg\:w-\[50\%\] {
-    width: 50%;
+  .lg\:min-h-\[30vh\] {
+    min-height: 30vh;
+  }
+
+  .lg\:max-w-\[700px\] {
+    max-width: 700px;
+  }
+
+  .lg\:max-w-\[500px\] {
+    max-width: 500px;
   }
 }

@@ -6,6 +6,13 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      'xs': '320px',
+      'sm': '425px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+    },
     extend: {
       colors: {
         primary: "#A1FE34",
@@ -18,7 +25,8 @@ module.exports = {
         20: "5rem",
       },
       fontFamily: {
-        chillax: ["var(--font-chillax)", "sans-serif"],
+        'dm-sans': ['var(--font-dm-sans)', 'sans-serif'],
+        'thuast': ['var(--font-thuast)', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
