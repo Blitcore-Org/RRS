@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function ProfileSection({ user }) {
   const formatName = (name) => {
-    const names = name.split(' ');
+    const names = name?.split(' ');
     if (names.length > 1 && name.length > 12) {
       return (
         <div className="flex flex-col leading-tight text-center sm:text-left">

@@ -15,8 +15,6 @@ export default function RunnerOverview() {
   const { user, loading } = useUser();
   const router = useRouter();
 
-  console.log('user', user);
-
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
@@ -32,13 +30,10 @@ export default function RunnerOverview() {
     }
   };
 
-  if (loading) {
+  if (loading && !user) {
     return <LoadingSpinner />
   }
 
-  if (!user) {
-    return <LoadingSpinner />;
-  }
 
   return (
     <main
