@@ -30,6 +30,8 @@ export default function RunnerOverview() {
     }
   };
 
+  console.log("user", user);
+
   if (loading && !user) {
     return <LoadingSpinner />
   }
@@ -84,7 +86,7 @@ export default function RunnerOverview() {
             "
           >
             <img
-              src="/Images/logo.png"
+              src="/Images/Logo.png"
               alt="RRS Logo"
               className="w-[50px] h-[45px]"
             />

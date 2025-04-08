@@ -9,13 +9,15 @@ export function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   async function fetchUser() {
-    try {
-      const { data } = await axiosInstance.get('/api/auth/me');
-      setUser(data);
-    } catch (error) {
-      console.error('Error fetching user:', error);
-    } finally {
-      setLoading(false);
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      try {
+        const { data } = await axiosInstance.get('/api/auth/me');
+        setUser(data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      } finally {
+        setLoading(false);
+      }
     }
   }
 

@@ -60,6 +60,9 @@ const userSchema = new mongoose.Schema({
   stravaRefreshToken: {
     type: String
   },
+  lastCronFetch : {
+    type: Date
+  },
 }, {
   timestamps: true
 });
