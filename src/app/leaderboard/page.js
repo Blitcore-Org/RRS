@@ -36,9 +36,9 @@ export default function LeaderboardPage() {
     <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center">
       <div className="flex w-full h-full max-w-[402px] min-h-[600px] flex-col items-center rounded-[44px]">
         {/* NavBar with back button */}
-        <div className="flex flex-col items-center w-full rounded-tl-[44px] rounded-tr-[44px] relative">
+        <div className="flex flex-col items-center w-full rounded-tl-[44px] rounded-tr-[44px] relative pt-20">
           {/* Back Button */}
-          <Link href="/runner-overview" className="absolute left-6 top-6">
+          <Link href="/runner-overview" className="absolute left-6 top-6 pt-20">
             <img
               src="/Images/back_button.png"
               alt="Back"
@@ -46,25 +46,22 @@ export default function LeaderboardPage() {
             />
           </Link>
 
-          {/* NavContents with smaller logo */}
+
           <div className="flex py-[12px] flex-col items-center w-full">
-            <img
-              src="/Images/Logo.png"
-              alt="RRS Logo"
-              className="w-[50px] h-[45px]"
-            />
+            <div className="w-56 text-center justify-start text-primary text-xl font-normal font-thuast leading-normal">
+              Overall Leader board
+            </div>
           </div>
         </div>
 
         {/* Main content container */}
+        
         <div className="flex flex-col flex-1 w-full justify-between items-center gap-[20px] px-[20px]">
-          {/* Profile Section */}
-          <ProfileSection user={user} />
 
           {/* Leaderboard Widget */}
           <OverallLeaderboard 
             title="Overall Leaderboard"
-            columns={['#', 'Name', 'Distance', 'Pace', '5KM', '10KM']}
+            columns={['Position', 'Name', 'Distance', 'Time', 'Pace']}
             data={leaderboardData}
           />
 

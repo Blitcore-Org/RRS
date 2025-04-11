@@ -25,7 +25,8 @@ export const db = {
         distance: user.totalDistance,
         avgPace: user.averagePace,
         best5km: user.best5km,
-        best10km: user.best10km
+        best10km: user.best10km,
+        time: user.best5km
       }));
   },
 

@@ -28,11 +28,11 @@ export default function ProfileSection({ user }) {
         )}
       </div>
       <div className="flex flex-col items-center sm:items-start">
-        <span className="text-primary text-sm">{user.id}</span>
-        <h2 className="text-primary font-bold text-base">
+        <span className="justify-start text-white/60 text-[10px] font-normal font-dm-sans leading-3">{user.id}</span>
+        <h2 className="justify-start text-primary text-xl font-bold font-dm-sans leading-normal">
           {formatName(user.name)}
         </h2>
-        <span className="text-white text-sm">{user.progress}</span>
+        <span className="justify-start text-primary text-xs font-normal font-dm-sans leading-none">{user.progress || '0KM To Bronze'}</span>
       </div>
     </div>
   );
