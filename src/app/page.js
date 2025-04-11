@@ -71,7 +71,7 @@ export default function Home() {
         </section>
 
         {/* What is RRS Section */}
-        <section className="relative pt-32 pb-32 md:pt-36 md:pb-36 bg-primary w-full overflow-visible -mt-24 md:-mt-32 z-10">
+        <section id="about" className="relative pt-32 pb-32 md:pt-36 md:pb-36 bg-primary w-full overflow-visible -mt-24 md:-mt-32 z-10">
           {/* Top Pattern */}
           <div className="absolute -top-20 left-0 w-full">
             <img 
@@ -259,6 +259,59 @@ export default function Home() {
                 alt="Blitcore Logo" 
                 className="w-24 h-auto object-contain"
               />
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section id="contact" className="relative pt-32 pb-32 md:pt-36 md:pb-36 bg-primary w-full overflow-visible">
+          {/* Top Pattern */}
+          <div className="absolute -top-20 left-0 w-full">
+            <img 
+              src="/Images/illustrations/sm_top_pattern_illustration.png" 
+              alt="Top Pattern" 
+              className="w-full h-24 object-cover md:hidden"
+            />
+            <img 
+              src="/Images/illustrations/lg_top_pattern_illustration.png" 
+              alt="Top Pattern" 
+              className="hidden md:block w-full h-24 object-cover"
+            />
+          </div>
+          {/* Bottom Pattern */}
+          <div className="absolute -bottom-20 left-0 w-full z-10">
+            <img 
+              src="/Images/illustrations/sm_bottom_pattern_illustration.png" 
+              alt="Bottom Pattern" 
+              className="w-full h-24 object-cover md:hidden"
+            />
+            <img 
+              src="/Images/illustrations/lg_bottom_pattern_illustration.png" 
+              alt="Bottom Pattern" 
+              className="hidden md:block w-full h-24 object-cover"
+            />
+          </div>
+
+          <div className="w-full px-4 md:px-6 max-w-7xl mx-auto relative z-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 text-secondary font-thuast">Contact Us</h2>
+            <div className="max-w-2xl mx-auto text-center space-y-6">
+              <p className="text-secondary text-lg md:text-xl">
+                Have questions about Run Resolution Series? We'd love to hear from you.
+              </p>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-secondary font-semibold text-xl mb-2">Email</h3>
+                  <a href="mailto:info@blitcore.com" className="text-secondary hover:text-secondary/80">
+                    info@blitcore.com
+                  </a>
+                </div>
+                <div>
+                  <h3 className="text-secondary font-semibold text-xl mb-2">Phone</h3>
+                  <a href="tel:+2348039555588" className="text-secondary hover:text-secondary/80">
+                    +234 803 955 5588
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </section>

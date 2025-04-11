@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer className="relative bg-primary py-16 md:py-24">
+    <footer className="relative bg-secondary py-16 md:py-24 z-0">
       {/* Top Pattern */}
       <div className="absolute -top-20 left-0 w-full">
         <img 
@@ -31,21 +31,21 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="mb-12">
-            <h3 className="text-secondary text-xl font-bold mb-6 text-center font-thuast">Quick Links</h3>
+            <h3 className="text-primary text-xl font-bold mb-6 text-center font-thuast">Quick Links</h3>
             <nav className="flex flex-col items-center space-y-3">
-              <Link href="/" className="text-secondary hover:text-secondary/80 font-dm-sans">
+              <Link href="/" className="text-primary hover:text-primary/80 font-dm-sans">
                 Home
               </Link>
-              <Link href="/challenges" className="text-secondary hover:text-secondary/80 font-dm-sans">
+              <Link href="/challenges" className="text-primary hover:text-primary/80 font-dm-sans">
                 Challenges
               </Link>
-              <Link href="/app" className="text-secondary hover:text-secondary/80 font-dm-sans">
+              <Link href="/app" className="text-primary hover:text-primary/80 font-dm-sans">
                 App
               </Link>
-              <Link href="/faq" className="text-secondary hover:text-secondary/80 font-dm-sans">
+              <Link href="/faq" className="text-primary hover:text-primary/80 font-dm-sans">
                 FAQ
               </Link>
-              <Link href="/contact" className="text-secondary hover:text-secondary/80 font-dm-sans">
+              <Link href="/contact" className="text-primary hover:text-primary/80 font-dm-sans">
                 Contact
               </Link>
             </nav>
@@ -53,13 +53,13 @@ export default function Footer() {
 
           {/* Copyright and Made by */}
           <div className="text-center mb-8">
-            <p className="text-secondary font-dm-sans">
+            <p className="text-primary font-dm-sans">
               Made by <span className="font-bold">Blitcore</span>. All rights reserved
             </p>
           </div>
 
           {/* Social Links */}
-          <div className="flex space-x-8">
+          <div className="flex space-x-6">
             <Link href="#" className="hover:opacity-80">
               <img 
                 src="/Images/icons/x_icon.png"

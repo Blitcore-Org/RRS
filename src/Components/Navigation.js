@@ -31,14 +31,37 @@ export default function Navigation() {
             </Link>
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
-              <Link href="/dashboard" className="text-primary hover:text-primary/80">
-                Dashboard
+              <Link href="/" className="text-primary hover:text-primary/80">
+                Home
+              </Link>
+              <Link href="/challenges" className="text-primary hover:text-primary/80">
+                Challenges
+              </Link>
+              <Link 
+                href="/#about" 
+                className="text-primary hover:text-primary/80"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                About
+              </Link>
+              <Link 
+                href="/#contact" 
+                className="text-primary hover:text-primary/80"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                Contact
               </Link>
               <Link 
                 href="/login"
                 className="bg-primary text-secondary px-6 py-2 rounded-full hover:bg-primary/90 transition"
               >
-                Login
+                App
               </Link>
             </div>
             {/* Hamburger/Close Button */}
@@ -121,23 +144,33 @@ export default function Navigation() {
               Challenges
             </Link>
             <Link 
-              href="/dashboard"
+              href="/#about"
+              className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                setIsMenuOpen(false);
+              }}
+            >
+              About
+            </Link>
+            <Link 
+              href="/#contact"
+              className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                setIsMenuOpen(false);
+              }}
+            >
+              Contact
+            </Link>
+            <Link 
+              href="/login"
               className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
               onClick={() => setIsMenuOpen(false)}
             >
               App
-            </Link>
-            <Link
-              href="#"
-              className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
-            >
-              About
-            </Link>
-            <Link
-              href="#"
-              className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
-            >
-              Contact
             </Link>
           </div>
         </div>
