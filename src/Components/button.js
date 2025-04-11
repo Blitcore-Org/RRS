@@ -13,10 +13,10 @@ export default function Button({
     w-[200px]
     items-center
     justify-center
-    rounded-[2px]
+    rounded-[3px]
     shadow-[0px_1px_20px_-5px_rgba(0,0,0,0.10)]
     backdrop-blur-[5px]
-    font-regular
+    font-dm-sans
   `;
   
   const variants = {
