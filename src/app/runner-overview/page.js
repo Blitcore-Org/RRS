@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react';
 import Button from "@/Components/button";
 import SponsorTag from "@/Components/SponsorTag";
 import Link from "next/link";
@@ -15,6 +16,8 @@ export default function RunnerOverview() {
   const { user, loading } = useUser();
   const router = useRouter();
 
+  const [signOutLoading, setSignOutLoading] = useState(false);
+
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
@@ -23,10 +26,12 @@ export default function RunnerOverview() {
 
   const handleLogout = async () => {
     try {
+      setSignOutLoading(true);
       await authService.logout();
       router.push('/');
     } catch (error) {
       console.error('Logout failed:', error);
+      setSignOutLoading(false);
     }
   };
 
@@ -76,7 +81,7 @@ export default function RunnerOverview() {
           "
         >
           {/* NavContents with smaller logo */}
-          <div
+          {/* <div
             className="
               flex
               py-[12px]
@@ -90,7 +95,7 @@ export default function RunnerOverview() {
               alt="RRS Logo"
               className="w-[50px] h-[45px]"
             />
-          </div>
+          </div> */}
         </div>
 
         {user.isAdmin && (
@@ -131,26 +136,26 @@ export default function RunnerOverview() {
 
             {/* Navigation Buttons */}
             <Link href="/runner-profile">
-              <Button variant="secondary">Profile</Button>
+              <Button variant="primary" className="text-sm">Profile</Button>
             </Link>
             <Link href="/leaderboard">
-              <Button variant="secondary">Overall Leaderboard</Button>
+              <Button variant="primary" className="text-sm">Overall Leaderboard</Button>
             </Link>
             <Link href="/fastest-5km">
-              <Button variant="secondary">Fastest 5KM</Button>
+              <Button variant="primary" className="text-sm">5K Leaderboard</Button>
             </Link>
             <Link href="/fastest-10km">
-              <Button variant="secondary">Fastest 10KM</Button>
+              <Button variant="primary" className="text-sm">10K Leaderboard</Button>
             </Link>
             
             {/* Sign Out Button */}
             <Button 
-              variant="primary" 
-              className="w-[120px]"
+              variant="secondary"
+              className="!w-[140px] !h-13 text-sm" 
               onClick={handleLogout}
-            >
-              Sign out
-            </Button>
+              loading={signOutLoading}
+              text='Sign Out'
+            />
           </div>
 
           {/* Sponsor Tag */}
