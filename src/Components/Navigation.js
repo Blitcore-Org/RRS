@@ -21,7 +21,7 @@ export default function Navigation() {
       <nav className={`fixed w-full z-50 transition-colors duration-200 ${hasScrolled ? 'nav-scrolled' : ''}`}>
         {/* Blurred background */}
         <div className={`absolute inset-0 transition-all duration-200 ${
-          hasScrolled ? 'bg-[#0B2349]/80 backdrop-blur-md' : ''
+          hasScrolled ? 'bg-[#050E1E]/80 backdrop-blur-md' : ''
         }`}></div>
         
         <div className="relative mt-12 w-full px-8 md:px-16 py-4">
@@ -108,18 +108,18 @@ export default function Navigation() {
 
       {/* Mobile Navigation Overlay */}
       <div 
-        className={`fixed mt-12 inset-0 z-40 md:hidden transition-all duration-300 ${
+        className={`fixed inset-0 z-40 md:hidden transition-all duration-300 ${
           isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
         {/* Backdrop */}
         <div 
-          className="absolute inset-0 bg-secondary/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-background/60 backdrop-blur-sm"
           onClick={() => setIsMenuOpen(false)}
         />
         
         {/* Content */}
-        <div className={`relative w-full h-full p-4 pt-24 transition-all duration-300 ${
+        <div className={`relative w-full h-full p-4 pt-36 transition-all duration-300 ${
           isMenuOpen ? 'translate-y-0' : '-translate-y-8'
         }`}>
           {/* Logo */}

@@ -3,20 +3,7 @@ import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer className="relative bg-secondary py-16 md:py-24 z-0">
-      {/* Top Pattern */}
-      <div className="absolute -top-20 left-0 w-full">
-        <img 
-          src="/Images/illustrations/sm_top_pattern_illustration.png" 
-          alt="Top Pattern" 
-          className="w-full h-24 object-cover md:hidden"
-        />
-        <img 
-          src="/Images/illustrations/lg_top_pattern_illustration.png" 
-          alt="Top Pattern" 
-          className="hidden md:block w-full h-24 object-cover"
-        />
-      </div>
+    <footer className="relative bg-background py-16 md:py-24 z-0">
 
       <div className="container mx-auto px-4 max-w-7xl relative z-10">
         <div className="flex flex-col items-center">

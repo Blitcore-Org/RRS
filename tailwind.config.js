@@ -19,6 +19,7 @@ module.exports = {
         secondary: "#0B2349",
         black: '#000000',
         white: '#FFFFFF',
+        background: "#050E1E",
       },
       spacing: {
         36: "9rem",
