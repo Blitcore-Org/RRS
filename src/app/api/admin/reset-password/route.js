@@ -3,27 +3,25 @@ import { cookies } from 'next/headers';
 import dbConnect from '@/lib/mongodb';
 import User from '@/models/User';
 import { generateTemporaryPassword } from '@/utils/auth';
+import jwt from 'jsonwebtoken';
 
 export async function POST(request) {
   try {
     const { userEmail } = await request.json();
     
-    // Check if requester is admin
     const cookieStore = cookies();
-    const userCookie = cookieStore.get('user');
-    if (!userCookie) {
+    const token = cookieStore.get('token');
+    if (!token) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
     
-    const adminUser = JSON.parse(userCookie.value);
-    if (!adminUser.isAdmin) {
+    const decoded = jwt.verify(token.value, process.env.JWT_SECRET);
+    if (!decoded.isAdmin) {
       return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
     }
 
-    // Generate temporary password
     const tempPassword = generateTemporaryPassword();
 
-    // Update user's password and set force change flag
     await dbConnect();
     const user = await User.findOneAndUpdate(
       { email: userEmail },
@@ -44,6 +42,9 @@ export async function POST(request) {
     });
   } catch (error) {
     console.error('Password reset error:', error);
+    if (error.name === 'JsonWebTokenError') {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-} 
+}

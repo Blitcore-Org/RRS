@@ -26,7 +26,7 @@ export const db = {
         avgPace: user.averagePace,
         best5km: user.best5km,
         best10km: user.best10km,
-        time: user.best5km
+        time: user.totalTime
       }));
   },
 
