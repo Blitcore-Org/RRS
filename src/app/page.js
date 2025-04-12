@@ -5,9 +5,9 @@ import Footer from "@/Components/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-secondary text-white w-full">
+    <div className="min-h-screen bg-background text-white w-full">
       {/* Navigation - Fixed at top */}
-      <div className="relative z-50">
+      <div className="relative mt-0 z-50">
         <Navigation />
       </div>
 
@@ -135,7 +135,7 @@ export default function Home() {
         </section>
 
         {/* Challenges Section */}
-        <section className="py-16 md:py-32 bg-secondary w-full">
+        <section className="py-16 md:py-32 bg-background w-full">
           <div className="w-full px-4 md:px-6 max-w-7xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-primary text-center mb-6 uppercase tracking-wider font-thuast">
               Challenges
@@ -235,7 +235,7 @@ export default function Home() {
         </section>
 
         {/* Partners Section */}
-        <section className="py-16 md:py-32 bg-secondary w-full">
+        <section className="py-16 md:py-32 bg-background w-full">
           <div className="w-full px-4 md:px-6 max-w-7xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 font-thuast">Our Partners</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 md:gap-16 items-center justify-items-center max-w-4xl mx-auto">
