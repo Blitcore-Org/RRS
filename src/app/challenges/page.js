@@ -64,13 +64,13 @@ export default function Challenges() {
                       />
                     </div>
                     {/* Large Number */}
-                    <div className="absolute -left-4 -bottom-4">
-                      <div className="text-secondary md:text-[150px] lg:text-[200px] text-[140px] leading-none font-bold font-thuast opacity-90">1</div>
+                    <div className="absolute -left-4 -bottom-6 md:-left-10 md:-bottom-10">
+                      <div className="text-secondary md:text-[150px] lg:text-[200px] text-[140px] leading-none font-bold font-thuast opacity-90">1&nbsp;</div>
                     </div>
                     {/* Content */}
-                    <div className="flex relative h-full items-center pl-32 pt-20">
+                    <div className="flex relative h-full items-center pl-32 md:pl-48 pt-20">
                       <div>
-                        <h2 className="text-secondary text-xs md:text-lg font-black italic uppercase font-thuast tracking-[0.1em] whitespace-nowrap">Kick-off Challenge</h2>
+                        <h2 className="text-secondary text-xs md:text-lg font-bold uppercase font-dm-sans tracking-[0.1em] whitespace-nowrap">Kick-off Challenge</h2>
                         <p className="text-secondary/80 text-base font-dm-sans mt-0.5">Jan 11 - Feb 9 2025</p>
                       </div>
                     </div>
@@ -97,13 +97,13 @@ export default function Challenges() {
                       />
                     </div>
                     {/* Large Number */}
-                    <div className="absolute -left-6 -bottom-4">
-                      <div className="text-secondary md:text-[150px] lg:text-[200px] text-[140px] leading-none font-bold font-thuast opacity-90">2</div>
+                    <div className="absolute -left-6 -bottom-6 md:-left-10 md:-bottom-10">
+                      <div className="text-secondary md:text-[150px] lg:text-[200px] text-[140px] leading-none font-bold font-thuast opacity-90">2&nbsp;</div>
                     </div>
                     {/* Content */}
-                    <div className="relative h-full flex items-center pl-32 pt-20">
+                    <div className="relative h-full flex items-center pl-32 md:pl-48 pt-20">
                       <div>
-                        <h2 className="text-secondary text-xs md:text-lg font-black italic uppercase font-thuast tracking-[0.1em] whitespace-nowrap">Momentum Challenge</h2>
+                        <h2 className="text-secondary text-xs md:text-lg font-bold uppercase font-dm-sans tracking-[0.1em] whitespace-nowrap">Momentum Challenge</h2>
                         <p className="text-secondary/80 text-base font-dm-sans mt-0.5">May 1 - May 30 2025</p>
                       </div>
                     </div>
@@ -130,13 +130,13 @@ export default function Challenges() {
                       />
                     </div>
                     {/* Large Number */}
-                    <div className="absolute -left-6 -bottom-4">
-                      <div className="text-secondary md:text-[150px] lg:text-[200px] text-[140px] leading-none font-bold font-thuast opacity-90">3</div>
+                    <div className="absolute -left-8 -bottom-6 md:-left-10 md:-bottom-10">
+                      <div className="text-secondary md:text-[150px] lg:text-[200px] text-[140px] leading-none font-bold font-thuast opacity-90">3&nbsp;</div>
                     </div>
                     {/* Content */}
-                    <div className="relative h-full flex items-center pl-32 pt-20">
+                    <div className="relative h-full flex items-center pl-32 md:pl-48 pt-20">
                       <div>
-                        <h2 className="text-secondary text-xs md:text-lg font-black italic uppercase font-thuast tracking-[0.1em] whitespace-nowrap">Resolution Challenge</h2>
+                        <h2 className="text-secondary text-xs md:text-lg font-bold uppercase font-dm-sans tracking-[0.1em] whitespace-nowrap">Resolution Challenge</h2>
                         <p className="text-secondary/80 text-base font-dm-sans mt-0.5">Nov 1 - Nov 30 2025</p>
                       </div>
                     </div>
@@ -188,23 +188,23 @@ export default function Challenges() {
             {/* Milestones */}
             <div className="flex flex-col items-center gap-16 max-w-2xl mx-auto">
               <div className="w-full relative text-center">
-                <h2 className="text-[#FFD700]/60 text-7xl font-bold font-thuast italic tracking-wider relative">
+                <h2 className="text-[#FFD700]/60 text-4xl md:text-7xl font-bold font-thuast italic tracking-wider relative">
                   GO<span className="relative">L</span>D
-                  <span className="absolute text-primary text-4xl font-bold top-16 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">150KM</span>
+                  <span className="absolute text-primary text-xl md:text-4xl font-bold top-9 md:top-16 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">150KM</span>
                 </h2>
               </div>
 
               <div className="w-full relative text-center">
-                <h2 className="text-[#C0C0C0]/60 text-7xl font-bold font-thuast italic tracking-wider relative">
+                <h2 className="text-[#C0C0C0]/60 text-4xl md:text-7xl font-bold font-thuast italic tracking-wider relative">
                   SIL<span className="relative">V</span>ER
-                  <span className="absolute text-primary text-4xl font-bold top-16 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">100KM</span>
+                  <span className="absolute text-primary text-xl md:text-4xl font-bold top-9 md:top-16 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">100KM</span>
                 </h2>
               </div>
 
               <div className="w-full relative text-center">
-                <h2 className="text-[#CD7F32]/60 text-7xl font-bold font-thuast italic tracking-wider relative">
+                <h2 className="text-[#CD7F32]/60 text-4xl md:text-7xl font-bold font-thuast italic tracking-wider relative">
                   BRO<span className="relative">N</span>ZE
-                  <span className="absolute text-primary text-4xl font-bold top-16 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">50KM</span>
+                  <span className="absolute text-primary text-xl md:text-4xl font-bold top-9 md:top-16 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">50KM</span>
                 </h2>
               </div>
             </div>

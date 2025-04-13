@@ -32,7 +32,7 @@ export default function Home() {
           </div>
           
           {/* Content */}
-          <div className="relative flex flex-col min-h-[70vh] md:min-h-[80vh] lg:min-h-[70vh]">
+          <div className="relative flex flex-col min-h-[120vh] md:min-h-[80vh] lg:min-h-[70vh]">
             {/* Text Content */}
             <div className="flex-1 flex items-start justify-center">
               <div className="text-center px-4 mt-48">

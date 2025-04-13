@@ -41,13 +41,13 @@ export default function Footer() {
           {/* Copyright and Made by */}
           <div className="text-center mb-8">
             <p className="text-primary font-dm-sans">
-              Made by <span className="font-bold">Blitcore</span>. All rights reserved
+              Made by <Link href="https://www.blitcore.com/" className="font-bold hover:text-white">Blitcore</Link>. All rights reserved
             </p>
           </div>
 
           {/* Social Links */}
           <div className="flex space-x-6">
-            <Link href="#" className="hover:opacity-80">
+            <Link href="https://www.instagram.com/runresolutionseries" className="hover:opacity-80">
               <img 
                 src="/Images/icons/x_icon.png"
                 alt="X (Twitter)"
