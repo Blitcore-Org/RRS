@@ -15,7 +15,6 @@ export default function Fastest5KM() {
   const router = useRouter();
   const { data: leaderboardData, error, isLoading } = leaderboardService.use5KMLeaderboard();
 
-
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
@@ -27,7 +26,7 @@ export default function Fastest5KM() {
   }
 
   if (error) {
-    console.error('Failed to fetch 10KM leaderboard:', error);
+    console.error('Failed to fetch 5KM leaderboard:', error);
     return <div>Failed to load leaderboard</div>;
   }
 
@@ -35,9 +34,9 @@ export default function Fastest5KM() {
     <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center">
       <div className="flex w-full h-full max-w-[402px] min-h-[600px] flex-col items-center rounded-[44px]">
         {/* NavBar with back button */}
-        <div className="flex flex-col items-center w-full rounded-tl-[44px] rounded-tr-[44px] relative">
+        <div className="flex flex-col items-center w-full rounded-tl-[44px] rounded-tr-[44px] relative pt-20">
           {/* Back Button */}
-          <Link href="/runner-overview" className="absolute left-6 top-6">
+          <Link href="/runner-overview" className="absolute left-6 top-6 pt-20">
             <img
               src="/Images/back_button.png"
               alt="Back"
@@ -45,24 +44,20 @@ export default function Fastest5KM() {
             />
           </Link>
 
-          {/* NavContents with smaller logo */}
           <div className="flex py-[12px] flex-col items-center w-full">
-            <img
-              src="/Images/Logo.png"
-              alt="RRS Logo"
-              className="w-[50px] h-[45px]"
-            />
+            <div className="w-56 text-center justify-start text-primary text-xl font-normal font-thuast leading-normal">
+              5K Leaderboard
+            </div>
           </div>
         </div>
 
         {/* Main content container */}
         <div className="flex flex-col flex-1 w-full justify-between items-center gap-[20px] px-[20px]">
-          <ProfileSection user={user} />
-
 
           {/* Leaderboard Widget */}
           <FastestLeaderboard 
             title="Fastest 5KM"
+            columns={['Position', 'Name', 'Avg Pace', 'Time']}
             data={leaderboardData}
           />
 

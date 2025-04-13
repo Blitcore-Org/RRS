@@ -178,38 +178,38 @@ export default function RunnerProfile() {
           >
           <ProfileSection user={user} />
             {/* Total Stats Widget */}
-            <div className="w-full p-6 bg-[rgba(73,81,89,0.35)] backdrop-blur-sm rounded-[24px] text-white">
+            <div className="w-full p-6 bg-primary rounded-[24px] text-white">
               <div className="flex justify-between items-center mb-4">
-                <span>Total Distance</span>
-                <span className="text-primary">{user.totalDistance}</span>
+                <span className="text-secondary font-normal font-dm-sans leading-normal">Total Distance</span>
+                <span className="text-secondary">{user.totalDistance}</span>
               </div>
               <div className="flex justify-between items-center mb-4">
-                <span>Total Time</span>
-                <span className="text-primary">{user.totalTime}</span>
+                <span className="text-secondary font-normal font-dm-sans leading-normal">Total Time</span>
+                <span className="text-secondary font-bold font-dm-sans leading-normal">{user.totalTime}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span>Average Pace</span>
-                <span className="text-primary">{user.averagePace}</span>
+                <span className="text-secondary font-normal font-dm-sans leading-normal">Average Pace</span>
+                <span className="text-secondary font-bold font-dm-sans leading-normal">{user.averagePace}</span>
               </div>
             </div>
 
             {/* Reward Progress Widget */}
-            <div className="w-full p-6 bg-[rgba(73,81,89,0.35)] backdrop-blur-sm rounded-[24px]">
-              <h3 className="text-white font-bold mb-4">REWARD PROGRESS</h3>
+            <div className="w-full p-6 bg-primary rounded-[24px]">
+              <h3 className="text-secondary font-normal leading-none font-thuast mb-4">REWARD PROGRESS</h3>
               <div className="flex justify-between items-center mb-3">
-                <span className="text-white">Gold</span>
+                <span className="text-secondary font-bold">Gold</span>
                 <span className="text-[#FFD700]">
                   {user.totalDistance} / 150KM
                 </span>
               </div>
               <div className="flex justify-between items-center mb-3">
-                <span className="text-white">Silver</span>
+                <span className="text-secondary font-bold">Silver</span>
                 <span className="text-[#C0C0C0]">
                   {user.totalDistance} / 100KM
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-white">Bronze</span>
+                <span className="text-secondary font-bold">Bronze</span>
                 <span className="text-[#CD7F32]">
                   {user.totalDistance} / 50KM
                 </span>
@@ -217,33 +217,33 @@ export default function RunnerProfile() {
             </div>
 
             {/* Best Times Widget */}
-            <div className="w-full p-6 bg-[rgba(73,81,89,0.35)] backdrop-blur-sm rounded-[24px]">
+            <div className="w-full p-6 bg-primary rounded-[24px]">
               <div className="flex justify-between items-center mb-4">
-                <span className="text-white font-bold">5KM BEST</span>
-                <span className="text-primary">{user.best5km}</span>
+                <span className="text-secondary text-xl font-normal font-thuast leading-normal">5KM BEST</span>
+                <span className="text-secondary font-bold font-dm-sans leading-normal">{user.best5km}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-white font-bold">10KM BEST</span>
-                <span className="text-primary">{user.best10km}</span>
+                <span className="text-secondary text-xl font-normal font-thuast leading-normal">10KM BEST</span>
+                <span className="text-secondary font-bold font-dm-sans leading-normal">{user.best10km}</span>
               </div>
             </div>
 
-            {stravaConnected ? (
-              <div>
-                <Button onClick={handleDisconnect}>
-                  Disconnect from Strava
-                </Button>
+            <div className="w-full p-6 bg-primary rounded-[24px]">
+              <div
+                onClick={stravaConnected ? handleDisconnect : handleConnect}
+                className="flex justify-center items-center cursor-pointer"
+              >
+                <img
+                  src="/Images/icons/strava_icon.svg"
+                  alt="Strava Logo"
+                  className="w-6 h-6 mr-2"
+                />
+                <span className="text-secondary font-normal font-thuast leading-normal">
+                  {stravaConnected ? "Disconnect" : "Connect"}
+                </span>
               </div>
-            ) : (
-              <div>
-                <Button onClick={handleConnect}>
-                  Connect to Strava
-                </Button>
-              </div>
-            )}
-
+            </div>
           </div>
-
           {/* Sponsor Tag */}
           <SponsorTag />
         </div>
