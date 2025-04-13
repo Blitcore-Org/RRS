@@ -4,17 +4,80 @@ import Button from "@/Components/button";
 import SponsorTag from "@/Components/SponsorTag";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/Components/LoadingSpinner";
 import ProfileSection from "@/Components/ProfileSection";
-
+import axiosInstance from '@/utils/axiosInstance';
 export default function RunnerProfile() {
-  const { user, loading } = useUser();
+  const { user, loading, fetchUser } = useUser();
+  const [stravaConnected, setStravaConnected] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    async function checkStravaStatus() {
+      if (user.stravaAccessToken) {
+        setStravaConnected(true);
+      }
+    }
+    if(user) {
+      checkStravaStatus();
+    }
+  }, [user]);
+
+  const handleConnect = () => {
+    const clientId = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID;
+    const redirectUri = process.env.NEXT_PUBLIC_STRAVA_REDIRECT_URI;
+    const scope = "activity:read";
+    const userId = user._id;
+    const state = encodeURIComponent(userId);
+
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      const stravaAppUrl = `strava://oauth/mobile/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}&response_type=code&scope=${scope}&state=${state}`;
+      
+      const stravaWebUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}&response_type=code&scope=${scope}&state=${state}`;
+      
+      const appWindow = window.open(stravaAppUrl, '_blank');
+      
+      setTimeout(() => {
+        if (appWindow && !appWindow.closed) {
+          appWindow.close();
+          window.location.href = stravaWebUrl;
+        }
+      }, 100);
+    } else {
+      const stravaWebUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}&response_type=code&scope=${scope}&state=${state}`;
+      window.location.href = stravaWebUrl;
+    }
+  };
+
+  const handleDisconnect = async () => {
+    try {
+      const { data } = await axiosInstance.post("/api/strava/disconnect");
+      console.log("Disconnected from Strava:", data.updatedUser);
+      fetchUser();
+      setStravaConnected(false);
+    } catch (error) {
+      console.error("Error disconnecting from Strava:", error);
+    }
+  };
+
+
+  useEffect(() => {
     if (!loading && !user) {
+      console.log("User in profile:", user);
       router.push('/login');
     }
   }, [loading, user, router]);
@@ -82,7 +145,7 @@ export default function RunnerProfile() {
             "
           >
             <img
-              src="/Images/logo.png"
+              src="/Images/Logo.png"
               alt="RRS Logo"
               className="w-[50px] h-[45px]"
             />
@@ -164,6 +227,21 @@ export default function RunnerProfile() {
                 <span className="text-primary">{user.best10km}</span>
               </div>
             </div>
+
+            {stravaConnected ? (
+              <div>
+                <Button onClick={handleDisconnect}>
+                  Disconnect from Strava
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <Button onClick={handleConnect}>
+                  Connect to Strava
+                </Button>
+              </div>
+            )}
+
           </div>
 
           {/* Sponsor Tag */}

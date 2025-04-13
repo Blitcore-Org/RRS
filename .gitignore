@@ -40,3 +40,6 @@ next-env.d.ts
 
 # Data files
 data/*.csv
+
+# Log files
+/logs

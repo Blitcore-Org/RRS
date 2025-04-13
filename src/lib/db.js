@@ -7,6 +7,11 @@ export const db = {
     return await User.findOne({ email });
   },
 
+  findUserById: async (id) => {
+    await dbConnect();
+    return await User.findById(id);
+  },
+
   validatePassword: (user, password) => user.password === password,
 
   getOverallLeaderboard: async () => {
@@ -20,7 +25,8 @@ export const db = {
         distance: user.totalDistance,
         avgPace: user.averagePace,
         best5km: user.best5km,
-        best10km: user.best10km
+        best10km: user.best10km,
+        time: user.totalTime
       }));
   },
 

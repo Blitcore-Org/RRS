@@ -17,16 +17,19 @@ export default function Login() {
   const [forcePasswordChange, setForcePasswordChange] = useState(false);
   const router = useRouter();
   const { login } = useUser();
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     try {
       const userData = await authService.login(email, password);
       
       if (userData.forcePasswordChange) {
         setForcePasswordChange(true);
+        setLoading(false);
         return;
       }
 
@@ -35,6 +38,7 @@ export default function Login() {
     } catch (err) {
       setError('Invalid email or password');
       console.error(err);
+      setLoading(false);
     }
   };
 
@@ -166,7 +170,7 @@ export default function Login() {
               "
             >
               <img
-                src="/Images/logo.png"
+                src="/Images/Logo.png"
                 alt="Event Logo"
                 className="w-[81px] h-[73px] flex-shrink-0"
               />
@@ -189,29 +193,31 @@ export default function Login() {
           {/* Form and Buttons container */}
           <form onSubmit={handleLogin} className="flex flex-col h-full justify-center items-center gap-[20px] px-[20px] w-full">
             {/* Email Input Container */}
-            <div className="relative w-full h-[64px] rounded-[32px] bg-[rgba(73,81,89,0.35)] backdrop-blur-sm">
+            <div className="relative w-full h-[64px] rounded-[12px] bg-[rgba(73,81,89,0.35)] backdrop-blur-sm">
               <input
                 type="email"
                 placeholder=" "
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="peer w-full h-full px-[30px] pt-[25px] bg-transparent text-white focus:outline-none placeholder-transparent"
+                className="peer w-full h-full px-[30px] pt-[25px] bg-transparent text-primary focus:outline-none placeholder-transparent"
+                required
               />
-              <label className="absolute text-primary left-[30px] top-[50%] -translate-y-1/2 transition-all peer-focus:text-xs peer-focus:top-[10px] peer-focus:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:top-[10px] peer-[:not(:placeholder-shown)]:translate-y-0 cursor-text">
+              <label className="absolute text-white left-[30px] top-[50%] -translate-y-1/2 transition-all peer-focus:text-xs peer-focus:top-[10px] peer-focus:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:top-[10px] peer-[:not(:placeholder-shown)]:translate-y-0 cursor-text">
                 Email
               </label>
             </div>
 
             {/* Password Input Container */}
-            <div className="relative w-full h-[64px] rounded-[32px] bg-[rgba(73,81,89,0.35)] backdrop-blur-sm">
+            <div className="relative w-full h-[64px] rounded-[12px] bg-[rgba(73,81,89,0.35)] backdrop-blur-sm">
               <input
                 type="password"
                 placeholder=" "
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="peer w-full h-full px-[30px] pt-[25px] bg-transparent text-white focus:outline-none placeholder-transparent"
+                className="peer w-full h-full px-[30px] pt-[25px] bg-transparent text-primary focus:outline-none placeholder-transparent"
+                required
               />
-              <label className="absolute text-primary left-[30px] top-[50%] -translate-y-1/2 transition-all peer-focus:text-xs peer-focus:top-[10px] peer-focus:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:top-[10px] peer-[:not(:placeholder-shown)]:translate-y-0 cursor-text">
+              <label className="absolute text-white left-[30px] top-[50%] -translate-y-1/2 transition-all peer-focus:text-xs peer-focus:top-[10px] peer-focus:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:top-[10px] peer-[:not(:placeholder-shown)]:translate-y-0 cursor-text">
                 Password
               </label>
             </div>
@@ -221,15 +227,16 @@ export default function Login() {
               <div className="text-red-500 text-sm">{error}</div>
             )}
 
+            <Button text="Log in" loading={loading} />
+            <Link href="https://exultant-elephant-4d8.notion.site/14daf21a78918042b5d7f82f2658c660?pvs=105" passHref legacyBehavior>
+              <Button variant="secondary">Join us</Button>
+            </Link>
+
             {/* Rest of the form elements */}
             <a href="/forgot-password" className="text-sm text-[#B6F09C] hover:text-[#a3e088] self-center">
               Forgot Password?
             </a>
 
-            <Button type="submit" variant="primary">Log in</Button>
-            <Link href="https://exultant-elephant-4d8.notion.site/14daf21a78918042b5d7f82f2658c660?pvs=105" passHref legacyBehavior>
-              <Button variant="secondary">Join us</Button>
-            </Link>
           </form>
 
           {/* Sponsor container */}

@@ -16,6 +16,8 @@ export const authService = {
       throw new Error(data.error || 'Login failed');
     }
 
+    localStorage.setItem('isLoggedIn', 'true');
+
     return data;
   },
 
@@ -29,6 +31,8 @@ export const authService = {
     if (!response.ok) {
       throw new Error(data.error || 'Logout failed');
     }
+
+    localStorage.removeItem('isLoggedIn');
 
     return data;
   },

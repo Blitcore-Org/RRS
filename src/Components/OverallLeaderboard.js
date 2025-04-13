@@ -3,41 +3,68 @@
 import LoadingSpinner from './LoadingSpinner';
 
 export default function OverallLeaderboard({ title, columns, data, isLoading }) {
-  const getColumnWidth = (column) => {
-    switch (column.toLowerCase()) {
-      case '#':
-        return 'w-[7%]';
-      case 'name':
-        return 'w-[23%]';
-      case 'distance':
-        return 'w-[17%]';
-      case 'pace':
-        return 'w-[18%]';
-      case '5km':
-        return 'w-[17%]';
-      case '10km':
-        return 'w-[18%]';
-      default:
-        return 'w-[15%]';
-    }
-  };
-
   const formatName = (name) => {
+    const maxLength = 20;
     const names = name.split(' ');
-    if (names.length > 1 && name.length > 12) {
+    
+    if (name.length > maxLength) {
+      // If name is too long, show first name and truncate the rest
+      const firstName = names[0];
+      const rest = names.slice(1).join(' ');
       return (
-        <div className="flex flex-col leading-tight items-center">
-          <span>{names[0]}</span>
-          <span>{names.slice(1).join(' ')}</span>
+        <div className="flex flex-col leading-tight">
+          <span className="text-secondary text-xs font-dm-sans">{firstName}</span>
+          <span className="text-secondary text-xs truncate font-dm-sans">{rest}</span>
+        </div>
+      );
+    } else if (names.length > 1) {
+      // If name is short enough but has multiple parts
+      return (
+        <div className="flex flex-col leading-tight">
+          <span className="text-secondary text-xs font-dm-sans">{names[0]}</span>
+          <span className="text-secondary text-xs font-dm-sans">{names.slice(1).join(' ')}</span>
         </div>
       );
     }
-    return name;
+    return <span className="text-secondary text-xs font-dm-sans">{name}</span>;
+  };
+
+  const getColumnWidth = (column) => {
+    switch (column.toLowerCase()) {
+      case 'position':
+        return 'w-16';
+      case 'name':
+        return 'w-28';
+      case 'distance':
+        return 'w-20';
+      case 'time':
+        return 'w-16';
+      case 'pace':
+        return 'w-12';
+      default:
+        return 'w-16';
+    }
+  };
+
+  const getColumnAlignment = (column) => {
+    switch (column.toLowerCase()) {
+      case 'position':
+        return 'text-left';
+      case 'name':
+        return 'text-center';
+      case 'distance':
+      case 'time':
+        return 'text-center';
+      case 'pace':
+        return 'text-right';
+      default:
+        return 'text-left';
+    }
   };
 
   if (isLoading) {
     return (
-      <div className="w-full bg-[rgba(73,81,89,0.35)] backdrop-blur-sm rounded-2xl p-4 h-[360px]">
+      <div className="w-96 bg-primary rounded-[20px] p-4 h-[360px]">
         <h2 className="text-white text-lg font-semibold mb-4 text-center">{title}</h2>
         <LoadingSpinner />
       </div>
@@ -45,45 +72,76 @@ export default function OverallLeaderboard({ title, columns, data, isLoading }) 
   }
 
   return (
-    <div className="w-full bg-[rgba(73,81,89,0.35)] backdrop-blur-sm rounded-2xl p-4">
-      <h2 className="text-white text-lg font-semibold mb-4 text-center">{title}</h2>
-      <div className="flex w-full">
-        {columns.map((column, index) => (
-          <div 
-            key={index} 
-            className={`text-[#8FFF00] text-[8px] px-2 py-2 ${getColumnWidth(column)} text-center`}
-          >
-            {column === 'Rank' ? '#' : column}
-          </div>
-        ))}
+    <div className="inline-flex flex-col justify-start items-center gap-1">
+      {/* Header */}
+      <div className="w-96 h-8 px-5 flex items-center">
+        <div className="self-stretch w-full inline-flex justify-between items-center">
+          {columns.map((column, index) => (
+            <div 
+              key={index}
+              className={`${getColumnWidth(column)} text-primary text-xs font-normal font-dm-sans ${getColumnAlignment(column)}`}
+            >
+              {column}
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="h-[240px] overflow-y-auto">
+
+      {/* Leaderboard Items */}
+      <div className="flex flex-col gap-1 w-96">
         {data.map((row, index) => (
-          <div key={index} className="flex w-full border-b border-white/10 py-2 h-[48px] items-center">
-            {columns.map((column, colIndex) => {
-              const key = column.toLowerCase().replace(/\s+/g, '');
-              let value = row[key];
-              
-              // Handle special cases
-              if (key === '5km') value = row['best5km'];
-              if (key === '10km') value = row['best10km'];
-              if (key === 'pace') value = row['avgPace'];
-              if (key === '#') value = row['rank'];
-              
-              return (
-                <div 
-                  key={colIndex} 
-                  className={`text-white text-[8px] px-2 ${getColumnWidth(column)} ${
-                    column.toLowerCase() === 'name' ? 'overflow-visible' : 'truncate'
-                  } flex items-center justify-center`}
-                >
-                  {column.toLowerCase() === 'name' ? formatName(value) : value}
-                </div>
-              );
-            })}
+          <div key={index} className="h-14 px-5 py-2 bg-primary rounded-[20px] flex items-center">
+            <div className="w-full inline-flex justify-between items-center">
+              {columns.map((column, colIndex) => {
+                const key = column.toLowerCase();
+                let value = row[key];
+                
+                if (key === 'pace') value = row['avgPace'];
+                if (key === 'position') value = row['rank'];
+
+                if (key === 'name') {
+                  return (
+                    <div key={colIndex} className={`${getColumnWidth(column)} flex items-center gap-2`}>
+                      <img 
+                        className="w-6 h-6 rounded-full border border-secondary" 
+                        src={row.avatar || "https://placehold.co/24x24"} 
+                        alt={row.name}
+                      />
+                      <div className="w-[calc(100%-32px)]">
+                        {formatName(value)}
+                      </div>
+                    </div>
+                  );
+                }
+
+                if (key === 'position') {
+                  return (
+                    <div key={colIndex} className={`${getColumnWidth(column)} flex items-center gap-2`}>
+                      <div className="w-6 text-center justify-start text-secondary text-xs font-normal font-thuast leading-none">
+                        {value}
+                      </div>
+                      <img 
+                        src="Images/icons/arrow_up.png" 
+                        alt="arrow" 
+                        className="w-4 h-4"
+                      />
+                    </div>
+                  );
+                }
+
+                return (
+                  <div 
+                    key={colIndex}
+                    className={`${getColumnWidth(column)} text-secondary text-xs font-normal font-dm-sans ${getColumnAlignment(column)}`}
+                  >
+                    {value}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         ))}
       </div>
     </div>
   );
-} 
+}
