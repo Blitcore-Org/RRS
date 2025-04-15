@@ -43,25 +43,32 @@ export default function Footer() {
             <p className="text-primary font-dm-sans">
               Made by <Link href="https://www.blitcore.com/" className="font-bold hover:text-white">Blitcore</Link>. All rights reserved
             </p>
+            <div className="mt-4">
+              <img 
+                src="/Images/api_logo_cptblWith_strava_stack_white.png"
+                alt="Strava Logo"
+                className="h-7 mx-auto"
+              />
+            </div>
           </div>
 
           {/* Social Links */}
           <div className="flex space-x-6">
-            <Link href="https://www.instagram.com/runresolutionseries" className="hover:opacity-80">
+            <Link href="https://x.com/runresolutionseries" className="hover:opacity-80">
               <img 
                 src="/Images/icons/x_icon.png"
                 alt="X (Twitter)"
                 className="w-6 h-6"
               />
             </Link>
-            <Link href="#" className="hover:opacity-80">
+            <Link href="https://www.instagram.com/runresolutionseries" className="hover:opacity-80">
               <img 
                 src="/Images/icons/instagram_icon.png"
                 alt="Instagram"
                 className="w-6 h-6"
               />
             </Link>
-            <Link href="#" className="hover:opacity-80">
+            <Link href="https://www.tiktok.com/@runresolutionseries" className="hover:opacity-80">
               <img 
                 src="/Images/icons/tiktok_icon.png"
                 alt="TikTok"

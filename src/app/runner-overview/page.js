@@ -135,6 +135,11 @@ export default function RunnerOverview() {
           <ProfileSection user={user} />
 
             {/* Navigation Buttons */}
+            {user?.isAdmin && (
+              <Link href="/admin/users">
+                <Button variant="primary" className="text-sm">View User</Button>
+              </Link>
+            )}
             <Link href="/runner-profile">
               <Button variant="primary" className="text-sm">Profile</Button>
             </Link>
