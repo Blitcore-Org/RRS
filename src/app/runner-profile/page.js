@@ -227,19 +227,37 @@ export default function RunnerProfile() {
                 <span className="text-secondary font-bold font-dm-sans leading-normal">{user.best10km}</span>
               </div>
             </div>
-
-            <div className="w-full p-6 bg-primary rounded-[24px]">
+            
+            {/* View on Strava Link */}
+            {stravaConnected && (
+              <div className="w-full p-6 bg-primary rounded-[24px]">
+                <div className="flex justify-center">
+                  <Link 
+                    href={`https://www.strava.com/athletes/${user.stravaAthleteId || ''}`}
+                    className="text-secondary font-bold hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View on Strava
+                  </Link>
+                </div>
+              </div>
+            )}
+            
+            <div className="w-full flex justify-center">
               <div
                 onClick={stravaConnected ? handleDisconnect : handleConnect}
-                className="flex justify-center items-center cursor-pointer"
+                className="flex flex-col justify-center items-center cursor-pointer"
               >
-                <img
-                  src="/Images/icons/strava_icon.svg"
-                  alt="Strava Logo"
-                  className="w-6 h-6 mr-2"
-                />
-                <span className="text-secondary font-normal font-thuast leading-normal">
-                  {stravaConnected ? "Disconnect" : "Connect"}
+                {!stravaConnected && (
+                  <img
+                    src="/Images/btn_strava_connect_with_orange.svg"
+                    alt="Strava Logo"
+                    className="w-full h-full"
+                  />
+                )}
+                <span className="text-primary font-normal font-thuast leading-normal mt-2">
+                  {stravaConnected ? "Disconnect from Strava" : ""}
                 </span>
               </div>
             </div>
