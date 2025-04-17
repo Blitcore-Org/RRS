@@ -52,7 +52,7 @@ export default function Challenges() {
             {/* Challenge Cards */}
             <div className="flex flex-col gap-6 w-full max-w-[800px] mx-auto">
               {/* Kick-off Challenge */}
-              <Link href="/challenges/kick-off" className="group block relative w-full">
+              <div className="group block relative w-full">
                 <div className="relative">
                   <div className="bg-primary rounded-[32px] overflow-hidden h-[150px] w-full shadow-lg transform transition-transform hover:scale-[1.02]">
                     {/* Background Illustration */}
@@ -78,14 +78,14 @@ export default function Challenges() {
                   {/* Floating Button */}
                   <div className="absolute -top-2 -right-2 bg-secondary rounded-full p-2.5 transform transition-all group-hover:scale-110 group-hover:translate-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 text-primary">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
                   </div>
                 </div>
-              </Link>
+              </div>
 
               {/* Momentum Challenge */}
-              <Link href="/challenges/momentum" className="group block relative w-full">
+              <div className="group block relative w-full">
                 <div className="relative">
                   <div className="bg-primary rounded-[32px] overflow-hidden h-[150px] w-full shadow-lg transform transition-transform hover:scale-[1.02]">
                     {/* Background Illustration */}
@@ -115,10 +115,10 @@ export default function Challenges() {
                     </svg>
                   </div>
                 </div>
-              </Link>
+              </div>
 
               {/* Resolution Challenge */}
-              <Link href="/challenges/resolution" className="group block relative w-full">
+              <div className="group block relative w-full">
                 <div className="relative">
                   <div className="bg-primary rounded-[32px] overflow-hidden h-[150px] w-full shadow-lg transform transition-transform hover:scale-[1.02]">
                     {/* Background Illustration */}
@@ -148,7 +148,7 @@ export default function Challenges() {
                     </svg>
                   </div>
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
         </section>

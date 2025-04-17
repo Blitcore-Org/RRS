@@ -2,10 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +18,16 @@ export default function Navigation() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleSectionClick = (sectionId) => {
+    if (isHomePage) {
+      // If already on home page, just scroll to the section
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // If on another page, navigate to home page with hash
+      window.location.href = `/#${sectionId}`;
+    }
+  };
 
   return (
     <>
@@ -34,32 +47,26 @@ export default function Navigation() {
               <Link href="/" className="text-primary hover:text-primary/80">
                 Home
               </Link>
+              <button 
+                onClick={() => handleSectionClick('about')}
+                className="text-primary hover:text-primary/80"
+              >
+                About
+              </button>
+              <button 
+                onClick={() => handleSectionClick('contact')}
+                className="text-primary hover:text-primary/80"
+              >
+                Contact
+              </button>
               <Link href="/challenges" className="text-primary hover:text-primary/80">
                 Challenges
               </Link>
               <Link 
-                href="/#about" 
-                className="text-primary hover:text-primary/80"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                About
-              </Link>
-              <Link 
-                href="/#contact" 
-                className="text-primary hover:text-primary/80"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                Contact
-              </Link>
-              <Link 
                 href="/login"
                 className="bg-primary text-secondary px-6 py-2 rounded-full hover:bg-primary/90 transition"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 App
               </Link>
@@ -143,32 +150,30 @@ export default function Navigation() {
             >
               Challenges
             </Link>
-            <Link 
-              href="/#about"
+            <button 
               className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+              onClick={() => {
+                handleSectionClick('about');
                 setIsMenuOpen(false);
               }}
             >
               About
-            </Link>
-            <Link 
-              href="/#contact"
+            </button>
+            <button 
               className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              onClick={() => {
+                handleSectionClick('contact');
                 setIsMenuOpen(false);
               }}
             >
               Contact
-            </Link>
+            </button>
             <Link 
               href="/login"
               className="w-64 bg-primary text-secondary py-3 rounded-lg text-center font-semibold text-lg hover:bg-primary/90 transition"
               onClick={() => setIsMenuOpen(false)}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               App
             </Link>

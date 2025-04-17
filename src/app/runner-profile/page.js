@@ -8,7 +8,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/Components/LoadingSpinner";
 import ProfileSection from "@/Components/ProfileSection";
+import ProgressRings from "@/Components/ProgressRings";
 import axiosInstance from '@/utils/axiosInstance';
+import BottomNavigation from "@/Components/BottomNavigation";
+
 export default function RunnerProfile() {
   const { user, loading, fetchUser } = useUser();
   const [stravaConnected, setStravaConnected] = useState(false);
@@ -20,7 +23,7 @@ export default function RunnerProfile() {
 
   useEffect(() => {
     async function checkStravaStatus() {
-      if (user.stravaAccessToken) {
+      if (user?.stravaAccessToken) {
         setStravaConnected(true);
       }
     }
@@ -74,7 +77,6 @@ export default function RunnerProfile() {
     }
   };
 
-
   useEffect(() => {
     if (!loading && !user) {
       console.log("User in profile:", user);
@@ -98,6 +100,7 @@ export default function RunnerProfile() {
         flex
         items-center
         justify-center
+        pb-16
       "
     >
       {/* Contents container */}
@@ -113,45 +116,6 @@ export default function RunnerProfile() {
           rounded-[44px]
         "
       >
-        {/* NavBar with back button */}
-        <div
-          className="
-            flex
-            flex-col
-            items-center
-            w-full
-            rounded-tl-[44px]
-            rounded-tr-[44px]
-            relative
-          "
-        >
-          {/* Back Button */}
-          <Link href="/runner-overview" className="absolute left-6 top-6">
-            <img
-              src="/Images/back_button.png"
-              alt="Back"
-              className="w-[32px] h-[32px]"
-            />
-          </Link>
-
-          {/* NavContents with smaller logo */}
-          <div
-            className="
-              flex
-              py-[12px]
-              flex-col
-              items-center
-              w-full
-            "
-          >
-            <img
-              src="/Images/Logo.png"
-              alt="RRS Logo"
-              className="w-[50px] h-[45px]"
-            />
-          </div>
-        </div>
-
         {/* Main content container */}
         <div
           className="
@@ -196,38 +160,33 @@ export default function RunnerProfile() {
             {/* Reward Progress Widget */}
             <div className="w-full p-6 bg-primary rounded-[24px]">
               <h3 className="text-secondary font-normal leading-none font-thuast mb-4">REWARD PROGRESS</h3>
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-secondary font-bold">Gold</span>
-                <span className="text-[#FFD700]">
-                  {user.totalDistance} / 150KM
-                </span>
-              </div>
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-secondary font-bold">Silver</span>
-                <span className="text-[#C0C0C0]">
-                  {user.totalDistance} / 100KM
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-secondary font-bold">Bronze</span>
-                <span className="text-[#CD7F32]">
-                  {user.totalDistance} / 50KM
-                </span>
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-secondary font-bold">Gold</span>
+                    <span className="text-secondary ml-4">
+                      {user.totalDistance} / 150KM
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-secondary font-bold">Silver</span>
+                    <span className="text-secondary ml-4">
+                      {user.totalDistance} / 100KM
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-secondary font-bold">Bronze</span>
+                    <span className="text-secondary ml-4">
+                      {user.totalDistance} / 50KM
+                    </span>
+                  </div>
+                </div>
+                <div className="ml-4">
+                  <ProgressRings totalDistance={user.totalDistance} />
+                </div>
               </div>
             </div>
 
-            {/* Best Times Widget */}
-            <div className="w-full p-6 bg-primary rounded-[24px]">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-secondary text-xl font-normal font-thuast leading-normal">5KM BEST</span>
-                <span className="text-secondary font-bold font-dm-sans leading-normal">{user.best5km}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-secondary text-xl font-normal font-thuast leading-normal">10KM BEST</span>
-                <span className="text-secondary font-bold font-dm-sans leading-normal">{user.best10km}</span>
-              </div>
-            </div>
-            
             {/* View on Strava Link */}
             {stravaConnected && (
               <div className="w-full p-6 bg-primary rounded-[24px]">
@@ -266,6 +225,9 @@ export default function RunnerProfile() {
           <SponsorTag />
         </div>
       </div>
+
+      {/* Bottom Navigation */}
+      <BottomNavigation />
     </main>
   );
 } 

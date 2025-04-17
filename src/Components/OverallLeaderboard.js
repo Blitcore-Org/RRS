@@ -32,17 +32,17 @@ export default function OverallLeaderboard({ title, columns, data, isLoading }) 
   const getColumnWidth = (column) => {
     switch (column.toLowerCase()) {
       case 'position':
-        return 'w-16';
+        return 'w-12';
       case 'name':
-        return 'w-28';
+        return 'w-24';
       case 'distance':
-        return 'w-20';
+        return 'w-16';
       case 'time':
         return 'w-16';
       case 'pace':
         return 'w-12';
       default:
-        return 'w-16';
+        return 'w-12';
     }
   };
 
@@ -64,7 +64,7 @@ export default function OverallLeaderboard({ title, columns, data, isLoading }) 
 
   if (isLoading) {
     return (
-      <div className="w-96 bg-primary rounded-[20px] p-4 h-[360px]">
+      <div className="w-full bg-primary rounded-[20px] p-4 h-[360px]">
         <h2 className="text-white text-lg font-semibold mb-4 text-center">{title}</h2>
         <LoadingSpinner />
       </div>
@@ -72,10 +72,10 @@ export default function OverallLeaderboard({ title, columns, data, isLoading }) 
   }
 
   return (
-    <div className="inline-flex flex-col justify-start items-center gap-1">
+    <div className="w-full flex flex-col justify-start items-center gap-1">
       {/* Header */}
-      <div className="w-96 h-8 px-5 flex items-center">
-        <div className="self-stretch w-full inline-flex justify-between items-center">
+      <div className="w-full h-8 px-5 flex items-center">
+        <div className="w-full inline-flex justify-between items-center">
           {columns.map((column, index) => (
             <div 
               key={index}
@@ -88,7 +88,7 @@ export default function OverallLeaderboard({ title, columns, data, isLoading }) 
       </div>
 
       {/* Leaderboard Items */}
-      <div className="flex flex-col gap-1 w-96">
+      <div className="w-full flex flex-col gap-2">
         {data.map((row, index) => (
           <div key={index} className="h-14 px-5 py-2 bg-primary rounded-[20px] flex items-center">
             <div className="w-full inline-flex justify-between items-center">

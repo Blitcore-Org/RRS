@@ -1,59 +1,39 @@
 'use client'
 
-import { useState } from 'react';
-import Button from "@/Components/button";
-import SponsorTag from "@/Components/SponsorTag";
-import Link from "next/link";
 import { useUser } from "@/context/UserContext";
-import { authService } from "@/services/auth";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import LoadingSpinner from "@/Components/LoadingSpinner";
-import ProfileSection from '@/Components/ProfileSection';
-
+import ProfileSection from "@/Components/ProfileSection";
+import SponsorTag from "@/Components/SponsorTag";
+import BottomNavigation from "@/Components/BottomNavigation";
 
 export default function RunnerOverview() {
   const { user, loading } = useUser();
   const router = useRouter();
 
-  const [signOutLoading, setSignOutLoading] = useState(false);
-
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
     }
-  }, [loading, user, router]);
+  }, [user, loading, router]);
 
-  const handleLogout = async () => {
-    try {
-      setSignOutLoading(true);
-      await authService.logout();
-      router.push('/');
-    } catch (error) {
-      console.error('Logout failed:', error);
-      setSignOutLoading(false);
-    }
-  };
-
-  console.log("user", user);
-
-  if (loading && !user) {
-    return <LoadingSpinner />
+  if (loading || !user) {
+    return null;
   }
-
 
   return (
     <main
       className="
         w-full
         min-h-screen
-        bg-[url('/Images/background.png')]
+        bg-background
         bg-no-repeat
         bg-center
         bg-cover
         flex
         items-center
         justify-center
+        pb-16
       "
     >
       {/* Contents container */}
@@ -69,44 +49,6 @@ export default function RunnerOverview() {
           rounded-[44px]
         "
       >
-        {/* NavBar */}
-        <div
-          className="
-            flex
-            flex-col
-            items-center
-            w-full
-            rounded-tl-[44px]
-            rounded-tr-[44px]
-          "
-        >
-          {/* NavContents with smaller logo */}
-          {/* <div
-            className="
-              flex
-              py-[12px]
-              flex-col
-              items-center
-              w-full
-            "
-          >
-            <img
-              src="/Images/Logo.png"
-              alt="RRS Logo"
-              className="w-[50px] h-[45px]"
-            />
-          </div> */}
-        </div>
-
-        {user.isAdmin && (
-          <Link 
-            href="/admin"
-            className="absolute top-6 right-6 text-white hover:text-primary"
-          >
-            Admin Panel
-          </Link>
-        )}
-
         {/* Main content container */}
         <div
           className="
@@ -120,7 +62,7 @@ export default function RunnerOverview() {
             px-[20px]
           "
         >
-          {/* Profile and Buttons Container */}
+          {/* Profile Section */}
           <div
             className="
               flex
@@ -131,42 +73,16 @@ export default function RunnerOverview() {
               mt-[20px]
             "
           >
-          
-          <ProfileSection user={user} />
-
-            {/* Navigation Buttons */}
-            {user?.isAdmin && (
-              <Link href="/admin/users">
-                <Button variant="primary" className="text-sm">View User</Button>
-              </Link>
-            )}
-            <Link href="/runner-profile">
-              <Button variant="primary" className="text-sm">Profile</Button>
-            </Link>
-            <Link href="/leaderboard">
-              <Button variant="primary" className="text-sm">Overall Leaderboard</Button>
-            </Link>
-            <Link href="/fastest-5km">
-              <Button variant="primary" className="text-sm">5K Leaderboard</Button>
-            </Link>
-            <Link href="/fastest-10km">
-              <Button variant="primary" className="text-sm">10K Leaderboard</Button>
-            </Link>
-            
-            {/* Sign Out Button */}
-            <Button 
-              variant="secondary"
-              className="!w-[140px] !h-13 text-sm" 
-              onClick={handleLogout}
-              loading={signOutLoading}
-              text='Sign Out'
-            />
+            <ProfileSection user={user} />
           </div>
 
           {/* Sponsor Tag */}
           <SponsorTag />
         </div>
       </div>
+
+      {/* Bottom Navigation */}
+      <BottomNavigation />
     </main>
   );
 } 
