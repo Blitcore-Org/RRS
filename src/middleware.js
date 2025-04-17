@@ -16,7 +16,7 @@ export async function middleware(request) {
   const tokenCookie = request.cookies.get('token');
 
   if (path === '/login' && tokenCookie) {
-    return NextResponse.redirect(new URL('/runner-overview', request.url));
+    return NextResponse.redirect(new URL('/runner-profile', request.url));
   }
 
   const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));

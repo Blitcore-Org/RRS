@@ -1,74 +1,101 @@
 'use client'
 
-import OverallLeaderboard from '@/Components/OverallLeaderboard'
-import SponsorTag from "@/Components/SponsorTag";
-import Link from "next/link";
 import { useUser } from "@/context/UserContext";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { leaderboardService } from '@/services/leaderboard';
-import LoadingSpinner from '@/Components/LoadingSpinner';
-import ProfileSection from '@/Components/ProfileSection';
+import { useEffect } from "react";
+import SponsorTag from "@/Components/SponsorTag";
+import BottomNavigation from "@/Components/BottomNavigation";
+import OverallLeaderboard from "@/Components/OverallLeaderboard";
+import { leaderboardService } from "@/services/leaderboard";
+import ProfileSection from "@/Components/ProfileSection";
 
-export default function LeaderboardPage() {
+export default function Leaderboard() {
   const { user, loading } = useUser();
   const router = useRouter();
   const { data: leaderboardData, error, isLoading } = leaderboardService.useOverallLeaderboard();
-
 
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
     }
-  }, [loading, user, router]);
+  }, [user, loading, router]);
 
-
-  if (loading || !user || isLoading) {
-    return <LoadingSpinner />;
+  if (loading || !user) {
+    return null;
   }
 
-  if (error) {
-    console.error('Failed to fetch leaderboard:', error);
-    return <div>Failed to load leaderboard</div>;
-  }
+  // Find user's position in the leaderboard
+  const userPosition = leaderboardData?.findIndex(item => item.name === user.name) + 1;
 
   return (
-    <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center">
-      <div className="flex w-full h-full max-w-[402px] min-h-[600px] flex-col items-center rounded-[44px]">
-        {/* NavBar with back button */}
-        <div className="flex flex-col items-center w-full rounded-tl-[44px] rounded-tr-[44px] relative pt-20">
-          {/* Back Button */}
-          <Link href="/runner-overview" className="absolute left-6 top-6 pt-20">
-            <img
-              src="/Images/back_button.png"
-              alt="Back"
-              className="w-[32px] h-[32px]"
-            />
-          </Link>
-
-
-          <div className="flex py-[12px] flex-col items-center w-full">
-            <div className="w-56 text-center justify-start text-primary text-xl font-normal font-thuast leading-normal">
-              Overall Leader board
-            </div>
-          </div>
-        </div>
-
+    <main
+      className="
+        w-full
+        min-h-screen
+        bg-[url('/Images/background.png')]
+        bg-no-repeat
+        bg-center
+        bg-cover
+        flex
+        items-center
+        justify-center
+        pb-16
+      "
+    >
+      {/* Contents container */}
+      <div
+        className="
+          flex
+          w-full
+          h-full
+          max-w-[402px]
+          min-h-[600px]
+          flex-col
+          items-center
+          rounded-[44px]
+        "
+      >
         {/* Main content container */}
-        
-        <div className="flex flex-col flex-1 w-full justify-between items-center gap-[20px] px-[20px]">
+        <div
+          className="
+            flex
+            flex-col
+            flex-1
+            w-full
+            justify-between
+            items-center
+            gap-[20px]
+            px-[20px]
+            pt-[20px]
+          "
+        >
+          {/* Profile Section */}
+          <div className="w-full">
+            <ProfileSection user={user} />
+            {userPosition && (
+              <div className="mt-2 text-center text-primary text-sm">
+                Your Position: #{userPosition}
+              </div>
+            )}
+          </div>
 
-          {/* Leaderboard Widget */}
-          <OverallLeaderboard 
-            title="Overall Leaderboard"
-            columns={['Position', 'Name', 'Distance', 'Time', 'Pace']}
-            data={leaderboardData}
-          />
+          {/* Leaderboard content */}
+          <div className="w-full overflow-x-hidden">
+            <OverallLeaderboard 
+              title="Overall Leaderboard"
+              columns={['Position', 'Name', 'Distance', 'Time', 'Pace']}
+              data={leaderboardData || []}
+              isLoading={isLoading}
+            />
+          </div>
 
           {/* Sponsor Tag */}
           <SponsorTag />
         </div>
       </div>
+
+      {/* Bottom Navigation */}
+      <BottomNavigation />
     </main>
   );
 }

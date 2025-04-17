@@ -141,7 +141,7 @@ export default function Home() {
               Challenges
             </h2>
             <p className="text-primary text-center text-base md:text-lg mb-16 font-dm-sans">
-              3 CHALLENGES THROUGHOUT THE YEAR
+              30-DAY CHALLENGES WITH MORNING & EVENING SESSIONS - JOIN AS MANY AS YOU LIKE
             </p>
 
             <div className="flex flex-col items-center space-y-12 md:space-y-16 max-w-2xl mx-auto">
