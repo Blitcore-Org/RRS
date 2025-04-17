@@ -15,7 +15,7 @@ export default function ProfileSection({ user }) {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-4 mt-[20px]">
+    <div className="flex flex-col items-center gap-4 mt-[20px]">
       <div className="w-[60px] h-[60px] flex-shrink-0 rounded-full bg-white/20 overflow-hidden">
         {user.profileImage ? (
           <img
@@ -27,7 +27,7 @@ export default function ProfileSection({ user }) {
           <div className="w-full h-full bg-gray-300"></div>
         )}
       </div>
-      <div className="flex flex-col items-center sm:items-start">
+      <div className="flex flex-col items-center">
         <span className="justify-start text-white/60 text-[10px] font-normal font-dm-sans leading-3">{user.id}</span>
         <h2 className="justify-start text-primary text-xl font-bold font-dm-sans leading-normal">
           {formatName(user.name)}

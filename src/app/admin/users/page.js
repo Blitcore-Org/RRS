@@ -6,6 +6,7 @@ import Link from 'next/link';
 import axiosInstance from '@/utils/axiosInstance';
 import Button from '@/Components/button';
 import LoadingSpinner from '@/Components/LoadingSpinner';
+import BottomNavigation from '@/Components/BottomNavigation';
 
 export default function UsersList() {
   const router = useRouter();
@@ -72,41 +73,27 @@ export default function UsersList() {
   const columns = ['Name', 'Email', 'Role', 'Actions'];
 
   return (
-    <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center">
+    <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center pb-16">
       <div className="flex w-full h-full max-w-[402px] min-h-[600px] flex-col items-center rounded-[44px]">
-        {/* NavBar with back button and title */}
-        <div className="flex flex-col items-center w-full rounded-tl-[44px] rounded-tr-[44px] relative">
-          {/* Back Button */}
-          <div className="absolute left-6 top-3 z-10">
-            <Link href="/runner-overview">
-              <img
-                src="/Images/back_button.png"
-                alt="Back"
-                className="w-[32px] h-[32px]"
-              />
-            </Link>
+        {/* Title and Add Button */}
+        <div className="flex py-[12px] flex-col items-center w-full relative pt-[20px]">
+          <div className="w-56 text-center justify-start text-primary text-xl font-normal font-thuast leading-normal">
+            Users
           </div>
-
-          {/* Title and Add Button */}
-          <div className="flex py-[12px] flex-col items-center w-full relative">
-            <div className="w-56 text-center justify-start text-primary text-xl font-normal font-thuast leading-normal">
-              Users
+          <Link href="/admin/create-user" className="absolute right-6 top-1/2 -translate-y-1/2">
+            <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+              <span className="text-black text-xl font-bold leading-none mb-0.5">+</span>
             </div>
-            <Link href="/admin/create-user" className="absolute right-6 top-1/2 -translate-y-1/2">
-              <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-black text-xl font-bold leading-none mb-0.5">+</span>
-              </div>
-            </Link>
-          </div>
+          </Link>
         </div>
 
         {/* Main content container */}
         <div className="flex flex-col flex-1 w-full justify-between items-center gap-[20px] px-[20px]">
           {/* Users List */}
-          <div className="inline-flex flex-col justify-start items-center gap-1">
+          <div className="w-full overflow-x-auto">
             {/* Header */}
-            <div className="w-96 h-8 px-5 flex items-center">
-              <div className="self-stretch w-full inline-flex justify-between items-center">
+            <div className="w-full px-5 flex items-center py-[12px]">
+              <div className="w-full inline-flex justify-between items-center">
                 {columns.map((column, index) => (
                   <div 
                     key={index}
@@ -119,14 +106,14 @@ export default function UsersList() {
             </div>
 
             {/* Users Items */}
-            <div className="flex flex-col gap-1 w-96">
+            <div className="w-full">
               {loading ? (
                 <LoadingSpinner />
               ) : error ? (
                 <div className="text-red-500 text-center py-4">{error}</div>
               ) : (
                 users.map((user, index) => (
-                  <div key={user._id} className="h-14 px-5 py-2 bg-primary rounded-[20px] flex items-center">
+                  <div key={user._id} className="h-14 px-5 py-2 bg-primary rounded-[20px] flex items-center mb-2">
                     <div className="w-full inline-flex justify-between items-center">
                       <div className={`${getColumnWidth('name')} text-secondary text-xs font-normal font-dm-sans truncate`}>
                         {user.name}
@@ -153,6 +140,9 @@ export default function UsersList() {
           </div>
         </div>
       </div>
+
+      {/* Bottom Navigation */}
+      <BottomNavigation />
     </main>
   );
 }
