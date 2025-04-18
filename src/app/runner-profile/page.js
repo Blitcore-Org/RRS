@@ -11,15 +11,28 @@ import ProfileSection from "@/Components/ProfileSection";
 import ProgressRings from "@/Components/ProgressRings";
 import axiosInstance from '@/utils/axiosInstance';
 import BottomNavigation from "@/Components/BottomNavigation";
+import { authService } from "@/services/auth";
 
 export default function RunnerProfile() {
   const { user, loading, fetchUser } = useUser();
   const [stravaConnected, setStravaConnected] = useState(false);
   const router = useRouter();
+  const [signOutLoading, setSignOutLoading] = useState(false);
 
   useEffect(() => {
     fetchUser();
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      setSignOutLoading(true);
+      await authService.logout();
+      router.push('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      setSignOutLoading(false);
+    }
+  };
 
   useEffect(() => {
     async function checkStravaStatus() {
@@ -220,6 +233,11 @@ export default function RunnerProfile() {
                 </span>
               </div>
             </div>
+          </div>
+          <div className="w-full flex justify-center">
+            <Button onClick={handleLogout} disabled={signOutLoading}>
+              {signOutLoading ? 'Signing Out...' : 'Sign Out'}
+            </Button>
           </div>
           {/* Sponsor Tag */}
           <SponsorTag />

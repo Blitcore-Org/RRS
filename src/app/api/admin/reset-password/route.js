@@ -7,9 +7,9 @@ import jwt from 'jsonwebtoken';
 
 export async function POST(request) {
   try {
-    const { userEmail } = await request.json();
+    const { email } = await request.json();
     
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('token');
     if (!token) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
@@ -24,7 +24,7 @@ export async function POST(request) {
 
     await dbConnect();
     const user = await User.findOneAndUpdate(
-      { email: userEmail },
+      { email: email },
       { 
         password: tempPassword,
         forcePasswordChange: true 

@@ -34,7 +34,7 @@ export default function Login() {
       }
 
       await login(userData);
-      router.replace('/runner-overview');
+      router.replace('/runner-profile');
     } catch (err) {
       setError('Invalid email or password');
       console.error(err);
@@ -54,7 +54,7 @@ export default function Login() {
     try {
       const userData = await authService.changePassword(email, password, newPassword);
       await login(userData);
-      router.replace('/runner-overview');
+      router.replace('/runner-profile');
     } catch (err) {
       setError('Failed to update password');
       console.error(err);

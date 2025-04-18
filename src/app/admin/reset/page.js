@@ -11,22 +11,34 @@ export default function ResetPassword() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [tempPassword, setTempPassword] = useState('');
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setSuccess('');
+    setTempPassword('');
+    setCopySuccess(false);
 
     try {
-      await axiosInstance.post('/api/admin/reset-password', { email });
-      setSuccess('Password reset email sent successfully');
+      const response = await axiosInstance.post('/api/admin/reset-password', { email });
+      setTempPassword(response.data.temporaryPassword);
       setEmail('');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to send reset email');
+      setError(err.response?.data?.message || 'Failed to reset password');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(tempPassword);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
     }
   };
 
@@ -62,8 +74,25 @@ export default function ResetPassword() {
               <div className="text-red-500 text-center text-sm">{error}</div>
             )}
 
-            {success && (
-              <div className="text-green-500 text-center text-sm">{success}</div>
+            {tempPassword && (
+              <div className="bg-[rgba(73,81,89,0.35)] backdrop-blur-sm p-4 rounded-[12px]">
+                <div className="text-primary text-sm mb-2">Temporary Password:</div>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-primary font-mono bg-[rgba(0,0,0,0.2)] px-3 py-2 rounded flex-1 overflow-x-auto">
+                    {tempPassword}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="bg-primary text-secondary px-3 py-2 rounded-lg text-sm hover:bg-primary/90 transition-colors"
+                  >
+                    {copySuccess ? 'Copied!' : 'Copy'}
+                  </button>
+                </div>
+                <div className="text-primary/60 text-xs mt-2">
+                  Share this temporary password with the user. They will be prompted to change it on their next login.
+                </div>
+              </div>
             )}
 
             <div className="flex justify-center w-full">
@@ -72,7 +101,7 @@ export default function ResetPassword() {
                 disabled={loading}
                 className="w-6 flex justify-center items-center"
               >
-                {loading ? 'Sending...' : 'Send Reset Email'}
+                {loading ? 'Resetting...' : 'Reset Password'}
               </Button>
             </div>
           </form>
