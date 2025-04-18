@@ -16,7 +16,7 @@ export const db = {
 
   getOverallLeaderboard: async () => {
     await dbConnect();
-    const users = await User.find({}, '-password');
+    const users = await User.find({ isAdmin: false }, '-password');
     return users
       .sort((a, b) => parseInt(b.totalDistance) - parseInt(a.totalDistance))
       .map((user, index) => ({
@@ -26,7 +26,8 @@ export const db = {
         avgPace: user.averagePace,
         best5km: user.best5km,
         best10km: user.best10km,
-        time: user.totalTime
+        time: user.totalTime,
+        profileImage: user?.profileImage
       }));
   },
 

@@ -104,7 +104,7 @@ export default function OverallLeaderboard({ title, columns, data, isLoading }) 
                     <div key={colIndex} className={`${getColumnWidth(column)} flex items-center gap-2`}>
                       <img 
                         className="w-6 h-6 rounded-full border border-secondary" 
-                        src={row.avatar || "https://placehold.co/24x24"} 
+                        src={row.profileImage || "https://placehold.co/24x24"} 
                         alt={row.name}
                       />
                       <div className="w-[calc(100%-32px)]">

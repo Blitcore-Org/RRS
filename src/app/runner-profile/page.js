@@ -1,10 +1,11 @@
 'use client'
 
+
 import Button from "@/Components/button";
 import SponsorTag from "@/Components/SponsorTag";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef} from "react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/Components/LoadingSpinner";
 import ProfileSection from "@/Components/ProfileSection";
@@ -15,6 +16,7 @@ import BottomNavigation from "@/Components/BottomNavigation";
 export default function RunnerProfile() {
   const { user, loading, fetchUser } = useUser();
   const [stravaConnected, setStravaConnected] = useState(false);
+  const fileInputRef = useRef(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,6 +33,25 @@ export default function RunnerProfile() {
       checkStravaStatus();
     }
   }, [user]);
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const form = new FormData();
+    form.append('profileImage', file);
+
+    try {
+      await axiosInstance.post(
+        '/api/auth/upload-profile-image',
+        form,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
+      await fetchUser();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleConnect = () => {
     const clientId = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID;
@@ -103,6 +124,13 @@ export default function RunnerProfile() {
         pb-16
       "
     >
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleFileChange}
+      />
       {/* Contents container */}
       <div
         className="
@@ -140,7 +168,12 @@ export default function RunnerProfile() {
               mt-[20px]
             "
           >
-          <ProfileSection user={user} />
+            <ProfileSection
+              user={user}
+              editable
+              onImageClick={() => fileInputRef.current?.click()}
+            />
+
             {/* Total Stats Widget */}
             <div className="w-full p-6 bg-primary rounded-[24px] text-white">
               <div className="flex justify-between items-center mb-4">
