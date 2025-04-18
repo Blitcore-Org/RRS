@@ -63,6 +63,10 @@ const userSchema = new mongoose.Schema({
   lastCronFetch : {
     type: Date
   },
+  profileImage: {
+    type: String,
+    default: ""        // store a URL or path here
+  },
 }, {
   timestamps: true
 });

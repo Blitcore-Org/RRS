@@ -43,3 +43,5 @@ data/*.csv
 
 # Log files
 /logs
+
+/public/uploads
