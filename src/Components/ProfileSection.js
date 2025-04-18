@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ProfileSection({ user }) {
+export default function ProfileSection({ user, editable = false, onImageClick }) {
   const formatName = (name) => {
     const names = name?.split(' ');
     if (names.length > 1 && name.length > 12) {
@@ -16,7 +16,13 @@ export default function ProfileSection({ user }) {
 
   return (
     <div className="flex flex-col items-center gap-4 mt-[20px]">
-      <div className="w-[60px] h-[60px] flex-shrink-0 rounded-full bg-white/20 overflow-hidden">
+      <div
+        onClick={editable ? onImageClick : undefined}
+        className={
+          `w-[60px] h-[60px] flex-shrink-0 rounded-full bg-white/20 overflow-hidden ` +
+          (editable ? 'cursor-pointer hover:opacity-80' : '')
+        }
+      >
         {user.profileImage ? (
           <img
             src={user.profileImage}
@@ -28,12 +34,16 @@ export default function ProfileSection({ user }) {
         )}
       </div>
       <div className="flex flex-col items-center">
-        <span className="justify-start text-white/60 text-[10px] font-normal font-dm-sans leading-3">{user.id}</span>
-        <h2 className="justify-start text-primary text-xl font-bold font-dm-sans leading-normal">
+        <span className="text-white/60 text-[10px] font-normal font-dm-sans leading-3">
+          {user.id}
+        </span>
+        <h2 className="text-primary text-xl font-bold font-dm-sans leading-normal">
           {formatName(user.name)}
         </h2>
-        <span className="justify-start text-primary text-xs font-normal font-dm-sans leading-none">{user.progress || '0KM To Bronze'}</span>
+        <span className="text-primary text-xs font-normal font-dm-sans leading-none">
+          {user.progress || '0KM To Bronze'}
+        </span>
       </div>
     </div>
   );
-} 
+}
