@@ -28,8 +28,8 @@ export default function Login() {
       const userData = await authService.login(email, password);
       
       if (userData.forcePasswordChange) {
-        setForcePasswordChange(true);
-        setLoading(false);
+        // send them to the dedicated page
+        router.replace(`/change-password?email=${encodeURIComponent(email)}`);
         return;
       }
 
