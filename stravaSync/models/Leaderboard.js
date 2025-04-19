@@ -26,4 +26,5 @@ const leaderboardSchema = new mongoose.Schema({
   timestamps: true
 });
 
-export default mongoose.models.Leaderboard ||  mongoose.model('Leaderboard', leaderboardSchema);
+export default mongoose.models.Leaderboard || 
+ mongoose.model('Leaderboard', leaderboardSchema);
