@@ -27,4 +27,4 @@ const leaderboardSchema = new mongoose.Schema({
 });
 
 export default mongoose.models.Leaderboard || 
-  mongoose.model('Leaderboard', leaderboardSchema);
+ mongoose.model('Leaderboard', leaderboardSchema);
