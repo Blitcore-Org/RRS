@@ -28,7 +28,7 @@ jobs:
       - name: Build & push cron image
         run: |
           docker build \
-            -f Dockerfile.cron \
+            -f Dockerfile \
             --platform linux/amd64 \
             -t ghcr.io/blitcore-org/rrs/cron-refresh:latest \
             .
