@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: strava-refresh-cron
+spec:
+  # run every 10 minutes
+  schedule: "*/10 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          imagePullSecrets:
+            - name: github-registry-cred
+
+          containers:
+            - name: strava-cron
+              image: ghcr.io/blitcore-org/rrs/cron-refresh:latest
+              envFrom:
+                - secretRef:
+                    name: strava-cron-env
+          restartPolicy: OnFailure
