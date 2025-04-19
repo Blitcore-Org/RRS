@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import dbConnect from '@/lib/mongodb';
 import User from '@/models/User';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 export async function POST(request) {
   try {
@@ -42,6 +43,9 @@ export async function POST(request) {
     // Find the last user to get the highest ID
     const lastUser = await User.findOne({}, {}, { sort: { 'id': -1 } });
     let nextIdNumber = 1;
+
+    const saltRounds = 10;
+    const hashed = await bcrypt.hash(password, saltRounds);
     
     if (lastUser && lastUser.id) {
       const lastIdNumber = parseInt(lastUser.id.split('-')[1]);
@@ -55,7 +59,7 @@ export async function POST(request) {
       id: newId,
       email,
       name,
-      password, // Store password as plain text
+      password: hashed, // Store password as plain text
       isAdmin,
       forcePasswordChange: true,
       totalDistance: 0,
