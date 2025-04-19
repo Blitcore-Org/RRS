@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Button from "@/Components/button";
 import SponsorTag from "@/Components/SponsorTag";
 import { useUser } from "@/context/UserContext";
@@ -9,11 +9,8 @@ import { authService } from "@/services/auth";
 
 export default function ChangePassword() {
   const router = useRouter();
-  const params = useSearchParams();
-  const initEmail = params.get('email') || '';
   const { user, setUser } = useUser();
 
-  const [email] = useState(initEmail);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -34,7 +31,7 @@ export default function ChangePassword() {
     }
     setLoading(true);
     try {
-      const userData = await authService.changePassword(email, confirmPassword, newPassword);
+      const userData = await authService.changePassword(confirmPassword, newPassword);
       await setUser(userData);
       router.replace('/runner-profile');
     } catch {

@@ -43,13 +43,13 @@ export const authService = {
     return data.authenticated;
   },
 
-  async changePassword(email, currentPassword, newPassword) {
+  async changePassword(currentPassword, newPassword) {
     const response = await fetch(`${BASE_URL}/change-password`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, currentPassword, newPassword }),
+      body: JSON.stringify({ currentPassword, newPassword }),
     });
 
     const data = await response.json();

@@ -29,7 +29,7 @@ export default function Login() {
       
       if (userData.forcePasswordChange) {
         // send them to the dedicated page
-        router.replace(`/change-password?email=${encodeURIComponent(email)}`);
+        router.replace(`/change-password`);
         return;
       }
 
