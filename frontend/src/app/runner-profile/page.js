@@ -261,7 +261,7 @@ export default function RunnerProfile() {
                     className="w-full h-full"
                   />
                 )}
-                <span className="text-primary font-normal font-thuast leading-normal mt-2">
+                <span className="text-red-500 font-bold font-dm-sans leading-normal mt-2">
                   {stravaConnected ? "Disconnect from Strava" : ""}
                 </span>
               </div>
