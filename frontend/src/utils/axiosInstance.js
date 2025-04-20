@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance with credentials so cookies are sent automatically.
 const axiosInstance = axios.create({
-  baseURL: '', // Set your API base URL if needed
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   withCredentials: true,
 });
 
