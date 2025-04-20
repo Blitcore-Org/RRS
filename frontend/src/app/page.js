@@ -61,7 +61,7 @@ export default function Home() {
             <div className="absolute w-full min-w-[300px] sm:max-w-[400px] md:max-w-[500px] lg:max-w-[500px] mx-auto bottom-24 left-0 right-0">
               <div className="relative">
                 <img 
-                  src="/Images/illustrations/illustration_1.png" 
+                  src="/Images/illustrations/Illustration_1.png" 
                   alt="Runner Illustration" 
                   className="w-full h-auto"
                 />
@@ -125,7 +125,7 @@ export default function Home() {
               {/* Illustration */}
               <div className="flex-1 flex justify-center">
                 <img 
-                  src="/Images/illustrations/illustration_2.png" 
+                  src="/Images/illustrations/Illustration_2.png" 
                   alt="Runner with Medal" 
                   className="w-full max-w-md"
                 />
@@ -250,7 +250,7 @@ export default function Home() {
                 className="w-24 h-auto object-contain"
               />
               <img 
-                src="/Images/partners/white_monoliza_Logo.png" 
+                src="/Images/partners/white_monoliza_logo.png" 
                 alt="Monoliza Logo" 
                 className="w-24 h-auto object-contain"
               />
