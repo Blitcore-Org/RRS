@@ -8,6 +8,7 @@ import BottomNavigation from "@/Components/BottomNavigation";
 import OverallLeaderboard from "@/Components/OverallLeaderboard";
 import { leaderboardService } from "@/services/leaderboard";
 import ProfileSection from "@/Components/ProfileSection";
+import LoadingSpinner from '@/Components/LoadingSpinner';
 
 export default function Leaderboard() {
   const { user, loading } = useUser();
@@ -20,8 +21,8 @@ export default function Leaderboard() {
     }
   }, [user, loading, router]);
 
-  if (loading || !user) {
-    return null;
+  if (loading || !user || isLoading) {
+    return <LoadingSpinner />;
   }
 
   // Find user's position in the leaderboard
