@@ -10,7 +10,7 @@ export default function Footer() {
           {/* Logo */}
           <div className="mb-12">
             <img 
-              src="/Images/logo.png"
+              src="/Images/Logo.png"
               alt="RRS Logo"
               className="w-16 h-16"
             />
