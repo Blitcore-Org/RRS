@@ -40,7 +40,7 @@ export default function Navigation() {
         <div className="relative mt-12 w-full px-8 md:px-16 py-4">
           <div className="flex justify-between items-center max-w-7xl mx-auto">
             <Link href="/" className={`flex items-center transition-opacity duration-300 md:opacity-100 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}>
-              <img src="/Images/logo.png" alt="RRS Logo" className="w-12 md:w-16 h-12 md:h-16" />
+              <img src="/Images/Logo.png" alt="RRS Logo" className="w-12 md:w-16 h-12 md:h-16" />
             </Link>
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
@@ -131,7 +131,7 @@ export default function Navigation() {
         }`}>
           {/* Logo */}
           <div className="mb-12 text-center">
-            <img src="/Images/logo.png" alt="RRS Logo" className="w-16 h-16 mx-auto" />
+            <img src="/Images/Logo.png" alt="RRS Logo" className="w-16 h-16 mx-auto" />
           </div>
 
           {/* Navigation Links */}
