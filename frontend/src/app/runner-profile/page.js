@@ -111,12 +111,16 @@ export default function RunnerProfile() {
     }
   };
 
-  useEffect(async () => {
-    if (!loading && !user) {
-      console.log("User in profile:", user);
-      await authService.logout();
-      router.push('/login');
-    }
+  useEffect(() => {
+    const checkAndRedirect = async () => {
+      if (!loading && !user) {
+        console.log("User in profile:", user);
+        await authService.logout();
+        router.push('/login');
+      }
+    };
+  
+    checkAndRedirect();
   }, [loading, user, router]);
 
   if (loading || !user) {
