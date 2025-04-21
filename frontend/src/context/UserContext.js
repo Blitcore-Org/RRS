@@ -4,26 +4,27 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const UserContext = createContext();
 
-export function UserProvider({ children }) {
+export function UserProvider({ children, skipInitialFetch = false }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!skipInitialFetch);
 
   async function fetchUser() {
-    if (localStorage.getItem('isLoggedIn') === 'true') {
       try {
         const { data } = await axiosInstance.get('/api/auth/me');
         setUser(data);
       } catch (error) {
         console.error('Error fetching user:', error);
+        setUser(null);
       } finally {
         setLoading(false);
       }
-    }
   }
 
   useEffect(() => {
-    fetchUser();
-  }, []);
+    if (!skipInitialFetch) {
+      fetchUser();
+    }
+  }, [skipInitialFetch]);
 
   // this is not probably needed anymore as u have it in the auth/login
   const login = async (userData) => {
