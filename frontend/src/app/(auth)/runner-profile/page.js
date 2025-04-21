@@ -13,6 +13,7 @@ import ProgressRings from "@/Components/ProgressRings";
 import axiosInstance from '@/utils/axiosInstance';
 import BottomNavigation from "@/Components/BottomNavigation";
 import { authService } from "@/services/auth";
+import InstallPrompt from "@/Components/InstallPrompt";
 
 export default function RunnerProfile() {
   const { user, loading, fetchUser } = useUser();
@@ -24,6 +25,8 @@ export default function RunnerProfile() {
   useEffect(() => {
     fetchUser();
   }, []);
+
+  console.log("uuuuuser", user);
 
   const handleLogout = async () => {
     try {
@@ -123,6 +126,8 @@ export default function RunnerProfile() {
     checkAndRedirect();
   }, [loading, user, router]);
 
+  console.log("loading", loading);
+
   if (loading || !user) {
     return <LoadingSpinner />;
   }
@@ -191,6 +196,8 @@ export default function RunnerProfile() {
               editable
               onImageClick={() => fileInputRef.current?.click()}
             />
+
+            <InstallPrompt />
 
             {/* Total Stats Widget */}
             <div className="w-full p-6 bg-primary rounded-[24px] text-white">

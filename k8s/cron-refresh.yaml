@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: strava-refresh-cron
 spec:
-  schedule: "0 9 * * *"
+  schedule: "0 21 * * *"
   timeZone: "Africa/Lagos"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
