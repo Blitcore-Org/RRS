@@ -90,7 +90,7 @@ function computeSegmentsFromStreams(streams, activityStartUnix) {
     const iE = absTimes.findIndex(t => t >= segEnd);
     logger.info(`   • Using stream indices ${iS} → ${iE}.`);
 
-    const timeSec    = absTimes[iE] - absTimes[iS];
+    const timeSec    = times[iE]     - times[iS];
     const distMeters = distances[iE] - distances[iS];
     const distKm     = +(distMeters/1000).toFixed(2);
     const paceSec    = distKm ? Math.floor(timeSec / distKm) : 0;
