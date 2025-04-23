@@ -41,6 +41,7 @@ export async function GET(request) {
       stravaAccessToken: tokenData.access_token,
       stravaRefreshToken: tokenData.refresh_token,
       stravaExpiresAt: expiresAt,
+      stravaId: tokenData.athlete.id,
     },
     { new: true }
   );

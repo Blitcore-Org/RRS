@@ -65,8 +65,9 @@ const userSchema = new mongoose.Schema({
   },
   profileImage: {
     type: String,
-    default: ""        // store a URL or path here
+    default: ""
   },
+  stravaId: { type: Number, unique: true },
 }, {
   timestamps: true
 });
