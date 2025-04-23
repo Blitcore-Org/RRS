@@ -1,4 +1,3 @@
-// ===== File: helpers.js =====
 import moment from 'moment-timezone';
 
 export function toRadians(deg) {
