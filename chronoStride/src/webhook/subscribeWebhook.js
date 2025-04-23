@@ -1,4 +1,3 @@
-// File: subscribeWebhook.js
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
 
