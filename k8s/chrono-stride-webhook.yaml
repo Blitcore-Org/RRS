@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chrono-stride-webhook
+  labels:
+    app: chrono-stride-webhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chrono-stride-webhook
+  template:
+    metadata:
+      labels:
+        app: chrono-stride-webhook
+    spec:
+      imagePullSecrets:
+        - name: github-registry-cred
+      containers:
+        - name: webhook
+          image: ghcr.io/blitcore-org/rrs/webhook-processor:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: strava-cron-env
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chrono-stride-webhook-svc
+  labels:
+    app: chrono-stride-webhook
+spec:
+  selector:
+    app: chrono-stride-webhook
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chrono-stride-webhook-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+    - hosts:
+        - webhook.runresolutionseries.com
+      secretName: chrono-stride-webhook-tls
+  rules:
+    - host: webhook.runresolutionseries.com
+      http:
+        paths:
+          - path: /strava/webhook
+            pathType: Prefix
+            backend:
+              service:
+                name: chrono-stride-webhook-svc
+                port:
+                  number: 80

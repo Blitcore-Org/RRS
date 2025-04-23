@@ -1,0 +1,46 @@
+name: Deploy Webhook Service
+
+on:
+  push:
+    branches:
+      - dev
+      - deploying-webhook-on-k8
+    paths:
+      - 'chronoStride/**'
+      - 'k8s/chrono-stride-webhook.yaml'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GHCR_PAT }}" \
+            | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Build & push webhook image
+        run: |
+          # build the webhook-processor image
+          docker build \
+            --platform linux/amd64 \
+            -t ghcr.io/blitcore-org/rrs/webhook-processor:latest \
+            .
+          docker push ghcr.io/blitcore-org/rrs/webhook-processor:latest
+
+      - name: Set up Kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG_CONTENT }}" \
+            | base64 --decode > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Deploy Webhook Service to Kubernetes
+        run: |
+          kubectl apply -f k8s/chrono-stride-webhook.yaml
