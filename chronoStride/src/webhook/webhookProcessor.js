@@ -1,185 +1,132 @@
 import dotenv from 'dotenv';
-dotenv.config();
-
+import moment from 'moment-timezone';
+import logger from '../utils/logger.js';
+import sendLogsToDiscord from '../utils/sendLogs.js';
 import User from '../../models/User.js';
 import Leaderboard from '../../models/Leaderboard.js';
-import moment from 'moment-timezone';
-import logger from '../../utils/logger.js';
-import sendLogsToDiscord from '../../utils/sendLogs.js';
-import { isWithinGeofence, getUnixWindow, calculateDistance, parseHmsToSeconds } from '../../utils/helpers.js';
-import { refreshUserToken, fetchActivityById, fetchActivityStreams } from '../stravaApis.js';
+import { refreshUserToken, fetchActivityById } from '../stravaApis.js';
+import { calculateDistance, isWithinGeofence, parseHmsToSeconds } from '../../utils/helpers.js';
 
-// facility & env defaults
+dotenv.config();
+
+// Geofence & event window defaults
 const facilityCenter = {
-  lat: parseFloat(process.env.FACILITY_LAT),
-  lng: parseFloat(process.env.FACILITY_LNG),
+  lat: parseFloat(process.env.FACILITY_LAT || '43.211822'),
+  lng: parseFloat(process.env.FACILITY_LNG || '27.894898'),
 };
 const geofenceRadius = parseInt(process.env.GEOFENCE_RADIUS || '800', 10);
-
 const morningStart = process.env.EVENT_MORNING_START || '06:00';
 const morningEnd   = process.env.EVENT_MORNING_END   || '07:00';
 const eveningStart = process.env.EVENT_EVENING_START || '18:00';
 const eveningEnd   = process.env.EVENT_EVENING_END   || '19:00';
 
-
-function computeSegmentsFromStreams(streams, activityStartUnix) {
-  const times     = streams.time.data;
-  const distances = streams.distance.data;
-  const latlngs   = streams.latlng.data;
-
-  logger.info(`1) Checking ${times.length} GPS points against our geofence.`);
-  logger.info(`   • Facility center: (${facilityCenter.lat}, ${facilityCenter.lng})`);
-  logger.info(`   • Geofence radius: ${geofenceRadius} m`);
-
-  // Sample a few points for eyeballing
-  [0,1,2, latlngs.length-1].forEach(i => {
-    if (i < 0 || i >= latlngs.length) return;
-    const [lat,lng] = latlngs[i];
-    const d = calculateDistance(lat, lng, facilityCenter.lat, facilityCenter.lng);
-    logger.info(`   • Point[${i}] at (${lat},${lng}) is ${d.toFixed(1)} m from center.`);
-  });
-
-  // Find first/last in-fence indices
-  let firstIn = null, lastIn = null;
-  latlngs.forEach(([lat,lng], i) => {
-    if (isWithinGeofence([lat,lng], facilityCenter, geofenceRadius)) {
-      firstIn = firstIn === null ? i : firstIn;
-      lastIn  = i;
-    }
-  });
-
-  if (firstIn === null) {
-    logger.info(`2) No GPS points entered the geofence. Skipping segment calculation.`);
-    return [];
-  }
-  logger.info(`2) In-fence run from point ${firstIn} to ${lastIn}.`);
-
-  // Convert to absolute timestamps
-  const absTimes = times.map(s => activityStartUnix + s);
-  logger.info(
-    `3) Activity ran from ${new Date(absTimes[0]*1000).toLocaleTimeString()} ` +
-    `to ${new Date(absTimes[absTimes.length-1]*1000).toLocaleTimeString()}.`
-  );
-
-  // Build time windows
-  const today = moment();
-  const [mStart, mEnd] = getUnixWindow(morningStart, morningEnd, today);
-  const [eStart, eEnd] = getUnixWindow(eveningStart, eveningEnd, today);
-  logger.info(`4) Morning window: ${morningStart} → ${morningEnd}`);
-  logger.info(`   Evening window: ${eveningStart} → ${eveningEnd}`);
-
-  const segments = [];
-  for (const { label, start, end } of [
-    { label: 'morning', start: mStart, end: mEnd },
-    { label: 'evening', start: eStart, end: eEnd }
-  ]) {
-    const segStart = Math.max(start, absTimes[firstIn]);
-    const segEnd   = Math.min(end,   absTimes[lastIn]);
-    logger.info(
-      `5) ${label.charAt(0).toUpperCase()+label.slice(1)} clip → ` +
-      `${new Date(segStart*1000).toLocaleTimeString()}–` +
-      `${new Date(segEnd*1000).toLocaleTimeString()}`
-    );
-
-    if (segEnd <= segStart) {
-      logger.info(`   • No overlap in the ${label} window.`);
-      continue;
-    }
-
-    const iS = absTimes.findIndex(t => t >= segStart);
-    const iE = absTimes.findIndex(t => t >= segEnd);
-    logger.info(`   • Using stream indices ${iS} → ${iE}.`);
-
-    const timeSec    = times[iE]     - times[iS];
-    const distMeters = distances[iE] - distances[iS];
-    const distKm     = +(distMeters/1000).toFixed(2);
-    const paceSec    = distKm ? Math.floor(timeSec / distKm) : 0;
-    const pace       = `${Math.floor(paceSec/60)}:${String(paceSec%60).padStart(2,'00')}`;
-
-    segments.push({ window: label, dist: distKm, time: timeSec, pace });
-    logger.info(`   → ${label}: ${distKm} km in ${timeSec}s (pace ${pace}).`);
-  }
-
-  return segments;
+// Parse HH:mm to hour/minute
+function parseHhMm(str = '00:00') {
+  const [h, m = '0'] = str.split(':');
+  return { hour: Number(h), minute: Number(m) };
 }
 
-async function updateUserTotals(user, sessionDist, sessionTime) {
-  const prevDist = parseFloat(user.totalDistance) || 0;
-  const prevTime = parseHmsToSeconds(user.totalTime);
-  const newDist  = prevDist + sessionDist;
-  const newTime  = prevTime + sessionTime;
-  const paceSec  = newDist ? Math.floor(newTime / newDist) : 0;
-
-  user.totalDistance = `${newDist.toFixed(2)}KM`;
-  user.totalTime     = new Date(newTime * 1000).toISOString().substr(11, 8);
-  user.averagePace   = `${Math.floor(paceSec/60)}:${String(paceSec%60).padStart(2,'00')}`;
-  user.lastCronFetch = new Date();
-
-  await user.save();
-  logger.info(`   • Updated user totals: ${user.totalDistance}, ${user.totalTime}, pace ${user.averagePace}`);
+// Build UNIX window for today
+function getUnixWindow(startStr, endStr, m = moment()) {
+  const { hour: hS, minute: mS } = parseHhMm(startStr);
+  const { hour: hE, minute: mE } = parseHhMm(endStr);
+  const start = m.clone().hour(hS).minute(mS).second(0).millisecond(0);
+  const end   = m.clone().hour(hE).minute(mE).second(0).millisecond(0);
+  return [start.unix(), end.unix()];
 }
 
+// Generate segments from activity summary
+function processActivity(activity, windows) {
+  const startUnix = Math.floor(new Date(activity.start_date).getTime() / 1000);
+  const duration  = activity.moving_time;
+  const speed     = activity.distance / duration; // m/s
+
+  return windows.map(([winStart, winEnd]) => {
+    const overlapStart = Math.max(startUnix, winStart);
+    const overlapEnd   = Math.min(startUnix + duration, winEnd);
+    if (overlapEnd <= overlapStart) return null;
+
+    const partialTime   = overlapEnd - overlapStart;
+    const partialMeters = speed * partialTime;
+    const partialKm     = Number((partialMeters / 1000).toFixed(2));
+
+    const paceSec = partialKm ? Math.floor(partialTime / partialKm) : 0;
+    const pace    = `${Math.floor(paceSec / 60)}:${String(paceSec % 60).padStart(2, '00')}`;
+
+    return { dist: partialKm, time: partialTime, pace };
+  }).filter(Boolean);
+}
 
 export async function processSingleActivity(stravaUserId, activityId) {
   logger.info(`\n=== Processing Strava webhook for activity ${activityId} ===`);
+
   // 1) Lookup user
-  logger.info(`1) Looking up local user for Strava ID ${stravaUserId}...`);
   const user = await User.findOne({ stravaId: Number(stravaUserId) });
   if (!user) {
-    logger.warn(`   • No local user found. Aborting.`);
+    logger.warn(`No local user for Strava ID ${stravaUserId}, aborting.`);
     return;
   }
-  logger.info(`   • Found user ${user.name} (DB id ${user._id}).`);
 
-  // 2) Refresh token
-  logger.info(`2) Checking/refreshing Strava access token...`);
+  // 2) Refresh token if needed
   await refreshUserToken(user);
-  logger.info(`   • Strava token is valid.`);
 
-  // 3) Fetch activity
-  logger.info(`3) Fetching activity ${activityId} details from Strava...`);
+  // 3) Fetch activity summary
   const activity = await fetchActivityById(activityId, user.stravaAccessToken);
-  logger.info(`   • Activity start: ${new Date(activity.start_date).toLocaleString()}.`);
+  logger.info(`Fetched activity: type=${activity.type}, start_at=${activity.start_date}`);
 
-  // 4) Fetch streams
-  logger.info(`4) Fetching GPS & distance streams...`);
-  const streams = await fetchActivityStreams(activityId, user.stravaAccessToken);
-  logger.info(`   • Received ${Object.keys(streams).join(', ')} streams.`);
+  // Skip non-runs or outside geofence
+  if (activity.type !== 'Run') {
+    logger.info(`Skipping activity ${activityId}: not a Run.`);
+    return;
+  }
+  if (!isWithinGeofence(activity.start_latlng, facilityCenter, geofenceRadius)) {
+    logger.info(`Skipping activity ${activityId}: start outside geofence.`);
+    return;
+  }
 
-  // 5) Compute absolute start
-  const startUnix = Math.floor(new Date(activity.start_date).getTime()/1000);
-  logger.info(`5) Activity start timestamp: ${startUnix} (local ${new Date(startUnix*1000).toLocaleTimeString()}).`);
+  // 4) Build time windows
+  const today = moment();
+  const morningWindow = getUnixWindow(morningStart, morningEnd, today);
+  const eveningWindow = getUnixWindow(eveningStart, eveningEnd, today);
+  logger.info(`Windows: morning ${morningStart}-${morningEnd}, evening ${eveningStart}-${eveningEnd}`);
 
-  // 6) Compute segments
-  logger.info(`6) Computing in-fence/time-window segments…`);
-  const segments = computeSegmentsFromStreams(streams, startUnix);
-  logger.info(`   • ${segments.length} segment(s) qualified.`);
+  // 5) Compute qualifying segments
+  const segments = processActivity(activity, [morningWindow, eveningWindow]);
+  logger.info(`Found ${segments.length} segment(s)`);
 
-  // 7) Save or skip
+  // 6) Save segments & update totals
   if (segments.length === 0) {
-    logger.info(`7) No segments to save for activity ${activityId}.`);
+    logger.info(`No qualifying segments for activity ${activityId}.`);
   } else {
-    logger.info(`7) Saving segments to leaderboard:`);
-    let totalD = 0, totalT = 0;
-    segments.forEach(s => {
-      logger.info(`   • ${s.window}: ${s.dist} km in ${s.time}s @ pace ${s.pace}`);
-      totalD += s.dist; totalT += s.time;
-    });
-    const paceSec = Math.floor(totalT / totalD);
+    let totalDist = 0, totalTime = 0;
+    segments.forEach(s => { totalDist += s.dist; totalTime += s.time; });
+
+    // Save leaderboard entry
+    const paceSec = Math.floor(totalTime / totalDist);
     const overallPace = `${Math.floor(paceSec/60)}:${String(paceSec%60).padStart(2,'00')}`;
     await Leaderboard.create({
       userId:   user._id,
       date:     moment().startOf('day').toDate(),
-      distance: totalD.toFixed(2),
-      time:      totalT,
+      distance: totalDist.toFixed(2),
+      time:     totalTime,
       pace:     overallPace,
     });
 
-    await updateUserTotals(user, totalD, totalT);
+    // Update user totals
+    const prevDist = parseFloat(user.totalDistance) || 0;
+    const prevTime = parseHmsToSeconds(user.totalTime);
+    const newDist  = prevDist + totalDist;
+    const newTime  = prevTime + totalTime;
+    const newPaceSec = newDist ? Math.floor(newTime / newDist) : 0;
+    user.totalDistance = `${newDist.toFixed(2)}KM`;
+    user.totalTime     = new Date(newTime * 1000).toISOString().substr(11, 8);
+    user.averagePace   = `${Math.floor(newPaceSec/60)}:${String(newPaceSec%60).padStart(2,'00')}`;
+    user.lastCronFetch = new Date();
+    await user.save();
 
-    logger.info(`   → Total: ${totalD.toFixed(2)} km, ${totalT}s, pace ${overallPace}`);
+    logger.info(`Saved segments: ${totalDist.toFixed(2)} km in ${totalTime}s @ ${overallPace}`);
   }
 
-  logger.info(`8) Finished processing activity ${activityId}.\n`);
+  logger.info(`Finished processing activity ${activityId}.`);
   await sendLogsToDiscord();
 }
