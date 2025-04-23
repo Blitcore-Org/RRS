@@ -5,28 +5,26 @@ import sendLogsToDiscord from '../../utils/sendLogs.js';
 import User from '../../models/User.js';
 import Leaderboard from '../../models/Leaderboard.js';
 import { refreshUserToken, fetchActivityById } from '../stravaApis.js';
-import { calculateDistance, isWithinGeofence, parseHmsToSeconds } from '../../utils/helpers.js';
+import {  isWithinGeofence, parseHmsToSeconds } from '../../utils/helpers.js';
 
 dotenv.config();
 
-// Geofence & event window defaults
 const facilityCenter = {
-  lat: parseFloat(process.env.FACILITY_LAT || '43.211822'),
-  lng: parseFloat(process.env.FACILITY_LNG || '27.894898'),
+  lat: parseFloat(process.env.FACILITY_LAT),
+  lng: parseFloat(process.env.FACILITY_LNG),
 };
 const geofenceRadius = parseInt(process.env.GEOFENCE_RADIUS || '800', 10);
-const morningStart = process.env.EVENT_MORNING_START || '06:00';
-const morningEnd   = process.env.EVENT_MORNING_END   || '07:00';
-const eveningStart = process.env.EVENT_EVENING_START || '18:00';
-const eveningEnd   = process.env.EVENT_EVENING_END   || '19:00';
+const morningStart = process.env.EVENT_MORNING_START;
+const morningEnd   = process.env.EVENT_MORNING_END;
+const eveningStart = process.env.EVENT_EVENING_START;
+const eveningEnd   = process.env.EVENT_EVENING_END;
 
-// Parse HH:mm to hour/minute
+
 function parseHhMm(str = '00:00') {
   const [h, m = '0'] = str.split(':');
   return { hour: Number(h), minute: Number(m) };
 }
 
-// Build UNIX window for today
 function getUnixWindow(startStr, endStr, m = moment()) {
   const { hour: hS, minute: mS } = parseHhMm(startStr);
   const { hour: hE, minute: mE } = parseHhMm(endStr);
@@ -53,7 +51,7 @@ function processActivity(activity, windows) {
     const paceSec = partialKm ? Math.floor(partialTime / partialKm) : 0;
     const pace    = `${Math.floor(paceSec / 60)}:${String(paceSec % 60).padStart(2, '00')}`;
 
-    return { dist: partialKm, time: partialTime, pace };
+    return { window: `${moment.unix(winStart).format('HH:mm')}-${moment.unix(winEnd).format('HH:mm')}`, dist: partialKm, time: partialTime, pace };
   }).filter(Boolean);
 }
 
@@ -66,6 +64,7 @@ export async function processSingleActivity(stravaUserId, activityId) {
     logger.warn(`No local user for Strava ID ${stravaUserId}, aborting.`);
     return;
   }
+  logger.info(`Found user: ${user.name} (ID: ${user._id})`);
 
   // 2) Refresh token if needed
   await refreshUserToken(user);
@@ -74,27 +73,42 @@ export async function processSingleActivity(stravaUserId, activityId) {
   const activity = await fetchActivityById(activityId, user.stravaAccessToken);
   logger.info(`Fetched activity: type=${activity.type}, start_at=${activity.start_date}`);
 
-  // Skip non-runs or outside geofence
+  // Skip non-runs
   if (activity.type !== 'Run') {
     logger.info(`Skipping activity ${activityId}: not a Run.`);
     return;
   }
-  if (!isWithinGeofence(activity.start_latlng, facilityCenter, geofenceRadius)) {
-    logger.info(`Skipping activity ${activityId}: start outside geofence.`);
+
+  // 4) Geofence check
+  const startLatLng = activity.start_latlng;
+  const insideGeofence = isWithinGeofence(startLatLng, facilityCenter, geofenceRadius);
+  logger.info(`Start location [${startLatLng}] is ${insideGeofence ? 'INSIDE' : 'OUTSIDE'} the geofence (center=${JSON.stringify(facilityCenter)}, radius=${geofenceRadius}m)`);
+  if (!insideGeofence) {
+    logger.info(`Skipping activity ${activityId}: outside geofence.`);
     return;
   }
 
-  // 4) Build time windows
+  // 5) Build and log time windows
   const today = moment();
   const morningWindow = getUnixWindow(morningStart, morningEnd, today);
   const eveningWindow = getUnixWindow(eveningStart, eveningEnd, today);
-  logger.info(`Windows: morning ${morningStart}-${morningEnd}, evening ${eveningStart}-${eveningEnd}`);
+  logger.info(`Morning session window: ${morningStart}-${morningEnd} => [${moment.unix(morningWindow[0]).format('HH:mm')} - ${moment.unix(morningWindow[1]).format('HH:mm')}]`);
+  logger.info(`Evening session window: ${eveningStart}-${eveningEnd} => [${moment.unix(eveningWindow[0]).format('HH:mm')} - ${moment.unix(eveningWindow[1]).format('HH:mm')}]`);
 
-  // 5) Compute qualifying segments
+  const activityStartUnix = Math.floor(new Date(activity.start_date).getTime() / 1000);
+  if (activityStartUnix >= morningWindow[0] && activityStartUnix <= morningWindow[1]) {
+    logger.info(`Activity start time ${moment.unix(activityStartUnix).format('HH:mm')} is within the MORNING session.`);
+  } else if (activityStartUnix >= eveningWindow[0] && activityStartUnix <= eveningWindow[1]) {
+    logger.info(`Activity start time ${moment.unix(activityStartUnix).format('HH:mm')} is within the EVENING session.`);
+  } else {
+    logger.info(`Activity start time ${moment.unix(activityStartUnix).format('HH:mm')} is outside both morning and evening sessions.`);
+  }
+
+  // 6) Compute qualifying segments
   const segments = processActivity(activity, [morningWindow, eveningWindow]);
-  logger.info(`Found ${segments.length} segment(s)`);
+  logger.info(`Computed ${segments.length} qualifying segment(s): ${JSON.stringify(segments)}`);
 
-  // 6) Save segments & update totals
+  // 7) Save segments & update totals
   if (segments.length === 0) {
     logger.info(`No qualifying segments for activity ${activityId}.`);
   } else {
@@ -111,6 +125,7 @@ export async function processSingleActivity(stravaUserId, activityId) {
       time:     totalTime,
       pace:     overallPace,
     });
+    logger.info(`Saved leaderboard: distance=${totalDist.toFixed(2)}km, time=${totalTime}s, pace=${overallPace}`);
 
     // Update user totals
     const prevDist = parseFloat(user.totalDistance) || 0;
@@ -118,13 +133,14 @@ export async function processSingleActivity(stravaUserId, activityId) {
     const newDist  = prevDist + totalDist;
     const newTime  = prevTime + totalTime;
     const newPaceSec = newDist ? Math.floor(newTime / newDist) : 0;
+
     user.totalDistance = `${newDist.toFixed(2)}KM`;
     user.totalTime     = new Date(newTime * 1000).toISOString().substr(11, 8);
     user.averagePace   = `${Math.floor(newPaceSec/60)}:${String(newPaceSec%60).padStart(2,'00')}`;
     user.lastCronFetch = new Date();
     await user.save();
 
-    logger.info(`Saved segments: ${totalDist.toFixed(2)} km in ${totalTime}s @ ${overallPace}`);
+    logger.info(`Updated user totals: totalDistance=${user.totalDistance}, totalTime=${user.totalTime}, averagePace=${user.averagePace}`);
   }
 
   logger.info(`Finished processing activity ${activityId}.`);
