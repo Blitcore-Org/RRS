@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import moment from 'moment-timezone';
-import logger from '../utils/logger.js';
-import sendLogsToDiscord from '../utils/sendLogs.js';
+import logger from '../../utils/logger.js';
+import sendLogsToDiscord from '../../utils/sendLogs.js';
 import User from '../../models/User.js';
 import Leaderboard from '../../models/Leaderboard.js';
 import { refreshUserToken, fetchActivityById } from '../stravaApis.js';
