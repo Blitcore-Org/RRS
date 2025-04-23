@@ -32,7 +32,7 @@ jobs:
              -f chronoStride/Dockerfile \
             --platform linux/amd64 \
             -t ghcr.io/blitcore-org/rrs/webhook-processor:latest \
-            .
+            chronoStride
           docker push ghcr.io/blitcore-org/rrs/webhook-processor:latest
 
       - name: Set up Kubeconfig

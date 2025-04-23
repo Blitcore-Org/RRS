@@ -2,8 +2,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import moment from 'moment-timezone';
-moment.tz.setDefault('Europe/Sofia');
-//moment.tz.setDefault("Africa/Lagos");
+//moment.tz.setDefault('Europe/Sofia');
+moment.tz.setDefault("Africa/Lagos");
 
 
 import express from 'express';
