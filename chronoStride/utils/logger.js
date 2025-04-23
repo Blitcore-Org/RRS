@@ -1,5 +1,6 @@
 import winston from 'winston';
 
+const logPath = process.env.LOG_PATH || '/tmp/cron.log';
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
@@ -9,12 +10,8 @@ const logger = winston.createLogger({
     )
   ),
   transports: [
-    new winston.transports.File({
-      filename: '/tmp/cron.log',
-      options: { flags: 'w' },
-      maxsize: 5_000_000,
-    }),
-    new winston.transports.Console(),
+    new winston.transports.File({ filename: logPath, options: { flags: 'w' }, maxsize: 5_000_000 }),
+    new winston.transports.Console()
   ],
 });
 

@@ -4,11 +4,15 @@ import fetch from "node-fetch";
 import logger from "./logger.js";
 import Leaderboard from "./models/Leaderboard.js";
 import User from "./models/User.js";
+import moment from "moment-timezone";
+import sendLogsToDiscord from "./sendLogs.js"; 
 
 // ------------------
 // CONFIGURATION
 // ------------------
 dotenv.config();
+
+moment.tz.setDefault("Africa/Lagos");
 
 const {
   MONGODB_URI,
@@ -61,8 +65,27 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
   return 6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 function isWithinGeofence([lat, lng], center, radius) {
-  if (lat == null || lng == null) return false;
-  return calculateDistance(lat, lng, center.lat, center.lng) <= radius;
+  if (lat == null || lng == null) {
+    logger.info(`Geofence check: missing coords → outside`);
+    return false;
+  }
+
+  logger.info(
+    `Geofence check: ` +
+    `point=(${lat.toFixed(6)},${lng.toFixed(6)}), ` +
+    `center=(${center.lat.toFixed(6)},${center.lng.toFixed(6)}), ` +
+    `radius=${radius}m`
+  );
+
+  const distance = calculateDistance(lat, lng, center.lat, center.lng);
+  const inside   = distance <= radius;
+
+  logger.info(
+    `Geofence result: distance=${distance.toFixed(2)}m → ` +
+    (inside ? 'INSIDE' : 'OUTSIDE')
+  );
+
+  return inside;
 }
 
 // ------------------
@@ -114,20 +137,34 @@ async function fetchActivityStreams(activityId, token) {
 // ------------------
 // EVENT WINDOW CALCULATOR
 // ------------------
-function getUnixWindow(hourStart, hourEnd, date = new Date()) {
-  const start = new Date(date);
-  start.setHours(hourStart, 0, 0, 0);
-  const end = new Date(date);
-  end.setHours(hourEnd, 0, 0, 0);
-  return [Math.floor(start.getTime() / 1000), Math.floor(end.getTime() / 1000)];
+function parseHhMm(str = "00:00") {
+  const [h, m = "0"] = str.split(":");
+  return { hour: Number(h), minute: Number(m) };
 }
+
+function parseHmsToSeconds(str = "00:00:00") {
+  const [h, m, s] = (str.split(":").map(Number));
+  return h*3600 + m*60 + s;
+}
+
+
+function getUnixWindow(startStr, endStr, m = moment()) {
+  const {hour: hS, minute: mS} = parseHhMm(startStr);
+  const {hour: hE, minute: mE} = parseHhMm(endStr);
+
+  const start = m.clone().hour(hS).minute(mS).second(0).millisecond(0);
+  const end   = m.clone().hour(hE).minute(mE).second(0).millisecond(0);
+
+  return [start.unix(), end.unix()];
+}
+
 
 // ------------------
 // ACTIVITY PROCESSOR
 // ------------------
 async function processActivity(activity, windows) {
   const duration = activity.moving_time;
-  const speed = activity.distance / duration; // m/s
+  const speed = activity.distance / duration;
 
   return windows.map(([winStart, winEnd]) => {
     const startUnix = Math.floor(new Date(activity.start_date).getTime() / 1000);
@@ -153,14 +190,9 @@ async function saveLeaderboard(userId, date, totalDist, totalTime, pace) {
   return Leaderboard.create({ userId, date, distance: totalDist, time: totalTime, pace });
 }
 
-function parseTimeStr(timeStr) {
-  const [h, m, s] = (timeStr || "00:00:00").split(':').map(Number);
-  return h * 3600 + m * 60 + s;
-}
-
 async function updateUserTotals(user, sessionDist, sessionTime) {
   const prevDist = parseFloat(user.totalDistance) || 0;
-  const prevTime = parseTimeStr(user.totalTime);
+  const prevTime = parseHmsToSeconds(user.totalTime);
   const newDist = prevDist + sessionDist;
   const newTime = prevTime + sessionTime;
   const paceSec = newDist ? Math.floor(newTime / newDist) : 0;
@@ -176,10 +208,20 @@ async function updateUserTotals(user, sessionDist, sessionTime) {
 // ------------------
 async function processUsers() {
   await connectDb();
-  const today = new Date();
-  const [dayStart, dayEnd] = getUnixWindow(0, 24, today);
-  const morningWindow = getUnixWindow(+EVENT_MORNING_START, +EVENT_MORNING_END, today);
-  const eveningWindow = getUnixWindow(+EVENT_EVENING_START, +EVENT_EVENING_END, today);
+  const today = moment();
+  const [dayStart, dayEnd] = getUnixWindow("00:00", "24:00", today);
+
+  const morningWindow = getUnixWindow(
+    EVENT_MORNING_START,
+    EVENT_MORNING_END,
+    today
+  );
+  
+  const eveningWindow = getUnixWindow(
+    EVENT_EVENING_START,
+    EVENT_EVENING_END,
+    today
+  );
 
   const users = await User.find({
     stravaAccessToken: { $exists: true, $ne: null },
@@ -188,11 +230,17 @@ async function processUsers() {
   logger.info(`Found ${users.length} users`);
 
   for (const user of users) {
-    if (user.lastCronFetch?.toDateString() === today.toDateString()) {
+    if (  user.lastCronFetch &&
+      moment(user.lastCronFetch)
+        .tz('Africa/Lagos')
+        .isSame(today, 'day') ) {
       logger.info(`User ${user.id} already fetched today, skipping`);
       continue;
     }
     await refreshUserToken(user);
+
+    logger.info(`Processing user ${user.name} with id of: ${user.id}`);
+
     const activities = await fetchActivities(user, dayStart, dayEnd);
 
     const runs = activities.filter(a =>
@@ -215,11 +263,18 @@ async function processUsers() {
       await saveLeaderboard(user._id, today, totalDist.toFixed(2), totalTime, pace);
     }
     await updateUserTotals(user, totalDist, totalTime);
-    logger.info(`User ${user.id} processed: ${totalDist.toFixed(2)}km in ${totalTime}s`);
+    logger.info(`User ${user.name} with id of ${user.id} processed: ${totalDist.toFixed(2)}km in ${totalTime}s`);
   }
 }
 
-processUsers().then(() => {
-  logger.info("Initial run complete.");
-  process.exit(0);
-});
+(async () => {
+  try {
+    await processUsers();
+    logger.info("Initial run complete.");
+  } catch (err) {
+    logger.error("Cron job failed with error:", err);
+  } finally {
+    await sendLogsToDiscord();
+    process.exit(0);
+  }
+})();

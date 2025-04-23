@@ -1,0 +1,21 @@
+{
+    "name": "strava-webhook-cron",
+    "version": "1.0.0",
+    "main": "src/index.js",
+    "type": "module", 
+    "scripts": {
+      "start": "node src/index.js",
+      "subscribe": "node src/webhook/subscribeWebhook.js",
+      "reset": "node src/webhook/resetWebhook.js"
+    },
+    "dependencies": {
+      "dotenv": "^16.0.0",
+      "express": "^4.18.2",
+      "body-parser": "^1.19.2",
+      "node-fetch": "^2.6.7",
+      "form-data": "^4.0.0",
+      "mongoose": "^7.0.3",
+      "moment-timezone": "^0.5.43",
+      "winston": "^3.8.2"
+    }
+  }
