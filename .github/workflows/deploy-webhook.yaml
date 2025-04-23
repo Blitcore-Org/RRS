@@ -29,6 +29,7 @@ jobs:
         run: |
           # build the webhook-processor image
           docker build \
+             -f chronoStride/Dockerfile \
             --platform linux/amd64 \
             -t ghcr.io/blitcore-org/rrs/webhook-processor:latest \
             .
