@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - dev
-      - deploying-webhook-on-k8
+      - new-webhook
     paths:
       - 'chronoStride/**'
       - 'k8s/chrono-stride-webhook.yaml'
