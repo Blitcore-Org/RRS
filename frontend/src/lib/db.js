@@ -27,7 +27,9 @@ export const db = {
         best5km: user.best5km,
         best10km: user.best10km,
         time: user.totalTime,
-        profileImage: user?.profileImage
+        profileImage: user?.profileImage,
+        currentPosition: user.currentPosition,
+        lastPosition: user.lastPosition
       }));
   },
 
