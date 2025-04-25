@@ -11,7 +11,7 @@ export default function BottomNavigation() {
   const isActive = (path) => pathname === path;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-md border-t border-primary/20">
+    <nav className="fixed pb-6 bottom-0 left-0 right-0 bg-background/80 backdrop-blur-md border-t border-primary/20">
       <div className="max-w-[402px] mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Profile Link */}
