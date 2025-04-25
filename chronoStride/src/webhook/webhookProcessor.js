@@ -134,10 +134,23 @@ export async function processSingleActivity(stravaUserId, activityId) {
     const newTime  = prevTime + totalTime;
     const newPaceSec = newDist ? Math.floor(newTime / newDist) : 0;
 
+    const oldPosition = user.currentPosition || null;
+
     user.totalDistance = `${newDist.toFixed(2)}KM`;
     user.totalTime     = new Date(newTime * 1000).toISOString().substr(11, 8);
     user.averagePace   = `${Math.floor(newPaceSec/60)}:${String(newPaceSec%60).padStart(2,'00')}`;
     user.lastCronFetch = new Date();
+
+    const allUsers = await User
+    .find({}, '_id')
+    .sort({ totalDistanceKm: -1 })
+    .lean();
+
+    const newPosition = allUsers.findIndex(u => u._id.equals(user._id)) + 1;
+
+    user.lastPosition    = oldPosition;
+    user.currentPosition = newPosition;
+
     await user.save();
 
     logger.info(`Updated user totals: totalDistance=${user.totalDistance}, totalTime=${user.totalTime}, averagePace=${user.averagePace}`);

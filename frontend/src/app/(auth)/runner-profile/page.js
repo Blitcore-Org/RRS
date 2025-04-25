@@ -26,8 +26,6 @@ export default function RunnerProfile() {
     fetchUser();
   }, []);
 
-  console.log("uuuuuser", user);
-
   const handleLogout = async () => {
     try {
       setSignOutLoading(true);
@@ -106,7 +104,6 @@ export default function RunnerProfile() {
   const handleDisconnect = async () => {
     try {
       const { data } = await axiosInstance.post("/api/strava/disconnect");
-      console.log("Disconnected from Strava:", data.updatedUser);
       fetchUser();
       setStravaConnected(false);
     } catch (error) {
@@ -117,7 +114,6 @@ export default function RunnerProfile() {
   useEffect(() => {
     const checkAndRedirect = async () => {
       if (!loading && !user) {
-        console.log("User in profile:", user);
         await authService.logout();
         router.push('/login');
       }
@@ -126,7 +122,6 @@ export default function RunnerProfile() {
     checkAndRedirect();
   }, [loading, user, router]);
 
-  console.log("loading", loading);
 
   if (loading || !user) {
     return <LoadingSpinner />;

@@ -89,58 +89,86 @@ export default function OverallLeaderboard({ title, columns, data, isLoading }) 
 
       {/* Leaderboard Items */}
       <div className="w-full flex flex-col gap-2">
-        {data.map((row, index) => (
-          <div key={index} className="h-14 px-5 py-2 bg-primary rounded-[20px] flex items-center">
-            <div className="w-full inline-flex justify-between items-center">
-              {columns.map((column, colIndex) => {
-                const key = column.toLowerCase();
-                let value = row[key];
-                
-                if (key === 'pace') value = row['avgPace'];
-                if (key === 'position') value = row['rank'];
+        {data.map((row, rowIndex) => {
+          const last = row.lastPosition;
+          const curr = row.currentPosition;
+          let trend = 'same';
+        
+          if (last === 0) {
+            trend = 'up';
+          } else if (last != null) {
+            if (curr < last) trend = 'up';
+            else if (curr > last) trend = 'down';
+          }
 
-                if (key === 'name') {
-                  return (
-                    <div key={colIndex} className={`${getColumnWidth(column)} flex items-center gap-2`}>
-                      <img 
-                        className="w-6 h-6 rounded-full object-cover border border-secondary" 
-                        src={row.profileImage || "https://placehold.co/24x24"} 
-                        alt={row.name}
-                      />
-                      <div className="w-[calc(100%-32px)]">
-                        {formatName(value)}
+          return (
+            <div key={rowIndex} className="h-14 px-5 py-2 bg-primary rounded-[20px] flex items-center">
+              <div className="w-full inline-flex justify-between items-center">
+                {columns.map((column, colIndex) => {
+                  const key = column.toLowerCase();
+                  let value = row[key];
+
+                  if (key === 'pace') value = row.avgPace;
+                  if (key === 'position') value = row.rank;
+
+                  // Name cell w/ avatar
+                  if (key === 'name') {
+                    return (
+                      <div key={colIndex} className={`${getColumnWidth(column)} flex items-center gap-2`}>
+                        <img
+                          className="w-6 h-6 rounded-full object-cover border border-secondary"
+                          src={row.profileImage || "https://placehold.co/24x24"}
+                          alt={row.name}
+                        />
+                        <div className="w-[calc(100%-32px)]">
+                          {formatName(value)}
+                        </div>
                       </div>
+                    );
+                  }
+
+                  // Position + arrow/dash
+                  if (key === 'position') {
+                    return (
+                      <div key={colIndex} className={`${getColumnWidth(column)} flex items-center gap-2`}>
+                        <div className="text-secondary text-xs font-normal font-thuast leading-none">
+                          {value}
+                        </div>
+
+                        {trend === 'up' && (
+                          <img
+                            src="/Images/icons/arrow_up.png"
+                            alt="moved up"
+                            className="w-4 h-4"
+                          />
+                        )}
+                        {trend === 'down' && (
+                          <img
+                            src="/Images/icons/arrow_up.png"
+                            alt="moved down"
+                            className="w-4 h-4 rotate-180"
+                          />
+                        )}
+                        {trend === 'same' && (
+                          <span className="text-secondary text-xs font-thuast">–</span>
+                        )}
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div
+                      key={colIndex}
+                      className={`${getColumnWidth(column)} text-secondary text-xs font-normal font-dm-sans ${getColumnAlignment(column)}`}
+                    >
+                      {value}
                     </div>
                   );
-                }
-
-                if (key === 'position') {
-                  return (
-                    <div key={colIndex} className={`${getColumnWidth(column)} flex items-center gap-2`}>
-                      <div className="w-6 text-center justify-start text-secondary text-xs font-normal font-thuast leading-none">
-                        {value}
-                      </div>
-                      <img 
-                        src="Images/icons/arrow_up.png" 
-                        alt="arrow" 
-                        className="w-4 h-4"
-                      />
-                    </div>
-                  );
-                }
-
-                return (
-                  <div 
-                    key={colIndex}
-                    className={`${getColumnWidth(column)} text-secondary text-xs font-normal font-dm-sans ${getColumnAlignment(column)}`}
-                  >
-                    {value}
-                  </div>
-                );
-              })}
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
