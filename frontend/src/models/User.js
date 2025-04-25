@@ -68,6 +68,8 @@ const userSchema = new mongoose.Schema({
     default: ""
   },
   stravaId: { type: Number, unique: true },
+  lastPosition:       { type: Number, default: null },
+  currentPosition:    { type: Number, default: null },
 }, {
   timestamps: true
 });

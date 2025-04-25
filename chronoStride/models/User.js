@@ -10,5 +10,7 @@ const userSchema = new mongoose.Schema({
   totalTime: { type: String, default: '00:00:00' },
   averagePace: { type: String, default: '0:00' },
   lastCronFetch: Date,
+  lastPosition:       { type: Number, default: null },
+  currentPosition:    { type: Number, default: null },
 });
 export default mongoose.model('User', userSchema);
