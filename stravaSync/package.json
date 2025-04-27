@@ -10,8 +10,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "csv-writer": "^1.6.0",
     "dotenv": "^16.4.7",
     "form-data": "^4.0.2",
+    "googleapis": "^148.0.0",
+    "jsonwebtoken": "^9.0.2",
     "moment-timezone": "^0.5.48",
     "mongoose": "^8.13.2",
     "node-cron": "^3.0.3",
