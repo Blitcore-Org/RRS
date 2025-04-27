@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: strava-refresh-cron
+  name: user-cron-upload
 spec:
   schedule: "0 21 * * *"
   timeZone: "Africa/Lagos"
