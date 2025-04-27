@@ -137,20 +137,24 @@ export default function OverallLeaderboard({ title, columns, data, isLoading }) 
 
                         {trend === 'up' && (
                           <img
-                            src="/Images/icons/arrow_up.png"
+                            src="/Images/icons/arrowup_icon.png"
                             alt="moved up"
                             className="w-4 h-4"
                           />
                         )}
                         {trend === 'down' && (
                           <img
-                            src="/Images/icons/arrow_up.png"
+                            src="/Images/icons/arrowdown_icon.png"
                             alt="moved down"
                             className="w-4 h-4 rotate-180"
                           />
                         )}
                         {trend === 'same' && (
-                          <span className="text-secondary text-xs font-thuast">–</span>
+                          <img
+                            src="/Images/icons/dash_icon.png"
+                            alt="no change"
+                            className="w-4 h-4"
+                          />
                         )}
                       </div>
                     );

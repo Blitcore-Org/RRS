@@ -8,7 +8,7 @@ export default function Dashboard() {
       className="
         w-full
         min-h-screen
-        bg-[url('/Images/background.png')]
+        bg-background
         bg-no-repeat
         bg-center
         bg-cover

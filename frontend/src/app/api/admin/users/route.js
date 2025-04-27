@@ -5,7 +5,7 @@ import User from '@/models/User';
 
 export async function GET() {
   try {
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const token = cookieStore.get('token');
     if (!token) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });

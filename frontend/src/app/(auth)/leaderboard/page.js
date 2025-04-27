@@ -26,14 +26,14 @@ export default function Leaderboard() {
   }
 
   // Find user's position in the leaderboard
-  const userPosition = leaderboardData?.findIndex(item => item.name === user.name) + 1;
+  const userPosition = user.isAdmin ? null : (leaderboardData?.findIndex(item => item.name === user.name) + 1);
 
   return (
     <main
       className="
         w-full
         min-h-screen
-        bg-[url('/Images/background.png')]
+        bg-background
         bg-no-repeat
         bg-center
         bg-cover
