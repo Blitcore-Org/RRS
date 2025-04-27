@@ -43,7 +43,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center pb-16">
+    <main className="w-full min-h-screen bg-background bg-no-repeat bg-center bg-cover flex items-center justify-center pb-16">
       <div className="flex w-full h-full max-w-[402px] min-h-[600px] flex-col items-center rounded-[44px]">
         {/* Title */}
         <div className="flex py-[12px] flex-col items-center w-full pt-[20px]">

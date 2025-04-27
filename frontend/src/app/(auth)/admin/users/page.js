@@ -73,7 +73,7 @@ export default function UsersList() {
   const columns = ['Name', 'Email', 'Role', 'Actions'];
 
   return (
-    <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center pb-16">
+    <main className="w-full min-h-screen bg-background bg-no-repeat bg-center bg-cover flex items-center justify-center pb-16">
       <div className="flex w-full h-full max-w-[402px] min-h-[600px] flex-col items-center rounded-[44px]">
         {/* Title and Add Button */}
         <div className="flex py-[12px] flex-col items-center w-full relative pt-[20px]">

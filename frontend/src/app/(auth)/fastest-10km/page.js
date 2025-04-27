@@ -30,7 +30,7 @@ export default function Fastest10KM() {
   }
 
   return (
-    <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center">
+    <main className="w-full min-h-screen bg-background bg-no-repeat bg-center bg-cover flex items-center justify-center">
       <div className="flex w-full h-full max-w-[402px] min-h-[600px] flex-col items-center rounded-[44px]">
         {/* NavBar with back button */}
         <div className="flex flex-col items-center w-full rounded-tl-[44px] rounded-tr-[44px] relative pt-20">

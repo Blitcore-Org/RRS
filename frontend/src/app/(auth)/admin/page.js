@@ -38,7 +38,7 @@ export default function AdminPanel() {
   }
 
   return (
-    <main className="w-full min-h-screen bg-[url('/Images/background.png')] bg-no-repeat bg-center bg-cover flex items-center justify-center">
+    <main className="w-full min-h-screen bg-background bg-no-repeat bg-center bg-cover flex items-center justify-center">
       <div className="flex w-full h-full max-w-[402px] min-h-[600px] flex-col items-center rounded-[44px]">
         <div className="flex flex-col gap-4 w-full max-w-md p-8">
           <h2 className="text-white text-xl font-bold mb-4">Admin Panel</h2>

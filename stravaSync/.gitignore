@@ -49,3 +49,5 @@ data/*.csv
 .env
 
 /cron.log
+
+/*.csv

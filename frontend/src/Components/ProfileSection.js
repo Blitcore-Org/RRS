@@ -14,6 +14,21 @@ export default function ProfileSection({ user, editable = false, onImageClick })
     return name;
   };
 
+  const getProgressText = () => {
+    // Extract the numeric value from totalDistance (e.g., "0.42KM" -> 0.42)
+    const currentDistance = parseFloat(user.totalDistance?.replace('KM', '')) || 0;
+    
+    if (currentDistance < 50) {
+      return `${(50 - currentDistance).toFixed(2)}KM To Bronze`;
+    } else if (currentDistance < 100) {
+      return `${(100 - currentDistance).toFixed(2)}KM To Silver`;
+    } else if (currentDistance < 150) {
+      return `${(150 - currentDistance).toFixed(2)}KM To Gold`;
+    } else {
+      return '0.00KM To Gold';
+    }
+  };
+
   return (
     <div className="flex flex-col items-center gap-4 mt-[20px]">
       <div
@@ -40,9 +55,11 @@ export default function ProfileSection({ user, editable = false, onImageClick })
         <h2 className="text-primary text-xl font-bold font-dm-sans leading-normal">
           {formatName(user.name)}
         </h2>
-        <span className="text-primary text-xs font-normal font-dm-sans leading-none">
-          {user.progress || '0KM To Bronze'}
-        </span>
+        {!user.isAdmin && (
+          <span className="text-primary text-xs font-normal font-dm-sans leading-none">
+            {getProgressText()}
+          </span>
+        )}
       </div>
     </div>
   );
