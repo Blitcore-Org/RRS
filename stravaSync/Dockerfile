@@ -7,6 +7,7 @@ RUN npm ci --production
 
 COPY main.js .
 COPY logger.js .
+COPY sendLogs.js .
 COPY models/ ./models
 
 COPY .env.example .env
