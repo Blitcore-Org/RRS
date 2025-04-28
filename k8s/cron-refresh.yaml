@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: user-cron-upload
 spec:
-  schedule: "*/5 * * * *"
+  schedule: "0 21 * * *"
   timeZone: "Africa/Lagos"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
