@@ -67,39 +67,47 @@ export default function RunnerProfile() {
     }
   };
 
-  const handleConnect = () => {
+  function handleConnect() {
     const clientId = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID;
     const redirectUri = process.env.NEXT_PUBLIC_STRAVA_REDIRECT_URI;
     const scope = "activity:read";
-    const userId = user._id;
-    const state = encodeURIComponent(userId);
-
+    const state = encodeURIComponent(user._id);
+  
+    const stravaAppUrl =
+      "strava://oauth/mobile/authorize" +
+      `?client_id=${clientId}` +
+      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      `&response_type=code` +
+      `&scope=${scope}` +
+      `&state=${state}`;
+  
+    const stravaWebUrl =
+      "https://www.strava.com/oauth/authorize" +
+      `?client_id=${clientId}` +
+      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      `&response_type=code` +
+      `&scope=${scope}` +
+      `&state=${state}`;
+  
+    // Detect mobile UA
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-      const stravaAppUrl = `strava://oauth/mobile/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}&response_type=code&scope=${scope}&state=${state}`;
-      
-      const stravaWebUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}&response_type=code&scope=${scope}&state=${state}`;
-      
-      const appWindow = window.open(stravaAppUrl, '_blank');
-      
-      setTimeout(() => {
-        if (appWindow && !appWindow.closed) {
-          appWindow.close();
-          window.location.href = stravaWebUrl;
-        }
-      }, 100);
+  
+    // Detect PWA standalone mode
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true;
+  
+    if (isMobile && isStandalone) {
+      window.location.href = stravaAppUrl;
+      setTimeout(function () {
+        window.location.href = stravaWebUrl;
+      }, 150);
     } else {
-      const stravaWebUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}&response_type=code&scope=${scope}&state=${state}`;
       window.location.href = stravaWebUrl;
     }
-  };
+  }
+  
+  
 
   const handleDisconnect = async () => {
     try {
