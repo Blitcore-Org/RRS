@@ -67,35 +67,46 @@ export default function RunnerProfile() {
     }
   };
 
-  const handleConnect = () => {
+  function handleConnect() {
     const clientId = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID;
     const redirectUri = process.env.NEXT_PUBLIC_STRAVA_REDIRECT_URI;
     const scope = "activity:read";
     const state = encodeURIComponent(user._id);
   
-    const stravaAppUrl = `strava://oauth/mobile/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}&response_type=code&scope=${scope}&state=${state}`;
-    const stravaWebUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}&response_type=code&scope=${scope}&state=${state}`;
+    const stravaAppUrl =
+      "strava://oauth/mobile/authorize" +
+      `?client_id=${clientId}` +
+      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      `&response_type=code` +
+      `&scope=${scope}` +
+      `&state=${state}`;
   
+    const stravaWebUrl =
+      "https://www.strava.com/oauth/authorize" +
+      `?client_id=${clientId}` +
+      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      `&response_type=code` +
+      `&scope=${scope}` +
+      `&state=${state}`;
+  
+    // Detect mobile UA
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  
+    // Detect PWA standalone mode
     const isStandalone =
       window.matchMedia("(display-mode: standalone)").matches ||
-      (window.navigator as any).standalone === true;
+      window.navigator.standalone === true;
   
     if (isMobile && isStandalone) {
-      // Stay in the PWA
       window.location.href = stravaAppUrl;
-      setTimeout(() => {
+      setTimeout(function () {
         window.location.href = stravaWebUrl;
       }, 150);
     } else {
-      // Normal browser
       window.location.href = stravaWebUrl;
     }
-  };
+  }
+  
   
 
   const handleDisconnect = async () => {
