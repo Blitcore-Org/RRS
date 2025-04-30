@@ -67,7 +67,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
-  stravaId: { type: Number, unique: true },
+  stravaId: { type: Number, unique: true, sparse: true },
   lastPosition:       { type: Number, default: null },
   currentPosition:    { type: Number, default: null },
 }, {
