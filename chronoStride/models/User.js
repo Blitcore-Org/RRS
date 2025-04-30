@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-  stravaId: { type: Number, required: true, unique: true },
+  stravaId: { type: Number, unique: true, sparse: true },
   name: String,
   stravaAccessToken: String,
   stravaRefreshToken: String,
