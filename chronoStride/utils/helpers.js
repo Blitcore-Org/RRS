@@ -14,7 +14,7 @@ export function calculateDistance(lat1, lng1, lat2, lng2) {
 }
 
 export function isWithinGeofence([lat, lng], center, radius) {
-  if (lat == null || lng == null) return false;
+  if (lat == null || lng == null) return true;
   const distance = calculateDistance(lat, lng, center.lat, center.lng);
   return distance <= radius;
 }
