@@ -27,6 +27,7 @@ export async function POST(request) {
         stravaAccessToken: "",
         stravaRefreshToken: "",
         stravaExpiresAt: "",
+        stravaId: "",
       },
     },
     { new: true }
