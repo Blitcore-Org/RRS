@@ -64,6 +64,12 @@ export async function processSingleActivity(stravaUserId, activityId) {
     logger.warn(`No local user for Strava ID ${stravaUserId}, aborting.`);
     return;
   }
+
+  if (user.lastProcessedActivityId === activityId) {
+    logger.info(`Activity ${activityId} already handled for user ${user._id}, skipping.`);
+    return;
+  }
+
   logger.info(`Found user: ${user.name} (ID: ${user._id})`);
 
   // 2) Refresh token if needed
@@ -150,6 +156,7 @@ export async function processSingleActivity(stravaUserId, activityId) {
 
     user.lastPosition    = oldPosition;
     user.currentPosition = newPosition;
+    user.lastProcessedActivityId = activityId;
 
     await user.save();
 
