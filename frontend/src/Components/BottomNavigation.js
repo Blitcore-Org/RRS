@@ -70,6 +70,29 @@ export default function BottomNavigation() {
                 </svg>
                 <span className="text-xs mt-1">Reset</span>
               </Link>
+
+              <Link 
+                href="/admin/strava-user"
+                className={`flex flex-col items-center justify-center flex-1 ${
+                  isActive('/admin/strava-user') ? 'text-primary' : 'text-primary/60'
+                }`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    d="M6 4 Q18 4 18 12 Q18 20 6 20"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                  />
+                </svg>
+                <span className="text-xs mt-1">Strava</span>
+              </Link>
             </>
           )}
         </div>
