@@ -12,5 +12,9 @@ const userSchema = new mongoose.Schema({
   lastCronFetch: Date,
   lastPosition:       { type: Number, default: null },
   currentPosition:    { type: Number, default: null },
+  lastProcessedActivityId: {
+    type: Number,
+    default: null,
+  },
 });
 export default mongoose.model('User', userSchema);
