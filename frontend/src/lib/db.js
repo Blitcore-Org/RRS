@@ -16,22 +16,25 @@ export const db = {
 
   getOverallLeaderboard: async () => {
     await dbConnect();
-    const users = await User.find({ isAdmin: false }, '-password');
-    return users
-      .sort((a, b) => parseInt(b.totalDistance) - parseInt(a.totalDistance))
-      .map((user, index) => ({
-        rank: index + 1,
-        name: user.name,
-        distance: user.totalDistance,
-        avgPace: user.averagePace,
-        best5km: user.best5km,
-        best10km: user.best10km,
-        time: user.totalTime,
-        profileImage: user?.profileImage,
-        currentPosition: user.currentPosition,
-        lastPosition: user.lastPosition
-      }));
-  },
+    const users = await User.find({ isAdmin: false }, '-password').lean();
+  
+    users.sort((a, b) =>
+      parseFloat(b.totalDistance) - parseFloat(a.totalDistance)
+    );
+  
+    return users.map((user, index) => ({
+      rank:           index + 1,
+      name:           user.name,
+      distance:       user.totalDistance,
+      avgPace:        user.averagePace,
+      best5km:        user.best5km,
+      best10km:       user.best10km,
+      time:           user.totalTime,
+      profileImage:   user.profileImage,
+      currentPosition:user.currentPosition,
+      lastPosition:   user.lastPosition
+    }));
+  },  
 
   get5KMLeaderboard: async () => {
     await dbConnect();
