@@ -139,6 +139,14 @@ export default function ManualActivity() {
             </Button>
           )}
 
+        { details && details?.type !== 'Run' && (
+          <div className="bg-yellow-600 text-black p-2 rounded mb-4">
+            Warning: this activity is a <strong>{details.type}</strong>, not a Run.
+            Are you sure you want to add it?
+          </div>
+        )}
+
+
           {error && <div className="text-red-500 text-sm">{error}</div>}
 
           {details && !isManual && (

@@ -78,12 +78,9 @@ export async function POST(request) {
       return NextResponse.json({ error: activities.message || 'Strava error' }, { status: 502 });
     }
 
-    const run = activities.find(a => a.type === 'Run');
+    const run = activities[0];
     if (!run) {
-      return NextResponse.json(
-        { error: `No Run found on ${date} during ${session}` },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: `No activities on ${date} during ${session}` }, { status: 404 });
     }
 
     const winStart = after, winEnd = before;
@@ -107,6 +104,7 @@ export async function POST(request) {
     const pace          = `${Math.floor(paceSec / 60)}:${String(paceSec % 60).padStart(2,'00')}`;
 
     return NextResponse.json({
+      type:       run.type,
       activityId: run.id,
       distance:   distanceKm,
       time:       partialTime,
