@@ -103,8 +103,8 @@ export default function ManualActivity() {
             onChange={e => setSession(e.target.value)}
             className="w-full px-3 py-2 rounded bg-white/20 text-white appearance-none"
           >
-            <option value="06:30-07:40" className="text-black">Morning (06:30 - 07:40)</option>
-            <option value="18:30-19:40" className="text-black">Evening (18:30 - 19:40)</option>
+            <option value="06:20-07:40" className="text-black">Morning (06:30 - 07:40)</option>
+            <option value="18:20-19:40" className="text-black">Evening (18:30 - 19:40)</option>
           </select>
 
           {isManual ? (
