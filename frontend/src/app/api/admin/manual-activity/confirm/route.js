@@ -26,23 +26,31 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
+        const distanceNum = Number(distance);
+    const timeNum     = Number(time);
+    if (isNaN(distanceNum) || isNaN(timeNum)) {
+      return NextResponse.json({ error: 'Distance and time must be numeric' }, { status: 400 });
+    }
+
     await dbConnect();
     const user = await User.findById(userId);
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
-
     const prevDist = parseFloat(user.totalDistance) || 0;
     const prevTime = parseHmsToSeconds(user.totalTime);
-    const newDist  = prevDist + distance;
-    const newTime  = prevTime + time;
+
+    // now this will definitely be numeric addition
+    const newDist = prevDist + distanceNum;
+    const newTime = prevTime + timeNum;
     const newPaceSec = newDist ? Math.floor(newTime / newDist) : 0;
 
+    // format back to strings
     user.totalDistance = `${newDist.toFixed(2)}KM`;
     user.totalTime     = new Date(newTime * 1000).toISOString().substr(11, 8);
     user.averagePace   = `${Math.floor(newPaceSec/60)}:${String(newPaceSec%60).padStart(2,'00')}`;
-    await user.save();
 
+    await user.save();
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error('Manual confirm error:', err);
