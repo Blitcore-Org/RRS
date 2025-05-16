@@ -26,6 +26,7 @@ module.exports = {
         20: "5rem",
       },
       fontSize: {
+        '2xs': ['10px', '14px'],
         'xs': ['12px', '16px'],
         'sm': ['14px', '20px'],
         'base': ['16px', '24px'],
