@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import User from '@/models/User';
 
-export async function GET() {
+export async function GET(request) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get('token');
@@ -16,14 +16,28 @@ export async function GET() {
       return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
     }
 
-    const users = await User.find({}, {
-      password: 0,
-      __v: 0,
-      createdAt: 0,
-      updatedAt: 0
-    }).sort({ createdAt: -1 });
-
-    return NextResponse.json(users);
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('id');
+    if (userId) {
+      const user = await User.findById(userId, {
+        password: 0,
+        __v: 0,
+        createdAt: 0,
+        updatedAt: 0
+      });
+      if (!user) {
+        return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      }
+      return NextResponse.json(user);
+    } else {
+      const users = await User.find({}, {
+        password: 0,
+        __v: 0,
+        createdAt: 0,
+        updatedAt: 0
+      }).sort({ createdAt: -1 });
+      return NextResponse.json(users);
+    }
   } catch (error) {
     console.error('Error fetching users:', error);
     if (error.name === 'JsonWebTokenError') {
