@@ -19,6 +19,12 @@ const morningEnd   = process.env.EVENT_MORNING_END;
 const eveningStart = process.env.EVENT_EVENING_START;
 const eveningEnd   = process.env.EVENT_EVENING_END;
 
+function formatTime(seconds) {
+  const hrs = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+  return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
 
 function parseHhMm(str = '00:00') {
   const [h, m = '0'] = str.split(':');
@@ -143,7 +149,7 @@ export async function processSingleActivity(stravaUserId, activityId) {
     const oldPosition = user.currentPosition || null;
 
     user.totalDistance = `${newDist.toFixed(2)}KM`;
-    user.totalTime     = new Date(newTime * 1000).toISOString().substr(11, 8);
+    user.totalTime     = formatTime(newTime);
     user.averagePace   = `${Math.floor(newPaceSec/60)}:${String(newPaceSec%60).padStart(2,'00')}`;
     user.lastCronFetch = new Date();
 

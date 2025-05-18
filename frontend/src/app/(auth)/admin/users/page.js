@@ -113,27 +113,29 @@ export default function UsersList() {
                 <div className="text-red-500 text-center py-4">{error}</div>
               ) : (
                 users.map((user, index) => (
-                  <div key={user._id} className="h-14 px-5 py-2 bg-primary rounded-[20px] flex items-center mb-2">
-                    <div className="w-full inline-flex justify-between items-center">
-                      <div className={`${getColumnWidth('name')} text-secondary text-xs font-normal font-dm-sans truncate`}>
-                        {user.name}
-                      </div>
-                      <div className={`${getColumnWidth('email')} text-secondary text-xs font-normal font-dm-sans truncate`}>
-                        {user.email}
-                      </div>
-                      <div className={`${getColumnWidth('role')} text-secondary text-xs font-normal font-dm-sans text-center`}>
-                        {user.isAdmin ? 'Admin' : 'User'}
-                      </div>
-                      <div className={`${getColumnWidth('actions')} flex justify-end`}>
-                        <button
-                          onClick={() => handleDelete(user._id)}
-                          className="text-black text-xs font-normal font-dm-sans hover:underline cursor-pointer"
-                        >
-                          Delete
-                        </button>
+                  <Link key={user._id} href={`/admin/users/${user._id}`} passHref legacyBehavior>
+                    <div className="h-14 px-5 py-2 bg-primary rounded-[20px] flex items-center mb-2 cursor-pointer hover:bg-primary/80 transition">
+                      <div className="w-full inline-flex justify-between items-center">
+                        <div className={`${getColumnWidth('name')} text-secondary text-xs font-normal font-dm-sans truncate`}>
+                          {user.name}
+                        </div>
+                        <div className={`${getColumnWidth('email')} text-secondary text-xs font-normal font-dm-sans truncate`}>
+                          {user.email}
+                        </div>
+                        <div className={`${getColumnWidth('role')} text-secondary text-xs font-normal font-dm-sans text-center`}>
+                          {user.isAdmin ? 'Admin' : 'User'}
+                        </div>
+                        <div className={`${getColumnWidth('actions')} flex justify-end`}>
+                          <button
+                            onClick={e => { e.preventDefault(); handleDelete(user._id); }}
+                            className="text-black text-xs font-normal font-dm-sans hover:underline cursor-pointer"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))
               )}
             </div>

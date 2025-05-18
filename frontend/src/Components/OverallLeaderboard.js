@@ -9,20 +9,21 @@ export default function OverallLeaderboard({ title, columns, data, isLoading }) 
     
     if (name.length > maxLength) {
       // If name is too long, show first name and truncate the rest
+      // make the font for names smaller to better fit the name
       const firstName = names[0];
       const rest = names.slice(1).join(' ');
       return (
         <div className="flex flex-col leading-tight">
-          <span className="text-secondary text-xs font-dm-sans">{firstName}</span>
-          <span className="text-secondary text-xs truncate font-dm-sans">{rest}</span>
+          <span className="text-secondary text-2xs font-dm-sans">{firstName}</span>
+          <span className="text-secondary text-2xs truncate font-dm-sans">{rest}</span>
         </div>
       );
     } else if (names.length > 1) {
       // If name is short enough but has multiple parts
       return (
         <div className="flex flex-col leading-tight">
-          <span className="text-secondary text-xs font-dm-sans">{names[0]}</span>
-          <span className="text-secondary text-xs font-dm-sans">{names.slice(1).join(' ')}</span>
+          <span className="text-secondary text-2xs font-dm-sans">{names[0]}</span>
+          <span className="text-secondary text-2xs font-dm-sans">{names.slice(1).join(' ')}</span>
         </div>
       );
     }
@@ -90,13 +91,13 @@ export default function OverallLeaderboard({ title, columns, data, isLoading }) 
       {/* Leaderboard Items */}
       <div className="w-full flex flex-col gap-2">
         {data.map((row, rowIndex) => {
-          const last = row.lastPosition;
-          const curr = row.currentPosition;
+          const last = Number(row.lastPosition);
+          const curr = Number(row.currentPosition);
           let trend = 'same';
         
           if (last === 0) {
             trend = 'up';
-          } else if (last != null) {
+          } else if (!isNaN(last) && !isNaN(curr)) {
             if (curr < last) trend = 'up';
             else if (curr > last) trend = 'down';
           }
@@ -130,32 +131,33 @@ export default function OverallLeaderboard({ title, columns, data, isLoading }) 
                   // Position + arrow/dash
                   if (key === 'position') {
                     return (
-                      <div key={colIndex} className={`${getColumnWidth(column)} flex items-center gap-2`}>
-                        <div className="text-secondary text-xs font-normal font-thuast leading-none">
+                      <div key={colIndex} className={`${getColumnWidth(column)} flex items-center justify-center gap-1`}>
+                        <div className="w-6 text-center text-secondary text-xs font-normal font-thuast leading-none">
                           {value}
                         </div>
-
-                        {trend === 'up' && (
-                          <img
-                            src="/Images/icons/arrowup_icon.png"
-                            alt="moved up"
-                            className="w-4 h-4"
-                          />
-                        )}
-                        {trend === 'down' && (
-                          <img
-                            src="/Images/icons/arrowdown_icon.png"
-                            alt="moved down"
-                            className="w-4 h-4 rotate-180"
-                          />
-                        )}
-                        {trend === 'same' && (
-                          <img
-                            src="/Images/icons/dash_icon.png"
-                            alt="no change"
-                            className="w-4 h-4"
-                          />
-                        )}
+                        <div className="w-4 flex justify-center">
+                          {trend === 'up' && (
+                            <img
+                              src="/Images/icons/arrowup_icon.png"
+                              alt="moved up"
+                              className="w-4 h-4"
+                            />
+                          )}
+                          {trend === 'down' && (
+                            <img
+                              src="/Images/icons/arrowdown_icon.png"
+                              alt="moved down"
+                              className="w-4 h-4 rotate-180"
+                            />
+                          )}
+                          {trend === 'same' && (
+                            <img
+                              src="/Images/icons/dash_icon.png"
+                              alt="no change"
+                              className="w-4 h-4"
+                            />
+                          )}
+                        </div>
                       </div>
                     );
                   }
